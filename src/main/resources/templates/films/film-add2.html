@@ -1,0 +1,196 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/core.css"/>
+    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/theme-default.css"/>
+    <link rel="stylesheet" href="/vuexy/assets/vendor/fonts/tabler-icons.css">
+    <link rel="stylesheet" href="/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/styles.css">
+
+</head>
+
+<body>
+<!-- Layout wrapper -->
+<div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
+
+    <!-- Layout container -->
+    <div class="layout-container">
+
+        <!-- Navbar -->
+        <div th:insert="~{blocks/navbar::navbar}"></div>
+        <!--/ Navbar -->
+
+        <!-- Layout page -->
+        <div class="layout-page">
+
+            <!-- Menu -->
+            <aside th:insert="blocks/sidebar::sidebar"
+                   id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme sidebar"
+                   style="display: flex;flex-direction: column;height: 100%;">
+            </aside>
+            <!--/ Menu -->
+
+            <!-- Content wrapper -->
+            <div class="content-wrapper">
+
+                <!-- Content -->
+                <div class="container-xxl d-flex align-items-stretch flex-grow-1 p-0">
+                    <div class="flex-shrink-1 flex-grow-1 container-p-x container-p-y">
+                        <form method="post" id="filmForm" enctype="multipart/form-data">
+                            <!--                              enctype="multipart/form-data"-->
+                            <div style="margin-top: 50px">
+                                <ul class="nav nav-pills mb-3 justify-content-end" id="pills-tab" role="tablist">
+                                    <div class="btn-group">
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link active" id="pills-ukraine-tab" data-bs-toggle="pill"
+                                                    data-bs-target="#pills-ukraine" type="button" role="tab"
+                                                    aria-controls="pills-ukraine" aria-selected="true">Українська
+                                            </button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="pills-england-tab" data-bs-toggle="pill"
+                                                    data-bs-target="#pills-england" type="button" role="tab"
+                                                    aria-controls="pills-england" aria-selected="false">Англійська
+                                            </button>
+                                        </li>
+                                    </div>
+                                </ul>
+                            </div>
+                            <div class="tab-content" id="pills-tabContent">
+                                <div class="tab-pane fade show active" id="pills-ukraine" role="tabpanel"
+                                     aria-labelledby="pills-ukraine-tab" tabindex="0">
+                                    <div>
+                                        <label class="form-label">Назва фільму</label>
+                                        <input class="form-control" id="titleFilm"
+                                                style="width: 50%">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Опис</label>
+                                        <textarea class="form-control" rows="3" id="descriptionFilm"
+                                                  style="width:100%; height: 250px;"></textarea>
+                                    </div>
+                                    <div class="row" style="width: auto;height: 150px">
+                                        <div class="col-4 d-flex">
+                                            <div class="row" id="image-main">
+                                                <div class="col-6 d-flex align-items-center">
+                                                    <label class="form-label">Головна картина</label>
+                                                </div>
+                                                <div class="col-6 d-flex align-items-center">
+                                                    <img th:src="${film.getImage()!=null?'':'https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg'}"
+                                                         style="width: 100%;height: 100%;text-align: center">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col d-inline-block d-flex align-items-center gap-5"
+                                             id="btn-image-main">
+                                            <label class="input-add" for="btn-delete-image" data-type="download">
+                                                Добавити</label>
+                                            <input id="btn-delete-image"
+                                                   type="file"
+                                                   style="display: none"/>
+
+                                            <btn id="btn-delete-image"
+                                                 class="input-add">
+                                                Видалити
+                                            </btn>
+                                        </div>
+                                    </div>
+                                    <div class="mt-5"><h5>Галерея</h5></div>
+                                    <div class="row gap-4 galleries" id="galleries">
+                                    </div>
+
+                                    <div class="col-12 mt-5">
+                                        <div class="row">
+                                            <h5 class="col-12 d-flex justify-content-center">SEO Блок: </h5>
+                                            <div>
+                                                <!-- URL -->
+                                                <div class="col-12 d-flex justify-content-center mb-4">
+                                                    <div>
+                                                        <label class="form-label" for="urlCeoFilm">URL:</label>
+                                                        <input type="text" id="urlCeoFilm" class="form-control"
+                                                               placeholder="url" style="width: 500px">
+                                                    </div>
+                                                </div>
+
+                                                <!-- Title -->
+                                                <div class="col-12 d-flex justify-content-center mb-4">
+                                                    <div>
+                                                        <label class="form-label" for="title-mask">Title:</label>
+                                                        <input type="text" id="title-mask" class="form-control"
+                                                               placeholder="title" style="width: 500px">
+                                                    </div>
+                                                </div>
+
+                                                <!-- Keywords -->
+                                                <div class="col-12 d-flex justify-content-center mb-4">
+                                                    <div>
+                                                        <label class="form-label" for="key-words-mask">Keywords:</label>
+                                                        <input type="text" id="key-words-mask" class="form-control"
+                                                               placeholder="word" style="width: 500px">
+                                                    </div>
+                                                </div>
+
+<!--                                                &lt;!&ndash; Keywords &ndash;&gt;-->
+<!--                                                <div class="col-12 d-flex justify-content-center mb-4">-->
+<!--                                                    <div style="width: 500px">-->
+<!--                                                        <label class="form-label"-->
+<!--                                                               for="description-mask">Description:</label>-->
+<!--                                                        <textarea id="description-mask"-->
+<!--                                                                  class="form-control" rows="3"-->
+<!--                                                                  th:field="*{unifierFilm.film.description}"-->
+<!--                                                                  style="width:100%; height: 250px;"></textarea>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex justify-content-center">
+                                        <button class="btn btn-secondary" style="width: 200px"
+                                                type="submit">Зберегти
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="pills-england" role="tabpanel"
+                                     aria-labelledby="pills-england-tab" tabindex="0">...
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!--/ Content -->
+
+                <!-- Footer -->
+                <footer class="content-footer footer bg-footer-theme">
+                    Footer
+                </footer>
+                <!--/ Footer -->
+
+                <!-- Content area backdrop -->
+                <div class="content-backdrop fade"></div>
+
+            </div>
+            <!--/ Content wrapper -->
+
+        </div>
+        <!--/ Layout page -->
+
+    </div>
+    <!--/ Layout container -->
+
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
+
+    <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+    <div class="drag-target"></div>
+</div>
+<!--/ Layout wrapper -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/vuexy/dist/js/bootstrap.js"></script>
+<script src="/vuexy/assets/vendor/js/helpers.js"></script>
+<script src="/vuexy/assets/js/config.js"></script>
+<script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
+<script src="/scriptAjax2.js"></script>
+</body>
+</html>

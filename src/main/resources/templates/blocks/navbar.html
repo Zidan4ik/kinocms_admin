@@ -1,0 +1,30 @@
+<div th:fragment="navbar">
+    <nav class="layout-navbar navbar navbar-expand-xl align-items-center bg-navbar-theme d-flex justify-content-between"
+         id="layout-navbar" style="width: 100%;position: fixed;">
+        <div class="container-fluid">
+            <img class="ms-0 ms-sm-4"
+                 src="https://t4.ftcdn.net/jpg/01/33/44/33/360_F_133443361_CFWR0cAYXAItwh3njbYKXBfKazNQda3f.jpg"
+                 height="50px" width="150px" alt="logotype">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-ex-7">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbar-ex-7">
+                <ul class="navbar-nav ms-lg-auto">
+                    <li class="nav-item">
+                        <div class="nav-link d-flex" style="font-weight: bold">
+                            <i class="tf-icons navbar-icon ti ti-user me-1" style="font-size: 20px"></i>
+                            Мій кабінет
+                            <div class="btn-group dropstart">
+                                <i class="ti ti-caret-down" data-bs-toggle="dropdown" style="font-size: 20px"></i>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Вийти</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>

@@ -1,0 +1,28 @@
+.small-circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 3px solid black;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0px;
+    right: 0px;
+    cursor: pointer;
+}
+
+.input-add{
+
+    align-content: center;
+    text-align: center;
+    display: block;
+    height: 35px;
+    width: 200px;
+    background: #6a7188;
+    color: #fff;
+    padding-left: 12px;
+    margin: 10px auto;
+    border-radius: 5px;
+    cursor: pointer;
+}
