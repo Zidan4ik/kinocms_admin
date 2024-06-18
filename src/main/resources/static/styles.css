@@ -7,8 +7,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    top: 0px;
-    right: 0px;
+    top: -11px;
+    right: -10px;
     cursor: pointer;
 }
 
@@ -26,3 +26,4 @@
     border-radius: 5px;
     cursor: pointer;
 }
+

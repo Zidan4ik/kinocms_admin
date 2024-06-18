@@ -22,7 +22,7 @@ public class FilmServiceImp implements FilmService {
     }
 
     @Override
-    public void delete(long id) {
+    public void deleteById(long id) {
         filmRepository.deleteById(id);
     }
 

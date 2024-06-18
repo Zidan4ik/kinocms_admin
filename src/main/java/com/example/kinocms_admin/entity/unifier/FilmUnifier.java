@@ -1,6 +1,7 @@
 package com.example.kinocms_admin.entity.unifier;
 
 
+import com.example.kinocms_admin.entity.*;
 import com.example.kinocms_admin.model.FilmDTOAdd;
 import com.example.kinocms_admin.model.GalleryDTO;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,9 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class FilmUnifier {
-    private FilmDTOAdd film;
-    private List<GalleryDTO> galleries;
+    private Film film;
+    private Mark mark;
+    private Genre genre;
+    private Gallery gallery;
+    private CeoBlock ceoBlock;
 }

@@ -5,7 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 
@@ -18,19 +21,16 @@ public class Film {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String name;
+    private String title;
     @Lob
     private String description;
-    private String mainImage;
-    private String trailer;
+    private String pathImage;
+    private String linkTrailer;
     private LocalDate dateStart;
     private LocalDate dateEnd;
-    private int durationTime;
     private int year;
-    private double budget;
-    @Column(nullable = true)
-    private Integer ageAccess;
-
+    private LocalTime time;
+    private BigDecimal budget;
     @OneToOne
     private CeoBlock ceoBlock;
 }

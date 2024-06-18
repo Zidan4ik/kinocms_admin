@@ -19,5 +19,4 @@ public class CeoBlock {
     private String keywords;
     @Lob
     private String descriptions;
-    private String text;
 }

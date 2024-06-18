@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface FilmService {
     void save(Film film, MultipartFile multipartFile);
-    void delete(long id);
+    void deleteById(long id);
     List<Film> getAll();
     Optional<Film> getById(long id);
 }

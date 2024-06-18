@@ -47,17 +47,12 @@ public class FilmController {
         return model;
     }
 
-            @GetMapping("/film/add")
-            public ModelAndView addFilm(@ModelAttribute(name = "film") FilmDTOAdd film) {
-                ModelAndView model = new ModelAndView("films/film-add2");
-                return model;
-            }
+    @GetMapping("/film/add")
+    public ModelAndView addFilm(@ModelAttribute(name = "film") FilmDTOAdd film) {
+        ModelAndView model = new ModelAndView("films/film-add");
+        return model;
+    }
 
-         //    @PostMapping("/film/add")
-    //    public ModelAndView addFilmPM(@ModelAttribute(name = "unifierFilm") FilmUnifier unifier){
-    //        ModelAndView model = new ModelAndView("redirect:/admin/film/add");
-    //        return model;
-    //    }
 
     @GetMapping("/film/data/add")
     @ResponseBody

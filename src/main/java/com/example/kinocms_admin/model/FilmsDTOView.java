@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FilmsDTOView {
     private long id;
-    private String image;
-    private String name;
+    private String title;
+    private String pathImage;
     private String date;
     public String linkToImage(){
         return "";

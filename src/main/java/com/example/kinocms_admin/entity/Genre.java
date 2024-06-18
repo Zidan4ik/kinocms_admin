@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "genres")
 @Data
@@ -15,7 +17,6 @@ public class Genre {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
-
-    @ManyToOne
-    private Film film;
+    @ManyToMany
+    private List<Film> film;
 }
