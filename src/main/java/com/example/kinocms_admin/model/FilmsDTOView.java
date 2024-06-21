@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FilmsDTOView {
-    private long id;
+    private Long id;
     private String title;
     private String pathImage;
     private String date;

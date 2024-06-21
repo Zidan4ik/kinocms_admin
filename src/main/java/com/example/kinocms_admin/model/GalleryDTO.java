@@ -10,16 +10,16 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GalleryDTO {
-    private long id;
-    private String path;
+    private Long id;
+    private String name;
     private MultipartFile file;
     private GalleriesType type;
     private String link;
-    public GalleryDTO(String path) {
-        this.path = path;
+    public GalleryDTO(String name) {
+        this.name = name;
     }
 
-    public String createPathToImage(){
-        return "./uploads/films/"+id+"/"+path;
+    public String pathToImage(){
+        return "./uploads/films/"+id+"/"+name;
     }
 }

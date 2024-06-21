@@ -15,7 +15,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.SimpleFormatter;
 
 @Service
@@ -50,7 +52,9 @@ public class FilmMapper {
         if(!dto.getDurationTime().isEmpty()){
             film.setTime(LocalTime.parse(dto.getDurationTime()));
         }
-        film.setYear(Integer.parseInt(dto.getYear()));
+        if(!dto.getYear().isEmpty()){
+            film.setYear(Integer.parseInt(dto.getYear()));
+        }
         film.setBudget(dto.getBudget());
 
         CeoBlock ceoBlock = new CeoBlock();
@@ -60,27 +64,29 @@ public class FilmMapper {
         ceoBlock.setKeywords(dto.getKeywordsCeo());
         ceoBlock.setDescriptions(dto.getDescriptionCeo());
 
-        List<Mark> mark = new ArrayList<>();
-        for (String s:dto.getMarks()){
-            String res = SubstringUtil.substringMark(s);
-        }
-//        try {
-//            film.setTime(new Time(new SimpleDateFormat("HH:mm").parse(dto.getDurationTime()).getTime()));
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
 
-        return new FilmUnifier();
+        Set<Mark> marksResult = new HashSet<>();
+
+        for (String s:dto.getMarks()){
+            marksResult.add(new Mark(SubstringUtil.substringMark(s)));
+        }
+
+        Set<Genre> genresResult = new HashSet<>();
+//        List<Genre> genresResult = new ArrayList<>();
+        for (String genre:dto.getGenres()){
+            genresResult.add(new Genre(genre));
+        }
+        return new FilmUnifier(film,marksResult,genresResult,null,ceoBlock);
     }
 
     public static FilmDTOAdd toDTOAdd(FilmUnifier unifier) {
         FilmDTOAdd dto = new FilmDTOAdd();
 
-        Film film = unifier.getFilm();
-        Mark mark = unifier.getMark();
-        Genre genre = unifier.getGenre();
-        Gallery gallery = unifier.getGallery();
-        CeoBlock ceoBlock = unifier.getCeoBlock();
+//        Film film = unifier.getFilm();
+//        Mark mark = unifier.getMark();
+//        Genre genre = unifier.getGenre();
+//        Gallery gallery = unifier.getGallery();
+//        CeoBlock ceoBlock = unifier.getCeoBlock();
 
 //        dto.setId(film.getId());
 //        dto.setTitleFilm(film.getTitle());

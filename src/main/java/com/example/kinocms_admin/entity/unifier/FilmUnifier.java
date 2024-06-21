@@ -9,14 +9,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class FilmUnifier {
     private Film film;
-    private Mark mark;
-    private Genre genre;
-    private Gallery gallery;
+    private Set<Mark> marks;
+    private Set<Genre> genres;
+    private List<Gallery> galleries;
     private CeoBlock ceoBlock;
 }

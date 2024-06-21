@@ -8,15 +8,18 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
-@Table(name = "marks")
+@Table(name = "marks",uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Mark {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String name;
-    @ManyToMany
+    @ManyToMany(mappedBy = "marksList")
     private List<Film> films;
+    public Mark(String name) {
+        this.name = name;
+    }
 }

@@ -9,12 +9,13 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class FilmDTOAdd {
-    private long id;
+    private Long id;
     private String titleFilm;
     private String dateStart;
     private String dateEnd;
@@ -25,10 +26,9 @@ public class FilmDTOAdd {
     private String titleCeo;
     private String keywordsCeo;
     private String descriptionCeo;
-    private List<GalleryDTO> images;
     private List<MultipartFile> imagesMultipart;
-    private List<String> marks;
-    private List<String> genres;
+    private Set<String> marks;
+    private Set<String> genres;
     private MultipartFile fileImage;
     private String durationTime;
     private String year;

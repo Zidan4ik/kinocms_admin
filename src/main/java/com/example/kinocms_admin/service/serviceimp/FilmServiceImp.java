@@ -1,24 +1,81 @@
 package com.example.kinocms_admin.service.serviceimp;
 
 import com.example.kinocms_admin.entity.Film;
+import com.example.kinocms_admin.entity.Gallery;
+import com.example.kinocms_admin.entity.Genre;
+import com.example.kinocms_admin.entity.Mark;
+import com.example.kinocms_admin.enums.GalleriesType;
 import com.example.kinocms_admin.repository.FilmRepository;
+import com.example.kinocms_admin.repository.GalleryRepository;
+import com.example.kinocms_admin.repository.GenreRepository;
+import com.example.kinocms_admin.repository.MarkRepository;
 import com.example.kinocms_admin.service.FilmService;
+import com.example.kinocms_admin.util.ImageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.*;
+import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class FilmServiceImp implements FilmService {
     private final FilmRepository filmRepository;
+    private final GenreRepository genreRepository;
+    private final MarkRepository markRepository;
+    private final GalleryRepository galleryRepository;
+
     @Override
-    public void save(Film film, MultipartFile multipartFile) {
+    public void save(Film film, MultipartFile file, List<MultipartFile> multipartFiles) {
+        String uploadDir;
+        String fileName = null;
+        HashMap<String, MultipartFile> mapFile = new HashMap<>();
+        List<Gallery> galleriesRes = new ArrayList<>();
+        if (file != null) {
+            if (film.getId() != null) {
+                Optional<Film> filmById = filmRepository.findById(film.getId());
+                film.setPathImage(filmById.get().getPathImage());
+            }
+            fileName = UUID.randomUUID() + "." + StringUtils.cleanPath(file.getOriginalFilename());
+            film.setPathImage(fileName);
+        }
+
+        if (film.getId() != null) {
+            List<Gallery> byFilm = galleryRepository.findAllByFilm(filmRepository.findById(film.getId()).get());
+            film.setGalleries(byFilm);
+        }
+        if (multipartFiles!=null) {
+            for (MultipartFile fileGalleries : multipartFiles) {
+                if (fileGalleries != null) {
+                    String name = UUID.randomUUID() + "." + StringUtils.cleanPath(fileGalleries.getOriginalFilename());
+                    galleriesRes.add(new Gallery(name, GalleriesType.films, film));
+                    mapFile.put(name, fileGalleries);
+                }
+            }
+        }
+
+        film.setGalleries(galleriesRes);
+        film.setGenresList(findSimilarGenre(film.getGenresList()));
+        film.setMarksList(findSimilarMark(film.getMarksList()));
         filmRepository.save(film);
+
+        try {
+            if (file!=null && !file.getOriginalFilename().isEmpty()) {
+                uploadDir = "./uploads/film/main-image/" + film.getId();
+                ImageUtil.saveAfterDelete(uploadDir, file, fileName);
+            }
+            if (!mapFile.isEmpty()) {
+                uploadDir = "./uploads/film/galleries/" + film.getId();
+                ImageUtil.savesAfterDelete(uploadDir, mapFile);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -35,23 +92,50 @@ public class FilmServiceImp implements FilmService {
     public Optional<Film> getById(long id) {
         return filmRepository.findById(id);
     }
-    public List<Film> findFilmsIsActive(boolean status){
+
+    public List<Film> findFilmsIsActive(boolean status) {
         List<Film> films = new ArrayList<>();
         LocalDate today = LocalDate.now();
-        if(status){
-            for (Film film:getAll()){
-                if((film.getDateStart().isBefore(today) || film.getDateStart().equals(today)) &&
-                        (film.getDateEnd().isAfter(today) || film.getDateEnd().equals(today))){
+        if (status) {
+            for (Film film : getAll()) {
+                if ((film.getDateStart().isBefore(today) || film.getDateStart().equals(today)) &&
+                        (film.getDateEnd().isAfter(today) || film.getDateEnd().equals(today))) {
                     films.add(film);
                 }
             }
-        }else{
-            for (Film film:getAll()){
+        } else {
+            for (Film film : getAll()) {
                 if (film.getDateStart().isAfter(today) || film.getDateEnd().isBefore(today)) {
                     films.add(film);
                 }
             }
         }
         return films;
+    }
+
+    private Set<Genre> findSimilarGenre(Set<Genre> genres) {
+        Set<Genre> res = new HashSet<>();
+        for (Genre g : genres) {
+            Optional<Genre> name = genreRepository.findByName(g.getName());
+            if (name.isPresent()) {
+                res.add(name.get());
+            } else {
+                res.add(g);
+            }
+        }
+        return res;
+    }
+
+    private Set<Mark> findSimilarMark(Set<Mark> marks) {
+        Set<Mark> res = new HashSet<>();
+        for (Mark g : marks) {
+            Optional<Mark> name = markRepository.findByName(g.getName());
+            if (name.isPresent()) {
+                res.add(name.get());
+            } else {
+                res.add(g);
+            }
+        }
+        return res;
     }
 }

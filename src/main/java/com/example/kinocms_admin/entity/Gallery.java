@@ -14,9 +14,16 @@ import lombok.NoArgsConstructor;
 public class Gallery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String linkImage;
     private GalleriesType type;
     @ManyToOne
+    @JoinColumn(name = "film_id")
     private Film film;
+
+    public Gallery(String linkImage, GalleriesType type, Film film) {
+        this.linkImage = linkImage;
+        this.type = type;
+        this.film = film;
+    }
 }

@@ -54,19 +54,19 @@ public class FilmController {
     }
 
 
-    @GetMapping("/film/data/add")
-    @ResponseBody
-    public List<GalleryDTO> getFilmData() {
-
-        List<GalleryDTO> galleries = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            GalleryDTO dto = new GalleryDTO();
-            if (dto.getPath() != null) {
-                dto.setPath(dto.createPathToImage());
-            }
-            galleries.add(dto);
-        }
-
-        return galleries;
-    }
+//    @GetMapping("/film/data/add")
+//    @ResponseBody
+//    public List<GalleryDTO> getFilmData() {
+//
+//        List<GalleryDTO> galleries = new ArrayList<>();
+//        for (int i = 0; i < 5; i++) {
+//            GalleryDTO dto = new GalleryDTO();
+//            if (dto.getName() != null) {
+//                dto.setName(dto.pathToImage());
+//            }
+//            galleries.add(dto);
+//        }
+//
+//        return galleries;
+//    }
 }

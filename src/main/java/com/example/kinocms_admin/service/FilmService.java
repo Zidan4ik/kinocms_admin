@@ -7,8 +7,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface FilmService {
-    void save(Film film, MultipartFile multipartFile);
+    void save(Film film, MultipartFile mainImage, List<MultipartFile> multipartFile);
+
     void deleteById(long id);
+
     List<Film> getAll();
+
     Optional<Film> getById(long id);
 }

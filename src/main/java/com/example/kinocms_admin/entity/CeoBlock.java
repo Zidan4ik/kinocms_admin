@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class CeoBlock {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String url;
     private String title;
     private String keywords;

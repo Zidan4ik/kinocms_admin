@@ -12,7 +12,7 @@ public class GalleryMapper {
     public static GalleryDTO toDTO(Gallery entity){
         GalleryDTO dto = new GalleryDTO();
         dto.setId(entity.getId());
-        dto.setPath(entity.getLinkImage());
+        dto.setName(entity.getLinkImage());
         dto.setType(entity.getType());
         return dto;
     }
@@ -20,7 +20,7 @@ public class GalleryMapper {
         Gallery entity = new Gallery();
         entity.setId(dto.getId());
         entity.setType(dto.getType());
-        entity.setLinkImage(dto.getPath());
+        entity.setLinkImage(dto.getName());
         return entity;
     }
     public static List<GalleryDTO> toDTOList(List<Gallery> galleries){

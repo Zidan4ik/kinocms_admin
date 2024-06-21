@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -16,8 +17,11 @@ public class MarkServiceImp implements MarkService {
     private final MarkRepository markRepository;
 
     @Override
-    public void save(Mark mark) {
-        markRepository.save(mark);
+    public void save(Set<Mark> marks) {
+//        for (Mark mark :marks){
+//            markRepository.save(mark);
+//        }
+        markRepository.saveAll(marks);
     }
 
     @Override

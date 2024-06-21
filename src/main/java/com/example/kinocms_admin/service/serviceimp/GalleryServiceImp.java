@@ -24,7 +24,7 @@ public class GalleryServiceImp implements GalleryService {
     public void delete(long id) {
         galleryRepository.deleteById(id);
     }
-    public List<Gallery> getAllByFilm(Film film){
-        return galleryRepository.getAllByFilm(film);
-    }
+//    public List<Gallery> getAllByFilm(Film film){
+//        return galleryRepository.getAllByFilm(film);
+//    }
 }
