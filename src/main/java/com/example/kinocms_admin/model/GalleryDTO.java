@@ -12,14 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 public class GalleryDTO {
     private Long id;
     private String name;
-    private MultipartFile file;
     private GalleriesType type;
-    private String link;
-    public GalleryDTO(String name) {
-        this.name = name;
-    }
-
-    public String pathToImage(){
-        return "./uploads/films/"+id+"/"+name;
-    }
+//    private MultipartFile file;
+//    private String link;
+//    public String pathToImage(){
+//        return "/uploads/films/"+id+"/"+name;
+//    }
 }

@@ -1,12 +1,9 @@
 package com.example.kinocms_admin.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -15,25 +12,30 @@ import java.util.Set;
 
 @Entity
 @Table(name = "films")
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class Film {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String title;
-    @Lob
-    private String description;
+    private String urlCEO;
     private String pathImage;
+    @Lob
+    @Column(columnDefinition = "text")
     private String linkTrailer;
     private LocalDate dateStart;
     private LocalDate dateEnd;
     private int year;
     private LocalTime time;
     private BigDecimal budget;
-    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
-    private CeoBlock ceoBlock;
+
+    @OneToMany(mappedBy = "film")
+    private List<CeoBlock> ceoBlocks;
+    @OneToMany(mappedBy = "film")
+    private List<PageTranslation> pageTranslations;
+
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "film_genre",

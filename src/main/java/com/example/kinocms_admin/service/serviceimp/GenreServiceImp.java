@@ -36,12 +36,12 @@ public class GenreServiceImp implements GenreService {
 
     public void assignFilmToGenre(Set<Genre> genres,List<Film> films){
         for (Genre genre: genres){
-            genre.setFilmList(films);
+            genre.setFilms(films);
         }
         genreRepository.saveAll(genres);
     }
-//    @Override
-//    public List<Genre> getAllByFilm(Film film) {
-//        return genreRepository.getAllByFilm(film);
-//    }
+    @Override
+    public Set<Genre> getAllByFilms(List<Film> films) {
+        return genreRepository.getAllByFilms(films);
+    }
 }

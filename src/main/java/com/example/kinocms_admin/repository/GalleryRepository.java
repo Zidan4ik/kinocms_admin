@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface GalleryRepository extends JpaRepository<Gallery,Long> {
-    List<Gallery> findAllByFilm(Film film);
+    List<Gallery> getAllByFilm(Film film);
 }

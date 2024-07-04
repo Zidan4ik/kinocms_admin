@@ -26,4 +26,10 @@ public class Gallery {
         this.type = type;
         this.film = film;
     }
+
+    public Gallery(Long id, String linkImage, GalleriesType type) {
+        this.id = id;
+        this.linkImage = linkImage;
+        this.type = type;
+    }
 }

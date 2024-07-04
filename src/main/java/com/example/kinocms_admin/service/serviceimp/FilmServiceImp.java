@@ -36,20 +36,20 @@ public class FilmServiceImp implements FilmService {
         String fileName = null;
         HashMap<String, MultipartFile> mapFile = new HashMap<>();
         List<Gallery> galleriesRes = new ArrayList<>();
+        if (film.getId() != null) {
+            Optional<Film> filmById = filmRepository.findById(film.getId());
+            film.setPathImage(filmById.get().getPathImage());
+        }
         if (file != null) {
-            if (film.getId() != null) {
-                Optional<Film> filmById = filmRepository.findById(film.getId());
-                film.setPathImage(filmById.get().getPathImage());
-            }
             fileName = UUID.randomUUID() + "." + StringUtils.cleanPath(file.getOriginalFilename());
             film.setPathImage(fileName);
         }
 
         if (film.getId() != null) {
-            List<Gallery> byFilm = galleryRepository.findAllByFilm(filmRepository.findById(film.getId()).get());
+            List<Gallery> byFilm = galleryRepository.getAllByFilm(filmRepository.findById(film.getId()).get());
             film.setGalleries(byFilm);
         }
-        if (multipartFiles!=null) {
+        if (multipartFiles != null) {
             for (MultipartFile fileGalleries : multipartFiles) {
                 if (fileGalleries != null) {
                     String name = UUID.randomUUID() + "." + StringUtils.cleanPath(fileGalleries.getOriginalFilename());
@@ -65,7 +65,7 @@ public class FilmServiceImp implements FilmService {
         filmRepository.save(film);
 
         try {
-            if (file!=null && !file.getOriginalFilename().isEmpty()) {
+            if (file != null && !file.getOriginalFilename().isEmpty()) {
                 uploadDir = "./uploads/film/main-image/" + film.getId();
                 ImageUtil.saveAfterDelete(uploadDir, file, fileName);
             }
@@ -105,7 +105,7 @@ public class FilmServiceImp implements FilmService {
             }
         } else {
             for (Film film : getAll()) {
-                if (film.getDateStart().isAfter(today) || film.getDateEnd().isBefore(today)) {
+                if (film.getDateStart().isAfter(today) && film.getDateEnd().isAfter(today)) {
                     films.add(film);
                 }
             }

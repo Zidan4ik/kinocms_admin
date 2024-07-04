@@ -9,10 +9,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface GenreRepository extends JpaRepository<Genre,Long> {
-//    List<Genre> getAllByFilmList(List<Film> filmList);
     @Query("SELECT e FROM Genre e WHERE e.name = :genreName")
     Optional<Genre> findByName(@Param("genreName") String name);
+    Set<Genre> getAllByFilms(List<Film> films);
 }

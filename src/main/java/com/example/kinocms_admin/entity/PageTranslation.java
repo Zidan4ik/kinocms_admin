@@ -8,30 +8,32 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "ceo_blocks")
-@Data
+@Table(name = "pages_translations")
 @AllArgsConstructor
 @NoArgsConstructor
-public class CeoBlock {
+@Data
+public class PageTranslation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LanguageCode languageCode;
     private PageType pageType;
     private String title;
-    private String keywords;
     @Lob
     @Column(columnDefinition = "text")
-    private String descriptions;
+    private String description;
+    @Lob
+    @Column(columnDefinition = "text")
+    private String conditions;
     @ManyToOne
     private Film film;
 
-    public CeoBlock(LanguageCode languageCode, PageType pageType, String title, String keywords, String descriptions, Film film) {
+    public PageTranslation(LanguageCode languageCode, PageType pageType, String title, String description, String conditions, Film film) {
         this.languageCode = languageCode;
         this.pageType = pageType;
         this.title = title;
-        this.keywords = keywords;
-        this.descriptions = descriptions;
+        this.description = description;
+        this.conditions = conditions;
         this.film = film;
     }
 }

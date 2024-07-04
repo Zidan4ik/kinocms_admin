@@ -14,6 +14,6 @@ public class FilmsDTOView {
     private String pathImage;
     private String date;
     public String linkToImage(){
-        return "";
+        return "/uploads/film/main-image/"+id+"/"+pathImage;
     }
 }

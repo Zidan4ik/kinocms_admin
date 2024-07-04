@@ -18,9 +18,6 @@ public class MarkServiceImp implements MarkService {
 
     @Override
     public void save(Set<Mark> marks) {
-//        for (Mark mark :marks){
-//            markRepository.save(mark);
-//        }
         markRepository.saveAll(marks);
     }
 
@@ -29,5 +26,7 @@ public class MarkServiceImp implements MarkService {
         markRepository.deleteById(id);
     }
 
-
+    public Set<Mark> getAllByFilm(List<Film> films){
+        return markRepository.getAllByFilms(films);
+    }
 }

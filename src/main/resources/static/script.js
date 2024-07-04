@@ -4,11 +4,52 @@ const imageMainElement = document.getElementById("image-main");
 const galleriesElement2 = document.getElementById("galleries-eng");
 const imageMainElement2 = document.getElementById("image-main-eng");
 
-let array = new Array(5);
-let fileImageMain;
+const btnBackVersionUkr = document.querySelector(".back-version-ukr");
+const btnBackVersionEng = document.querySelector(".back-version-eng");
+
 let languageFlag;
 
+let array = new Array(5);
+let genres = [];
+let fileImageMain, dateStart, dateEnd, linkTrailer,
+    urlCeo, marks, time, year, budget;
 createGallery(array);
+
+btnBackVersionUkr.onclick = function () {
+    setNullInField();
+    changeLanguage(languageFlag);
+}
+btnBackVersionEng.onclick = function () {
+    setNullInField();
+    changeLanguage(languageFlag);
+}
+
+function setNullInField() {
+    array = new Array(5);
+    genres = [];
+    fileImageMain = null;
+    dateStart = '';
+    dateEnd = '';
+    linkTrailer = '';
+    urlCeo = '';
+    marks = '';
+    time = '';
+    year = '';
+    budget = '';
+
+    const title = document.getElementById(`titleFilm-${languageFlag}`);
+    title.value = '';
+    const description = document.getElementById(`descriptionFilm-${languageFlag}`);
+    description.value = '';
+    const titleCEO = document.getElementById(`titleCeo-${languageFlag}`);
+    titleCEO.value = '';
+    const keywordsCEO = document.getElementById(`keywordsCeo-${languageFlag}`);
+    keywordsCEO.value = '';
+    const descriptionCEO = document.getElementById(`descriptionCeo-${languageFlag}`);
+    descriptionCEO.value = '';
+}
+
+changeLanguage('ukr');
 
 galleriesElement.onclick = fileHandle;
 imageMainElement.onclick = fileHandle;
@@ -16,104 +57,108 @@ imageMainElement.onclick = fileHandle;
 galleriesElement2.onclick = fileHandle;
 imageMainElement2.onclick = fileHandle;
 
-changeLanguage('ukr');
-
 function changeLanguage(language) {
     languageFlag = language;
-    array = new Array(5);
-    createGallery(array);
-    if(language === 'ukr'){
-        render();
-    }else if (language === 'eng'){
-        render();
+    getDataFromInputs(languageFlag);
+    assignDataInputs(languageFlag);
+    render();
+}
+
+function getDataFromInputs(languageCode) {
+    if (languageCode === 'ukr') {
+        dateStart = document.getElementById(`dateStart-eng`).value;
+        dateEnd = document.getElementById(`dateEnd-eng`).value;
+        marks = document.getElementById(`marksFilm-eng`).value;
+        let selectedOptions = document.getElementById(`genresFilm-eng`).selectedOptions;
+        genres = [];
+        for (let i = 0; i < selectedOptions.length; i++) {
+            genres.push(selectedOptions[i].value);
+        }
+        time = document.getElementById(`timeFilm-eng`).value;
+        year = document.getElementById(`yearFilm-eng`).value;
+        budget = document.getElementById(`budgetFilm-eng`).value;
+        linkTrailer = document.getElementById(`linkTrailer-eng`).value;
+        urlCeo = document.getElementById(`urlCeo-eng`).value;
+    } else if (languageCode === 'eng') {
+        dateStart = document.getElementById(`dateStart-ukr`).value;
+        dateEnd = document.getElementById(`dateEnd-ukr`).value;
+        marks = document.getElementById(`marksFilm-ukr`).value;
+        let selectedOptions = document.getElementById(`genresFilm-ukr`).selectedOptions;
+        genres = [];
+        for (let i = 0; i < selectedOptions.length; i++) {
+            genres.push(selectedOptions[i].value);
+        }
+        time = document.getElementById(`timeFilm-ukr`).value;
+        year = document.getElementById(`yearFilm-ukr`).value;
+        budget = document.getElementById(`budgetFilm-ukr`).value;
+        linkTrailer = document.getElementById(`linkTrailer-ukr`).value;
+        urlCeo = document.getElementById(`urlCeo-ukr`).value;
     }
 }
 
-$(document).ready(function () {
-    // SUBMIT FORM
-    $("#filmForm").submit(function (event) {
-        // Prevent the form from submitting via the browser.
-        event.preventDefault();
-        ajaxPost();
-    });
+function assignDataInputs(languageCode) {
+    document.getElementById(`dateStart-${languageCode}`).value = dateStart;
+    document.getElementById(`dateEnd-${languageCode}`).value = dateEnd;
+    document.getElementById(`marksFilm-${languageCode}`).value = marks;
+    document.getElementById(`timeFilm-${languageCode}`).value = time;
+    document.getElementById(`yearFilm-${languageCode}`).value = year;
+    document.getElementById(`budgetFilm-${languageCode}`).value = budget;
+    document.getElementById(`linkTrailer-${languageCode}`).value = linkTrailer;
+    document.getElementById(`urlCeo-${languageCode}`).value = urlCeo;
 
-    function ajaxPost() {
-        let formObject = getFormObject(languageFlag);
-        // DO POST
-        $.ajax({
-            type: "post",
-            url: "add",
-            data: formObject,
-            processData: false,
-            contentType: false,
-            success: function (response) {
-                console.log("Form submitted successfully");
-            },
-            error: function (error) {
-                console.log("Error submitting form:", error);
-            }
-        });
-        // window.location.replace("/admin/films");
+    if (fileImageMain !== undefined && fileImageMain !== null) {
+        document.getElementById(`image-main-download-${languageCode}`).src = URL.createObjectURL(fileImageMain);
+    } else if (fileImageMain === null) {
+        document.getElementById(`image-main-download-${languageCode}`).src = 'https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg';
     }
-});
+
+    $(`#genresFilm-${languageCode}`).selectpicker('val', genres);
+    // $(`#dateStart-eng`).select
+    // $(`#bs-datepicker-daterange-${languageCode}`).datepicker('startDate',dateStart);
+    // $(`#bs-datepicker-daterange-${languageCode}`).datepicker('endDate',dateEnd);
+    // $(`#bs-datepicker-daterange-${languageCode}`).data('daterangepicker').startDate;
+}
 
 function getFormObject(language) {
     let formObject = new FormData();
-    if (languageFlag === 'ukr') {
-        formObject.append("titleFilm", $("#titleFilm").val());
-        formObject.append("descriptionFilm", $("#descriptionFilm").val());
-        formObject.append("dateStart", $("#dateStart").val());
-        formObject.append("dateEnd", $("#dateEnd").val());
-        formObject.append("marks", $("#marksFilm").val());
-        formObject.append("genres", $("#genresFilm").val());
+    formObject.append("titleFilmUkr", $("#titleFilm-ukr").val());
+    formObject.append("descriptionFilmUkr", $("#descriptionFilm-ukr").val());
+    formObject.append("titleCeoUkr", $("#titleCeo-ukr").val());
+    formObject.append("keywordsCeoUkr", $("#keywordsCeo-ukr").val());
+    formObject.append("descriptionCeoUkr", $("#descriptionCeo-ukr").val());
 
-        if (fileImageMain != null) {
-            formObject.append("fileImage", fileImageMain);
-        }
-        for (let i = 0; i < array.length; i++) {
-            if (array[i].file != null) {
-                formObject.append("imagesMultipart", array[i].file);
-            }
-        }
+    formObject.append("titleFilmEng", $("#titleFilm-eng").val());
+    formObject.append("descriptionFilmEng", $("#descriptionFilm-eng").val());
+    formObject.append("titleCeoEng", $("#titleCeo-eng").val());
+    formObject.append("keywordsCeoEng", $("#keywordsCeo-eng").val());
+    formObject.append("descriptionCeoEng", $("#descriptionCeo-eng").val());
 
-        formObject.append("linkTrailer", $("#linkTrailer").val());
+    formObject.append("dateStart", $(`#dateStart-${languageFlag}`).val());
+    formObject.append("dateEnd", $(`#dateEnd-${languageFlag}`).val());
+    formObject.append("marks", $(`#marksFilm-${languageFlag}`).val());
+    formObject.append("genres", $(`#genresFilm-${languageFlag}`).val());
+    formObject.append("linkTrailer", $(`#linkTrailer-${languageFlag}`).val());
+    formObject.append("durationTime", $(`#timeFilm-${languageFlag}`).val());
+    formObject.append("year", $(`#yearFilm-${languageFlag}`).val());
+    formObject.append("budget", $(`#budgetFilm-${languageFlag}`).val());
+    formObject.append("urlCeo", $(`#urlCeo-${languageFlag}`).val());
 
-        formObject.append("durationTime", $("#timeFilm").val());
-        formObject.append("year", $("#yearFilm").val());
-        formObject.append("budget", $("#budgetFilm").val());
-
-        formObject.append("urlCeo", $("#urlCeo").val());
-        formObject.append("titleCeo", $("#titleCeo").val());
-        formObject.append("keywordsCeo", $("#keywordsCeo").val());
-        formObject.append("descriptionCeo", $("#descriptionCeo").val());
+    if (fileImageMain != null) {
+        formObject.append("fileImage", fileImageMain);
     }
-    else if (languageFlag === 'eng') {
-        formObject.append("titleFilm", $("#titleFilm-eng").val());
-        formObject.append("descriptionFilm", $("#descriptionFilm-eng").val());
-        formObject.append("dateStart", $("#dateStart-eng").val());
-        formObject.append("dateEnd", $("#dateEnd-eng").val());
-        formObject.append("marks", $("#marksFilm-eng").val());
-        formObject.append("genres", $("#genresFilm-eng").val());
-
-        if (fileImageMain != null) {
-            formObject.append("fileImage", fileImageMain);
+    for (let i = 0; i < array.length; i++) {
+        if (array[i].file != null) {
+            formObject.append("imagesMultipart", array[i].file);
         }
-        for (let i = 0; i < array.length; i++) {
-            if (array[i].file != null) {
-                formObject.append("imagesMultipart", array[i].file);
-            }
-        }
-
-        formObject.append("linkTrailer", $("#linkTrailer-eng").val());
-
-        formObject.append("durationTime", $("#timeFilm-eng").val());
-        formObject.append("year", $("#yearFilm-eng").val());
-        formObject.append("budget", $("#budgetFilm-eng").val());
-        formObject.append("urlCeo", $("#urlCeo-eng").val());
-        formObject.append("titleCeo", $("#titleCeo-eng").val());
-        formObject.append("keywordsCeo", $("#keywordsCeo-eng").val());
-        formObject.append("descriptionCeo", $("#descriptionCeo-eng").val());
     }
+    // for (let i = 0; i < array.length; i++) {
+    //     let object = {
+    //         id:array[i].id,
+    //         name:array[i].name
+    //
+    //     };
+    // }
+    formObject.append("galleryDTO",JSON.stringify(array));
     return formObject;
 }
 
@@ -124,6 +169,7 @@ function fileHandle(event) {
         if (type === 'galleries-delete-' + languageFlag) {
             array[index].file = null;
             array[index].link = null;
+            array[index].name = null;
         } else if (type === 'galleries-download-' + languageFlag) {
             const inputElement = document.getElementById(`input-file-${index}-` + languageFlag);
             inputElement.onchange = function () {
@@ -163,35 +209,42 @@ function createGallery(array) {
             link: null,
             file: null,
             pathToImage: function () {
-                return "./uploads/films/" + this.id + "/" + this.name;
+                return "/uploads/films/" + this.id + "/" + this.name;
             }
         };
     }
 }
 
 function render() {
-    if(languageFlag === 'ukr'){
+    if (languageFlag === 'ukr') {
         galleriesElement.innerHTML = '';
-
         for (let i = 0; i < array.length; i++) {
-            galleriesElement.insertAdjacentHTML('beforeend', getBlockUkr(array[i], i));
+            galleriesElement.insertAdjacentHTML('beforeend', getBlock(array[i], i));
         }
-    }else if(languageFlag === 'eng'){
+    } else if (languageFlag === 'eng') {
         galleriesElement2.innerHTML = '';
         for (let i = 0; i < array.length; i++) {
-            galleriesElement2.insertAdjacentHTML('beforeend', getBlockUkr(array[i], i));
+            galleriesElement2.insertAdjacentHTML('beforeend', getBlock(array[i], i));
         }
     }
 };
 
-function getBlockUkr(object, index) {
+function getBlock(object, index) {
     const blockId = `image-download-${index}-${languageFlag}`;
-    let nameLabel = languageFlag === 'ukr'? 'Добавити':'Add';
+    let nameLabel = languageFlag === 'ukr' ? 'Добавити' : 'Add';
+    let linkOnImage;
+    if (object.link === null) {
+        if (object.name !== null) {
+            linkOnImage = object.pathToImage();
+        } else {
+            linkOnImage = 'https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg';
+        }
+    } else {
+        linkOnImage = object.link;
+    }
     return `<div class="col-2 justify-content-center">
         <div class="position-relative d-flex justify-content-center">
-        <img id="${blockId}"
-        src="${object.link != null ? object.link :
-        'https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg'}"
+        <img id="${blockId}" src="${linkOnImage}"
                                   style="width: 200px;height: 200px;text-align: center">
                                   <button   
                                   type="submit" 
@@ -208,7 +261,7 @@ function getBlockUkr(object, index) {
                               </div>
                      </div>`
 };
-const TagifyCustomInlineSuggestionEl_UKR = document.querySelector("#marksFilm");
+const TagifyCustomInlineSuggestionEl_UKR = document.querySelector("#marksFilm-ukr");
 const TagifyCustomInlineSuggestionEl_ENG = document.querySelector("#marksFilm-eng");
 const whitelist = [
     "3D",
@@ -239,3 +292,4 @@ let TagifyCustomInlineSuggestion_ENG = new Tagify(TagifyCustomInlineSuggestionEl
         closeOnSelect: false
     }
 });
+

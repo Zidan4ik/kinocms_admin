@@ -70,10 +70,12 @@
                                         <div class="col">
                                             <label for="dateStart-ukr" class="form-label">Діапазон дати</label>
                                             <div class="input-group input-daterange" id="bs-datepicker-daterange-ukr">
-                                                <input id="dateStart-ukr" type="text" placeholder="DD/MM/YYYY"
+                                                <input
+                                                       id="dateStart-ukr" type="text" placeholder="DD/MM/YYYY"
                                                        class="form-control"/>
                                                 <span class="input-group-text">-</span>
-                                                <input id="dateEnd-ukr" type="text" placeholder="DD/MM/YYYY"
+                                                <input
+                                                       id="dateEnd-ukr" type="text" placeholder="DD/MM/YYYY"
                                                        class="form-control"/>
                                             </div>
                                         </div>
@@ -92,9 +94,11 @@
                                                     <label class="form-label">Головна картина</label>
                                                 </div>
                                                 <div class="col-6 d-flex align-items-center">
-                                                    <img id="image-main-download-ukr"
-                                                         th:src="${film.getImage()!=null?'':'https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg'}"
-                                                         style="width: 200px;height: 200px;text-align: center">
+                                                    <img id="image-main-download-ukr" style="width: 200px;height: 200px;text-align: center">
+<!--                                                    th:src="${film.getImage()!=null?-->
+<!--                                                    film.getPathToImage():-->
+<!--                                                    'https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg'}"-->
+
                                                 </div>
                                             </div>
                                         </div>
@@ -149,7 +153,8 @@
                                         <div class="col-4 row">
                                             <label for="timeFilm-ukr" class="form-label">Час тривалості</label>
                                             <div class="col-md-10">
-                                                <input class="form-control" type="time" id="timeFilm-ukr" placeholder="-"/>
+                                                <input class="form-control" type="time" id="timeFilm-ukr"
+                                                       placeholder="-"/>
                                             </div>
                                         </div>
                                         <div class="col-4">
@@ -258,7 +263,6 @@
                                                 </div>
                                                 <div class="col-6 d-flex align-items-center">
                                                     <img id="image-main-download-eng"
-                                                         th:src="${film.getImage()!=null?'':'https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg'}"
                                                          style="width: 200px;height: 200px;text-align: center">
                                                 </div>
                                             </div>
@@ -302,7 +306,7 @@
                                                 placeholder="Nothing selected">
                                             <option value="comedy">Comedy</option>
                                             <option value="fantasy">Fantasy</option>
-                                                <option value="horror">Horrors</option>
+                                            <option value="horror">Horrors</option>
                                             <option value="action">Action</option>
                                             <option value="melodramas">Melodramas</option>
                                             <option value="mysticism">Mysticism</option>
@@ -359,7 +363,8 @@
                                                 <!-- Keywords -->
                                                 <div class="col-12 d-flex justify-content-center mb-4">
                                                     <div>
-                                                        <label class="form-label" for="keywordsCeo-eng">Keywords:</label>
+                                                        <label class="form-label"
+                                                               for="keywordsCeo-eng">Keywords:</label>
                                                         <input type="text" id="keywordsCeo-eng" class="form-control"
                                                                placeholder="enter keywords" style="width: 500px">
                                                     </div>
@@ -432,13 +437,84 @@
 <script src="/script.js"></script>
 
 <script>
-    $("#bs-datepicker-daterange-ukr").datepicker({format: "dd/mm/yyyy"});
-    $("#genresFilm-ukr").selectpicker();
-
+    $("#bs-datepicker-daterange-ukr").datepicker({
+        format: "dd/mm/yyyy",       // Формат дати
+        // autoclose: true,            // Автоматичне закриття після вибору дати
+        // todayHighlight: true,       // Виділення сьогоднішньої дати
+        // language: "uk",             // Мова інтерфейсу
+        // startDate: "-3d",           // Початкова дата (3 дні тому)
+        // endDate: "+3d",             // Кінцева дата (через 3 дні)
+        // startDate: dateStart,           // Початкова дата (3 дні тому)
+        // endDate: dateEnd,             // Кінцева дата (через 3 дні)
+        // daysOfWeekDisabled: "0,6",  // Вимкнені дні тижня (неділя та субота)
+        // datesDisabled: ['10/07/2024', '15/07/2024'],  // Вимкнені конкретні дати
+        // clearBtn: true,             // Кнопка очищення
+        // toggleActive: true          // Перемикання активної дати
+    });
     $("#bs-datepicker-daterange-eng").datepicker({format: "dd/mm/yyyy"});
+
+    $("#genresFilm-ukr").selectpicker();
     $("#genresFilm-eng").selectpicker();
 </script>
+<script>
+    window.addEventListener("DOMContentLoaded", () => {
+        const path = window.location.pathname;
+        const id = path.split('/')[3];
+        console.log(id);
+        const request = new XMLHttpRequest();
+        request.open("GET", `/admin/film/${id}`);
+        request.setRequestHeader("Content-type", "application/json; charset=utf-8");
+        request.send();
+        request.addEventListener("load", function () {
+            if (request.status == 200) {
+                let data = JSON.parse(request.response);
+                console.log(data);
 
+                time = data.durationTime;
+                year = data.year;
+                budget = data.budget;
+                dateStart=data.dateStart;
+                dateEnd=data.dateEnd;
+                linkTrailer=data.linkTrailer;
+                urlCeo=data.urlCeo;
+                marks=data.marks;
+                genres=data.genres;
+                if(data.galleries.length != null){
+                    for (let i = 0; i < data.galleries.length; i++) {
+                        let object = data.galleries[i];
+                        array[i]={
+                            id:object.id,
+                            type:object.type,
+                            name:object.linkImage,
+                            file: null,
+                            link:null,
+                            pathToImage: function () {
+                                return "/uploads/film/galleries/" + this.id + "/" + this.name;
+                            }
+                        }
+                    }
+                    render();
+                }
+
+                document.getElementById(`titleFilm-ukr`).value = data.titleFilmUkr;
+                document.getElementById(`titleFilm-eng`).value = data.titleFilmEng;
+                document.getElementById(`descriptionFilm-ukr`).value = data.descriptionFilmUkr;
+                document.getElementById(`descriptionFilm-eng`).value = data.descriptionFilmEng;
+                document.getElementById(`titleCeo-eng`).value = data.titleCeoEng;
+                document.getElementById(`titleCeo-ukr`).value = data.titleCeoUkr;
+                document.getElementById(`keywordsCeo-ukr`).value = data.keywordsCeoUkr;
+                document.getElementById(`keywordsCeo-eng`).value = data.keywordsCeoEng;
+                document.getElementById(`descriptionCeo-ukr`).value = data.descriptionCeoUkr;
+                document.getElementById(`descriptionCeo-eng`).value = data.descriptionCeoEng;
+
+
+                const elementImg = document.getElementById(`image-main-download-${languageFlag}`);
+                elementImg.src = data.pathToImage;
+                assignDataInputs(languageFlag);
+            }
+        })
+    });
+</script>
 <script>
     $(document).ready(function () {
         // SUBMIT FORM
@@ -454,7 +530,7 @@
             // DO POST
             $.ajax({
                 type: "post",
-                url: "add",
+                url: "edit",
                 data: formObject,
                 processData: false,
                 contentType: false,

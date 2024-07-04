@@ -4,11 +4,32 @@
     <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/theme-default.css"/>
     <link rel="stylesheet" href="/vuexy/assets/vendor/fonts/tabler-icons.css">
     <link rel="stylesheet" href="/fontawesome/css/all.min.css">
+    <!--    <link rel="stylesheet" href="/styles.css">-->
 
+    <style>
+        .image-container {
+            position: relative;
+        }
+
+        .film-image, .hover-block {
+            transition: opacity 0.3s;
+        }
+
+        .image-container .hover-block {
+            display: none;
+        }
+
+        .image-container:hover .film-image {
+            display: none;
+        }
+
+        .image-container:hover .hover-block {
+            display: block;
+        }
+    </style>
     <script src="/vuexy/assets/vendor/js/helpers.js"></script>
     <script src="/vuexy/assets/js/config.js"></script>
     <script src="/vuexy/dist/js/bootstrap.js"></script>
-
 </head>
 
 <body>
@@ -44,7 +65,7 @@
                             </div>
                             <div class="col-4 d-flex justify-content-end">
                                 <a class="btn btn-secondary add-new btn-primary waves-effect waves-light"
-                                th:href="@{/admin/film/add}" style="position: fixed;
+                                   th:href="@{/admin/film/add}" style="position: fixed;
                                     box-shadow:0 1px 15px #809699">
                                     Добавлення фільму
                                 </a>
@@ -52,15 +73,30 @@
                         </div>
                         <div class="row row-cols-4 mb-4 g-4 p-4">
                             <div class="col mb-5" th:each="film:${filmToday}">
-                                <div>
-                                    <img th:src="${film.getImage()!=null?'':'https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg'}"
-                                         style="width: 100%;height: 100%;text-align: center">
+                                <div class="d-flex justify-content-center image-container">
+                                    <img class="film-image"
+                                         th:src="${film.getPathImage()!=null?film.linkToImage():'https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg'}"
+                                         style="width: 220px;height: 275px;text-align: center">
+                                    <div class="hover-block"
+                                         style="width: 220px;height: 275px;text-align: center;display: none;">
+                                        <p>spider man</p>
+                                        <div class="d-flex justify-content-evenly">
+                                            <a type="button" class="btn btn-github"
+                                               th:href="@{/admin/film/{id}/edit (id=${film.getId()})}">
+                                                <i class="ti ti-edit-circle"></i>
+                                            </a>
+                                            <a type="button" class="btn btn-github"
+                                               th:href="@{/admin/film/{id}/delete (id=${film.getId()})}">
+                                                <i class="ti ti-x"></i>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="mt-4" style="text-align: center">
                                     <div class="col-12">
                                         <label th:text="${film.getDate()}"></label>
                                     </div>
-                                    <label th:text="${film.getName()}" style="font-size: 16px"></label>
+                                    <label th:text="${film.getTitle()}" style="font-size: 16px"></label>
                                 </div>
                             </div>
                         </div>
@@ -69,15 +105,15 @@
                         </div>
                         <div class="row row-cols-4 mb-4 g-4 p-4">
                             <div class="col mb-5" th:each="film:${filmSoon}">
-                                <div>
-                                    <img th:src="${film.getImage()!=null?'':'https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg'}"
-                                         style="width: 100%;height: 100%;text-align: center">
+                                <div class="d-flex justify-content-center">
+                                    <img th:src="${film.getPathImage()!=null?film.linkToImage():'https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg'}"
+                                         style="width: 220px;height: 275px;text-align: center">
                                 </div>
                                 <div class="mt-4" style="text-align: center">
                                     <div class="col-12">
                                         <label th:text="${film.getDate()}"></label>
                                     </div>
-                                    <label th:text="${film.getName()}" style="font-size: 16px"></label>
+                                    <label th:text="${film.getTitle()}" style="font-size: 16px"></label>
                                 </div>
                             </div>
                         </div>
@@ -108,8 +144,25 @@
 
     <!-- Drag Target Area To SlideIn Menu On Small Screens -->
     <div class="drag-target"></div>
+
 </div>
 <!--/ Layout wrapper -->
 
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.image-container').hover(
+            function () {
+                $(this).find('.film-image').fadeOut(300);
+                $(this).find('.hover-block').fadeIn(300);
+            },
+            function () {
+                $(this).find('.hover-block').fadeOut(300);
+                $(this).find('.film-image').fadeIn(300);
+            }
+        );
+    });
+</script>
 </body>
 </html>

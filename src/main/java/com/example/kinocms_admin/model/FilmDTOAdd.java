@@ -1,5 +1,6 @@
 package com.example.kinocms_admin.model;
 
+import com.example.kinocms_admin.entity.Gallery;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -16,16 +18,21 @@ import java.util.Set;
 @NoArgsConstructor
 public class FilmDTOAdd {
     private Long id;
-    private String titleFilm;
+    private String titleFilmUkr;
+    private String titleFilmEng;
     private String dateStart;
     private String dateEnd;
-    private String descriptionFilm;
+    private String descriptionFilmUkr;
+    private String descriptionFilmEng;
     private String image;
     private String linkTrailer;
     private String urlCeo;
-    private String titleCeo;
-    private String keywordsCeo;
-    private String descriptionCeo;
+    private String titleCeoUkr;
+    private String titleCeoEng;
+    private String keywordsCeoUkr;
+    private String keywordsCeoEng;
+    private String descriptionCeoUkr;
+    private String descriptionCeoEng;
     private List<MultipartFile> imagesMultipart;
     private Set<String> marks;
     private Set<String> genres;
@@ -33,4 +40,9 @@ public class FilmDTOAdd {
     private String durationTime;
     private String year;
     private BigDecimal budget;
+    private List<Gallery> galleries;
+    private List<String> galleryDTO;
+    public String getPathToImage(){
+        return "/uploads/film/main-image/"+id+"/"+image;
+    }
 }

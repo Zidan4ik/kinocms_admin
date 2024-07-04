@@ -1,30 +1,17 @@
 package com.example.kinocms_admin.controller;
 
-import com.example.kinocms_admin.entity.CeoBlock;
-import com.example.kinocms_admin.entity.Film;
+import com.example.kinocms_admin.entity.*;
 import com.example.kinocms_admin.entity.unifier.FilmUnifier;
+import com.example.kinocms_admin.enums.LanguageCode;
 import com.example.kinocms_admin.mapper.FilmMapper;
-import com.example.kinocms_admin.mapper.GalleryMapper;
 import com.example.kinocms_admin.model.FilmDTOAdd;
 import com.example.kinocms_admin.model.FilmsDTOView;
-import com.example.kinocms_admin.model.GalleryDTO;
-import com.example.kinocms_admin.repository.FilmRepository;
-import com.example.kinocms_admin.service.serviceimp.FilmServiceImp;
-import com.example.kinocms_admin.service.serviceimp.GalleryServiceImp;
-import com.example.kinocms_admin.service.serviceimp.ServiceResponse;
+import com.example.kinocms_admin.service.serviceimp.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/admin")
@@ -32,13 +19,16 @@ import java.util.Map;
 public class FilmController {
     private final FilmServiceImp filmServiceImp;
     private final GalleryServiceImp galleryServiceImp;
+    private final PageTranslationServiceImp pageTranslationServiceImp;
+    private final CeoBlockServiceImp ceoBlockServiceImp;
+    private final MarkServiceImp markServiceImp;
+    private final GenreServiceImp genreServiceImp;
 
     @GetMapping("/films")
     public ModelAndView viewFilms() {
         ModelAndView model = new ModelAndView("films/view-films");
         List<Film> filmActive = filmServiceImp.findFilmsIsActive(true);
         List<Film> filmUnActive = filmServiceImp.findFilmsIsActive(false);
-
         List<FilmsDTOView> dtoFilmsActive = FilmMapper.toDTOViewFilms(filmActive);
         List<FilmsDTOView> dtoFilmsUnActive = FilmMapper.toDTOViewFilms(filmUnActive);
 
@@ -52,21 +42,38 @@ public class FilmController {
         ModelAndView model = new ModelAndView("films/film-add");
         return model;
     }
+    @GetMapping("/film/{id}/edit")
+    public ModelAndView editFilm(@PathVariable(name = "id") Long id){
+        ModelAndView model = new ModelAndView("films/film-edit");
+        return model;
+    }
 
 
-//    @GetMapping("/film/data/add")
-//    @ResponseBody
-//    public List<GalleryDTO> getFilmData() {
-//
-//        List<GalleryDTO> galleries = new ArrayList<>();
-//        for (int i = 0; i < 5; i++) {
-//            GalleryDTO dto = new GalleryDTO();
-//            if (dto.getName() != null) {
-//                dto.setName(dto.pathToImage());
-//            }
-//            galleries.add(dto);
-//        }
-//
-//        return galleries;
-//    }
+    @GetMapping("/film/{id}")
+    @ResponseBody
+    public FilmDTOAdd getFilmData(@PathVariable(name = "id") Long id) {
+        List<Film> films = new ArrayList<>();
+        Optional<Film> byId = filmServiceImp.getById(id);
+        Optional<PageTranslation> pageUkr = pageTranslationServiceImp.getByFilmAndLanguageCode(byId.get(), LanguageCode.Ukr);
+        Optional<PageTranslation> pageEng = pageTranslationServiceImp.getByFilmAndLanguageCode(byId.get(), LanguageCode.Eng);
+        Optional<CeoBlock> ceoBlockUkr = ceoBlockServiceImp.getByFilmAndLanguageBlock(byId.get(), LanguageCode.Ukr);
+        Optional<CeoBlock> ceoBlockEng = ceoBlockServiceImp.getByFilmAndLanguageBlock(byId.get(), LanguageCode.Eng);
+
+        films.add(byId.get());
+        Set<Mark> marks = markServiceImp.getAllByFilm(films);
+        Set<Genre> genres = genreServiceImp.getAllByFilms(films);
+        List<Gallery> galleries = galleryServiceImp.getAllByFilm(byId.get());
+
+        FilmUnifier unifier = new FilmUnifier();
+        unifier.setFilm(byId.get());
+        unifier.setPageTranslationUkr(pageUkr.get());
+        unifier.setPageTranslationEng(pageEng.get());
+        unifier.setCeoBlockUkr(ceoBlockUkr.get());
+        unifier.setCeoBlockEng(ceoBlockEng.get());
+        unifier.setMarks(marks);
+        unifier.setGenres(genres);
+        unifier.setGalleries(galleries);
+        FilmDTOAdd dto = FilmMapper.toDTOAdd(unifier);
+        return dto;
+    }
 }

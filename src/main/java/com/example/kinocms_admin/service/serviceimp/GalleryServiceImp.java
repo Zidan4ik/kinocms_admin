@@ -14,17 +14,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GalleryServiceImp implements GalleryService {
     private final GalleryRepository galleryRepository;
-
     @Override
     public void save(Gallery galleries, MultipartFile file) {
         galleryRepository.save(galleries);
     }
-
     @Override
     public void delete(long id) {
         galleryRepository.deleteById(id);
     }
-//    public List<Gallery> getAllByFilm(Film film){
-//        return galleryRepository.getAllByFilm(film);
-//    }
+    public List<Gallery> getAllByFilm(Film film){
+        return galleryRepository.getAllByFilm(film);
+    }
 }

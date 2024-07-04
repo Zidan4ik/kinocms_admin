@@ -9,10 +9,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface MarkRepository extends JpaRepository<Mark,Long> {
     @Query("SELECT m FROM Mark m WHERE m.name=:markName")
     Optional<Mark> findByName(@Param("markName") String name);
-//    List<Mark> getAllByFilm(Film film);
+    Set<Mark> getAllByFilms(List<Film> films);
 }

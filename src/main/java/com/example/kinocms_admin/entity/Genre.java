@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(
@@ -22,7 +21,7 @@ public class Genre {
     private Long id;
     private String name;
     @ManyToMany(mappedBy = "genresList")
-    private List<Film> filmList;
+    private List<Film> films;
 
     public Genre(String name) {
         this.name = name;
