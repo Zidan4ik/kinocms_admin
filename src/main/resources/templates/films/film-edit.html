@@ -71,12 +71,12 @@
                                             <label for="dateStart-ukr" class="form-label">Діапазон дати</label>
                                             <div class="input-group input-daterange" id="bs-datepicker-daterange-ukr">
                                                 <input
-                                                       id="dateStart-ukr" type="text" placeholder="DD/MM/YYYY"
-                                                       class="form-control"/>
+                                                        id="dateStart-ukr" type="text" placeholder="DD/MM/YYYY"
+                                                        class="form-control"/>
                                                 <span class="input-group-text">-</span>
                                                 <input
-                                                       id="dateEnd-ukr" type="text" placeholder="DD/MM/YYYY"
-                                                       class="form-control"/>
+                                                        id="dateEnd-ukr" type="text" placeholder="DD/MM/YYYY"
+                                                        class="form-control"/>
                                             </div>
                                         </div>
                                     </div>
@@ -94,10 +94,11 @@
                                                     <label class="form-label">Головна картина</label>
                                                 </div>
                                                 <div class="col-6 d-flex align-items-center">
-                                                    <img id="image-main-download-ukr" style="width: 200px;height: 200px;text-align: center">
-<!--                                                    th:src="${film.getImage()!=null?-->
-<!--                                                    film.getPathToImage():-->
-<!--                                                    'https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg'}"-->
+                                                    <img id="image-main-download-ukr"
+                                                         style="width: 200px;height: 200px;text-align: center">
+                                                    <!--                                                    th:src="${film.getImage()!=null?-->
+                                                    <!--                                                    film.getPathToImage():-->
+                                                    <!--                                                    'https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg'}"-->
 
                                                 </div>
                                             </div>
@@ -460,7 +461,6 @@
     window.addEventListener("DOMContentLoaded", () => {
         const path = window.location.pathname;
         const id = path.split('/')[3];
-        console.log(id);
         const request = new XMLHttpRequest();
         request.open("GET", `/admin/film/${id}`);
         request.setRequestHeader("Content-type", "application/json; charset=utf-8");
@@ -468,34 +468,34 @@
         request.addEventListener("load", function () {
             if (request.status == 200) {
                 let data = JSON.parse(request.response);
-                console.log(data);
-
                 time = data.durationTime;
                 year = data.year;
                 budget = data.budget;
-                dateStart=data.dateStart;
-                dateEnd=data.dateEnd;
-                linkTrailer=data.linkTrailer;
-                urlCeo=data.urlCeo;
-                marks=data.marks;
-                genres=data.genres;
-                if(data.galleries.length != null){
+                dateStart = data.dateStart;
+                dateEnd = data.dateEnd;
+                linkTrailer = data.linkTrailer;
+                urlCeo = data.urlCeo;
+                marks = data.marks;
+                genres = data.genres;
+                mainImage = "/uploads/film/main-image/"+data.id+"/"+data.image;
+                if (data.galleries.length != null) {
+                    let temporaryArray = new Array(5);
+                    createGallery(temporaryArray);
                     for (let i = 0; i < data.galleries.length; i++) {
                         let object = data.galleries[i];
-                        array[i]={
-                            id:object.id,
-                            type:object.type,
-                            name:object.linkImage,
+                        temporaryArray[i] = {
+                            id: object.id,
+                            idFilm: data.id,
+                            type: object.type,
+                            name: object.linkImage,
                             file: null,
-                            link:null,
-                            pathToImage: function () {
-                                return "/uploads/film/galleries/" + this.id + "/" + this.name;
-                            }
+                            link: null,
+                            pathToImage: "/uploads/film/galleries/" + data.id + "/" + object.linkImage
                         }
                     }
+                    array = temporaryArray;
                     render();
                 }
-
                 document.getElementById(`titleFilm-ukr`).value = data.titleFilmUkr;
                 document.getElementById(`titleFilm-eng`).value = data.titleFilmEng;
                 document.getElementById(`descriptionFilm-ukr`).value = data.descriptionFilmUkr;
@@ -506,14 +506,50 @@
                 document.getElementById(`keywordsCeo-eng`).value = data.keywordsCeoEng;
                 document.getElementById(`descriptionCeo-ukr`).value = data.descriptionCeoUkr;
                 document.getElementById(`descriptionCeo-eng`).value = data.descriptionCeoEng;
-
-
                 const elementImg = document.getElementById(`image-main-download-${languageFlag}`);
                 elementImg.src = data.pathToImage;
+
+
+                dataRollBack = {
+                    titleFilmUkr: data.titleFilmUkr,
+                    titleFilmEng: data.titleFilmEng,
+                    descriptionFilmUkr: data.descriptionFilmUkr,
+                    descriptionFilmEng: data.descriptionFilmEng,
+                    titleCeoUkr: data.titleCeoUkr,
+                    titleCeoEng: data.titleCeoEng,
+                    keywordsCeoUkr: data.keywordsCeoUkr,
+                    keywordsCeoEng: data.keywordsCeoEng,
+                    descriptionCeoUkr: data.descriptionCeoUkr,
+                    descriptionCeoEng: data.descriptionCeoEng,
+                    elementImg: data.pathToImage,
+                    time: data.durationTime,
+                    year: data.year,
+                    budget: data.budget,
+                    dateStart: data.dateStart,
+                    dateEnd: data.dateEnd,
+                    linkTrailer: data.linkTrailer,
+                    urlCeo: data.urlCeo,
+                    marks: data.marks,
+                    genres: data.genres,
+                    galleries: JSON.parse(JSON.stringify(array)),
+                    mainImage: "/uploads/film/main-image/"+data.id+"/"+data.image
+                }
                 assignDataInputs(languageFlag);
             }
         })
     });
+
+
+    btnBackVersionUkr.onclick = function () {
+        rollBackForm(JSON.parse(JSON.stringify(dataRollBack)));
+        assignDataInputs(languageFlag);
+        render();
+    }
+    btnBackVersionEng.onclick = function () {
+        rollBackForm(JSON.parse(JSON.stringify(dataRollBack)));
+        assignDataInputs(languageFlag);
+        render();
+    }
 </script>
 <script>
     $(document).ready(function () {
@@ -524,9 +560,17 @@
             ajaxPost();
         });
         getDataFromInputs(languageFlag);
+
         function ajaxPost() {
             let formObject = getFormObject(languageFlag);
-
+            for (let i = 0; i < array.length; i++) {
+                let object = {
+                    id: array[i].id,
+                    name: array[i].name,
+                    type: array[i].type
+                };
+                formObject.append("galleryDTO", JSON.stringify(object));
+            }
             // DO POST
             $.ajax({
                 type: "post",

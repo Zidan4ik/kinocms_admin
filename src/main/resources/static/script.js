@@ -11,18 +11,12 @@ let languageFlag;
 
 let array = new Array(5);
 let genres = [];
+let mainImage;
 let fileImageMain, dateStart, dateEnd, linkTrailer,
     urlCeo, marks, time, year, budget;
-createGallery(array);
 
-btnBackVersionUkr.onclick = function () {
-    setNullInField();
-    changeLanguage(languageFlag);
-}
-btnBackVersionEng.onclick = function () {
-    setNullInField();
-    changeLanguage(languageFlag);
-}
+let dataRollBack;
+createGallery(array);
 
 function setNullInField() {
     array = new Array(5);
@@ -106,17 +100,22 @@ function assignDataInputs(languageCode) {
     document.getElementById(`linkTrailer-${languageCode}`).value = linkTrailer;
     document.getElementById(`urlCeo-${languageCode}`).value = urlCeo;
 
-    if (fileImageMain !== undefined && fileImageMain !== null) {
-        document.getElementById(`image-main-download-${languageCode}`).src = URL.createObjectURL(fileImageMain);
-    } else if (fileImageMain === null) {
-        document.getElementById(`image-main-download-${languageCode}`).src = 'https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg';
+    if (mainImage !== undefined && mainImage !== null) {
+        document.getElementById(`image-main-download-${languageCode}`).src = mainImage;
+    } else {
+        if (fileImageMain !== undefined && fileImageMain !== null) {
+            document.getElementById(`image-main-download-${languageCode}`).src = URL.createObjectURL(fileImageMain);
+        } else{
+            document.getElementById(`image-main-download-${languageCode}`).src = 'https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg';
+        }
     }
 
-    $(`#genresFilm-${languageCode}`).selectpicker('val', genres);
-    // $(`#dateStart-eng`).select
-    // $(`#bs-datepicker-daterange-${languageCode}`).datepicker('startDate',dateStart);
-    // $(`#bs-datepicker-daterange-${languageCode}`).datepicker('endDate',dateEnd);
-    // $(`#bs-datepicker-daterange-${languageCode}`).data('daterangepicker').startDate;
+
+$(`#genresFilm-${languageCode}`).selectpicker('val', genres);
+// $(`#dateStart-eng`).select
+// $(`#bs-datepicker-daterange-${languageCode}`).datepicker('startDate',dateStart);
+// $(`#bs-datepicker-daterange-${languageCode}`).datepicker('endDate',dateEnd);
+// $(`#bs-datepicker-daterange-${languageCode}`).data('daterangepicker').startDate;
 }
 
 function getFormObject(language) {
@@ -151,14 +150,6 @@ function getFormObject(language) {
             formObject.append("imagesMultipart", array[i].file);
         }
     }
-    // for (let i = 0; i < array.length; i++) {
-    //     let object = {
-    //         id:array[i].id,
-    //         name:array[i].name
-    //
-    //     };
-    // }
-    formObject.append("galleryDTO",JSON.stringify(array));
     return formObject;
 }
 
@@ -176,11 +167,13 @@ function fileHandle(event) {
                 const imageElement = document.getElementById(`image-download-${index}-` + languageFlag);
                 array[index].link = imageElement.src = URL.createObjectURL(inputElement.files[0]);
                 array[index].file = inputElement.files[0];
+                array[index].name = null;
             }
             inputElement.click();
         } else if (type === "imageDelete-" + languageFlag) {
             const imageElement = document.getElementById("image-main-download-" + languageFlag);
             fileImageMain = null;
+            mainImage = null;
             imageElement.src = "https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg";
 
         } else if (type === "imageDownload-" + languageFlag) {
@@ -235,7 +228,7 @@ function getBlock(object, index) {
     let linkOnImage;
     if (object.link === null) {
         if (object.name !== null) {
-            linkOnImage = object.pathToImage();
+            linkOnImage = object.pathToImage;
         } else {
             linkOnImage = 'https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg';
         }
@@ -293,3 +286,42 @@ let TagifyCustomInlineSuggestion_ENG = new Tagify(TagifyCustomInlineSuggestionEl
     }
 });
 
+
+function rollBackForm(object) {
+    dateStart = object.dateStart;
+    dateEnd = object.dateEnd;
+    marks = object.marks;
+    genres = object.genres;
+    time = object.time;
+    year = object.year;
+    budget = object.budget;
+    linkTrailer = object.linkTrailer;
+    urlCeo = object.urlCeo;
+    array = object.galleries;
+    mainImage = object.mainImage;
+    document.getElementById(`titleFilm-ukr`).value = object.titleFilmUkr;
+    document.getElementById(`titleFilm-eng`).value = object.titleFilmEng;
+    document.getElementById(`descriptionFilm-ukr`).value = object.descriptionFilmUkr;
+    document.getElementById(`descriptionFilm-eng`).value = object.descriptionFilmEng;
+    document.getElementById(`titleCeo-eng`).value = object.titleCeoEng;
+    document.getElementById(`titleCeo-ukr`).value = object.titleCeoUkr;
+    document.getElementById(`keywordsCeo-ukr`).value = object.keywordsCeoUkr;
+    document.getElementById(`keywordsCeo-eng`).value = object.keywordsCeoEng;
+    document.getElementById(`descriptionCeo-ukr`).value = object.descriptionCeoUkr;
+    document.getElementById(`descriptionCeo-eng`).value = object.descriptionCeoEng;
+}
+
+
+function deepCopyArray(arr) {
+    return arr.map(item => {
+        return {
+            id: item.id,
+            idFilm: item.idFilm,
+            type: item.type,
+            name: item.name,
+            file: item.file,
+            link: item.link,
+            pathToImage: item.pathToImage
+        };
+    });
+}

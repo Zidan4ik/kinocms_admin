@@ -51,6 +51,6 @@ public class Film {
             inverseJoinColumns = @JoinColumn(name = "mark_id")
     )
     private Set<Mark> marksList;
-    @OneToMany(mappedBy = "film", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "film", cascade = CascadeType.ALL)
     private List<Gallery> galleries;
 }
