@@ -27,16 +27,17 @@ public class ControllersRest {
     private final CeoBlockServiceImp ceoBlockServiceImp;
     private final PageTranslationServiceImp pageTranslationServiceImp;
     private final GalleryServiceImp galleryServiceImp;
+
     @PostMapping(value = "/film/add")
     public ResponseEntity<Object> addFilm(
             @ModelAttribute(name = "film") FilmDTOAdd filmDTO) {
-            FilmUnifier entityAdd = FilmMapper.toEntityAdd(filmDTO);
+        FilmUnifier entityAdd = FilmMapper.toEntityAdd(filmDTO);
 
-        filmServiceImp.save(entityAdd.getFilm(),filmDTO.getFileImage(), filmDTO.getImagesMultipart());
-        ceoBlockServiceImp.save(entityAdd.getCeoBlockEng(),entityAdd.getFilm(), LanguageCode.Eng);
-        ceoBlockServiceImp.save(entityAdd.getCeoBlockUkr(),entityAdd.getFilm(), LanguageCode.Ukr);
-        pageTranslationServiceImp.save(entityAdd.getPageTranslationEng(),entityAdd.getFilm(), LanguageCode.Eng);
-        pageTranslationServiceImp.save(entityAdd.getPageTranslationUkr(),entityAdd.getFilm(), LanguageCode.Ukr);
+        filmServiceImp.save(entityAdd.getFilm(), filmDTO.getFileImage(), filmDTO.getImagesMultipart());
+        ceoBlockServiceImp.save(entityAdd.getCeoBlockEng(), entityAdd.getFilm(), LanguageCode.Eng);
+        ceoBlockServiceImp.save(entityAdd.getCeoBlockUkr(), entityAdd.getFilm(), LanguageCode.Ukr);
+        pageTranslationServiceImp.save(entityAdd.getPageTranslationEng(), entityAdd.getFilm(), LanguageCode.Eng);
+        pageTranslationServiceImp.save(entityAdd.getPageTranslationUkr(), entityAdd.getFilm(), LanguageCode.Ukr);
 
 //        ServiceResponse<FilmDTOAdd> response = new ServiceResponse<>("success", filmDTO);
 //        return new ResponseEntity<>(response, HttpStatus.OK);
@@ -44,17 +45,17 @@ public class ControllersRest {
     }
 
     @PostMapping(value = "/film/{id}/edit")
-    public ResponseEntity<Object> editFilm(@ModelAttribute(name = "film") FilmDTOAdd filmDTO) throws JsonProcessingException {
+    public ResponseEntity<Object> editFilm(@ModelAttribute(name = "film") FilmDTOAdd filmDTO) {
         FilmUnifier entityAdd = FilmMapper.toEntityAdd(filmDTO);
         List<GalleriesDTO> galleries = JsonUtil.transformationJsonToObject(filmDTO.getGalleryDTO(), GalleriesDTO.class);
-        galleryServiceImp.handleDeletingImages(galleries,filmDTO.getId());
+        galleryServiceImp.handleDeletingImages(galleries, filmDTO.getId());
 
-        filmServiceImp.save(entityAdd.getFilm(),filmDTO.getFileImage(), filmDTO.getImagesMultipart());
-        ceoBlockServiceImp.save(entityAdd.getCeoBlockEng(),entityAdd.getFilm(), LanguageCode.Eng);
-        ceoBlockServiceImp.save(entityAdd.getCeoBlockUkr(),entityAdd.getFilm(), LanguageCode.Ukr);
+        filmServiceImp.save(entityAdd.getFilm(), filmDTO.getFileImage(), filmDTO.getImagesMultipart());
+        ceoBlockServiceImp.save(entityAdd.getCeoBlockEng(), entityAdd.getFilm(), LanguageCode.Eng);
+        ceoBlockServiceImp.save(entityAdd.getCeoBlockUkr(), entityAdd.getFilm(), LanguageCode.Ukr);
 
-        pageTranslationServiceImp.save(entityAdd.getPageTranslationEng(),entityAdd.getFilm(), LanguageCode.Eng);
-        pageTranslationServiceImp.save(entityAdd.getPageTranslationUkr(),entityAdd.getFilm(), LanguageCode.Ukr);
+        pageTranslationServiceImp.save(entityAdd.getPageTranslationEng(), entityAdd.getFilm(), LanguageCode.Eng);
+        pageTranslationServiceImp.save(entityAdd.getPageTranslationUkr(), entityAdd.getFilm(), LanguageCode.Ukr);
 
 //        ServiceResponse<FilmDTOAdd> response = new ServiceResponse<>("success", filmDTO);
 //        return new ResponseEntity<>(response, HttpStatus.OK);

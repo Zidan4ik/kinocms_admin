@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/theme-default.css"/>
     <link rel="stylesheet" href="/vuexy/assets/vendor/fonts/tabler-icons.css">
     <link rel="stylesheet" href="/fontawesome/css/all.min.css">
-    <!--    <link rel="stylesheet" href="/styles.css">-->
+    <link rel="stylesheet" href="/styles.css">
 
     <style>
         .image-container {
@@ -78,8 +78,9 @@
                                          th:src="${film.getPathImage()!=null?film.linkToImage():'https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg'}"
                                          style="width: 220px;height: 275px;text-align: center">
                                     <div class="hover-block"
-                                         style="width: 220px;height: 275px;text-align: center;display: none;">
-                                        <p>spider man</p>
+                                         style="width: 220px;height: 275px;text-align: center;display: none;background: white">
+                                        <p class="mt-4" th:text="${film.getTitle()}"></p>
+
                                         <div class="d-flex justify-content-evenly">
                                             <a type="button" class="btn btn-github"
                                                th:href="@{/admin/film/{id}/edit (id=${film.getId()})}">
@@ -90,13 +91,31 @@
                                                 <i class="ti ti-x"></i>
                                             </a>
                                         </div>
+                                        <div class="mt-3 mb-2">
+                                            <p class="film-description"
+                                               style="color: #9a8ea8">Година
+                                                тривалості:</p>
+                                            <p class="film-description" th:text="${film.getTime()}"
+                                               style=""></p>
+                                        </div>
+                                        <div class="mt-1 mb-3">
+                                            <p class="film-description"
+                                               style="color: #9a8ea8">Тип кінотеатру:</p>
+                                            <p class="film-description" th:text="${film.getMarks()}"
+                                               style=""></p>
+                                        </div>
+                                        <div class="mt-1 mb-3">
+                                            <p class="film-description"
+                                               style="color: #9a8ea8">Жанри:</p>
+                                            <p class="film-description" th:text="${film.getGenres()}"
+                                               style=""></p>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="mt-4" style="text-align: center">
                                     <div class="col-12">
                                         <label th:text="${film.getDate()}"></label>
                                     </div>
-                                    <label th:text="${film.getTitle()}" style="font-size: 16px"></label>
                                 </div>
                             </div>
                         </div>
@@ -105,15 +124,49 @@
                         </div>
                         <div class="row row-cols-4 mb-4 g-4 p-4">
                             <div class="col mb-5" th:each="film:${filmSoon}">
-                                <div class="d-flex justify-content-center">
-                                    <img th:src="${film.getPathImage()!=null?film.linkToImage():'https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg'}"
+                                <div class="d-flex justify-content-center image-container">
+                                    <img class="film-image"
+                                         th:src="${film.getPathImage()!=null?film.linkToImage():'https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg'}"
                                          style="width: 220px;height: 275px;text-align: center">
+                                    <div class="hover-block"
+                                         style="width: 220px;height: 275px;text-align: center;display: none;background: white">
+                                        <p class="mt-4" th:text="${film.getTitle()}"></p>
+
+                                        <div class="d-flex justify-content-evenly">
+                                            <a type="button" class="btn btn-github"
+                                               th:href="@{/admin/film/{id}/edit (id=${film.getId()})}">
+                                                <i class="ti ti-edit-circle"></i>
+                                            </a>
+                                            <a type="button" class="btn btn-github"
+                                               th:href="@{/admin/film/{id}/delete (id=${film.getId()})}">
+                                                <i class="ti ti-x"></i>
+                                            </a>
+                                        </div>
+                                        <div class="mt-3 mb-2">
+                                            <p class="film-description"
+                                               style="color: #9a8ea8">Година
+                                                тривалості:</p>
+                                            <p class="film-description" th:text="${film.getTime()}"
+                                               style=""></p>
+                                        </div>
+                                        <div class="mt-1 mb-3">
+                                            <p class="film-description"
+                                               style="color: #9a8ea8">Тип кінотеатру:</p>
+                                            <p class="film-description" th:text="${film.getMarks()}"
+                                               style=""></p>
+                                        </div>
+                                        <div class="mt-1 mb-3">
+                                            <p class="film-description"
+                                               style="color: #9a8ea8">Жанри:</p>
+                                            <p class="film-description" th:text="${film.getGenres()}"
+                                               style=""></p>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="mt-4" style="text-align: center">
                                     <div class="col-12">
                                         <label th:text="${film.getDate()}"></label>
                                     </div>
-                                    <label th:text="${film.getTitle()}" style="font-size: 16px"></label>
                                 </div>
                             </div>
                         </div>

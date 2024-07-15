@@ -12,7 +12,7 @@
     cursor: pointer;
 }
 
-.input-add{
+.input-add {
 
     align-content: center;
     text-align: center;
@@ -27,3 +27,18 @@
     cursor: pointer;
 }
 
+
+.form-control.js-input.error {
+    border-color: red;
+}
+
+.form-control.js-input.successful {
+    border-color: #00ff00;
+}
+
+.film-description {
+    text-align: start;
+    margin-left: 35px;
+    margin-bottom: 0px;
+    font-size: smaller;
+}

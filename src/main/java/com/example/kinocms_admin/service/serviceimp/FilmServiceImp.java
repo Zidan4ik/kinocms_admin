@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.*;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
@@ -38,11 +37,11 @@ public class FilmServiceImp implements FilmService {
         List<Gallery> galleriesRes = new ArrayList<>();
         if (film.getId() != null) {
             Optional<Film> filmById = filmRepository.findById(film.getId());
-            film.setPathImage(filmById.get().getPathImage());
+            film.setNameImage(filmById.get().getNameImage());
         }
         if (file != null) {
             fileName = UUID.randomUUID() + "." + StringUtils.cleanPath(file.getOriginalFilename());
-            film.setPathImage(fileName);
+            film.setNameImage(fileName);
         }
 
         if (film.getId() != null) {

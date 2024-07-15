@@ -5,12 +5,11 @@ import com.example.kinocms_admin.entity.unifier.FilmUnifier;
 import com.example.kinocms_admin.enums.LanguageCode;
 import com.example.kinocms_admin.enums.PageType;
 import com.example.kinocms_admin.model.FilmDTOAdd;
-import com.example.kinocms_admin.model.FilmsDTOView;
+import com.example.kinocms_admin.model.FilmInfoDTO;
 import com.example.kinocms_admin.util.MonthTranslator;
 import com.example.kinocms_admin.util.SubstringUtil;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -21,19 +20,83 @@ import java.util.Set;
 
 @Service
 public class FilmMapper {
-    public static List<FilmsDTOView> toDTOViewFilms(List<Film> filmsEntity) {
-        List<FilmsDTOView> dtoList = new ArrayList<>();
-        for (Film film : filmsEntity) {
-            FilmsDTOView dto = new FilmsDTOView();
-            dto.setId(film.getId());
-//            dto.setTitle(film.title());
-            dto.setPathImage(film.getPathImage());
-            String date = film.getDateStart().getDayOfMonth() + " " + MonthTranslator.translate(film.getDateStart().getMonth()) + " - "
-                    + film.getDateEnd().getDayOfMonth() + " " + MonthTranslator.translate(film.getDateEnd().getMonth());
-            dto.setDate(date);
-            dtoList.add(dto);
+    //    public static List<FilmsDTOView> toDTOViewFilms(List<Film> filmsEntity,
+//                                                    List<PageTranslation> translatorsEntity,
+//                                                    List<Genre> genres,
+//                                                    List<Mark> marks) {
+//        List<FilmsDTOView> dtoList = new ArrayList<>();
+//        for (Film film : filmsEntity) {
+//            FilmsDTOView dto = new FilmsDTOView();
+//            StringBuilder dtoMarks = new StringBuilder();
+//            dto.setId(film.getId());
+//            String date = film.getDateStart().getDayOfMonth() + " " + MonthTranslator.translate(film.getDateStart().getMonth()) + " - "
+//                    + film.getDateEnd().getDayOfMonth() + " " + MonthTranslator.translate(film.getDateEnd().getMonth());
+//            dto.setDate(date);
+//            dto.setPathImage(film.getNameImage());
+//            dto.setTime(film.getDurationTime().toString());
+//            for (PageTranslation t : translatorsEntity) {
+//                if (t.getFilm() == film) {
+//                    dto.setTitle(t.getTitle());
+//                    break;
+//                }
+//            }
+//
+//            for (int i = 0; i < marks.size(); i++) {
+//                for (Film f : marks.get(i).getFilms()) {
+////                    marks.get(i).getFilms();
+//                    if (f.getId().equals(film.getId())) {
+//                        dtoMarks.append(marks.get(i).getName());
+//                        if (i < marks.size() - 1) {
+//                            dtoMarks.append(", ");
+//                        }
+//                        break;
+//                    }
+//                }
+//            }
+//
+//            dto.setMarks(dtoMarks.toString());
+//
+//            dtoList.add(dto);
+//        }
+//        return dtoList;
+//    }
+    public static FilmInfoDTO toDtoFilmInfo(Film filmEntity,
+                                            PageTranslation translationEntity,
+                                            Set<Genre> genresEntity,
+                                            Set<Mark> marksEntity) {
+        FilmInfoDTO dto = new FilmInfoDTO();
+        dto.setId(filmEntity.getId());
+        dto.setPathImage(filmEntity.getNameImage());
+        dto.setTime(filmEntity.getDurationTime().toString());
+        String date = filmEntity.getDateStart().getDayOfMonth() +
+                " " + MonthTranslator.translate(filmEntity.getDateStart().getMonth()) + " - "
+                + filmEntity.getDateEnd().getDayOfMonth() + " " + MonthTranslator.translate(filmEntity.getDateEnd().getMonth());
+        dto.setDate(date);
+
+        dto.setTitle(translationEntity.getTitle());
+
+        List<String> marksString = new ArrayList<>();
+        List<String> genresString = new ArrayList<>();
+        for (Mark m:marksEntity){
+            marksString.add(m.getName());
         }
-        return dtoList;
+        for (Genre g:genresEntity){
+            if(g.getName().equals("action"))
+                genresString.add("бойовик");
+            if(g.getName().equals("comedy"))
+                genresString.add("комедія");
+            if(g.getName().equals("fantasy"))
+                genresString.add("фантастика");
+            if(g.getName().equals("horror"))
+                genresString.add("жах");
+//            genresString.add(g.getName());
+        }
+        String marksRes = String.join(", ", marksString);
+        String genresRes = String.join(", ", genresString);
+
+        dto.setMarks(marksRes);
+        dto.setGenres(genresRes);
+        return dto;
     }
 
     public static FilmUnifier toEntityAdd(FilmDTOAdd dto) {
@@ -48,7 +111,7 @@ public class FilmMapper {
         }
         film.setLinkTrailer(dto.getLinkTrailer());
         if (!dto.getDurationTime().isEmpty()) {
-            film.setTime(LocalTime.parse(dto.getDurationTime()));
+            film.setDurationTime(LocalTime.parse(dto.getDurationTime()));
         }
         if (!dto.getYear().isEmpty()) {
             film.setYear(Integer.parseInt(dto.getYear()));
@@ -119,7 +182,7 @@ public class FilmMapper {
         FilmDTOAdd dto = new FilmDTOAdd();
         dto.setId(unifier.getFilm().getId());
         dto.setUrlCeo(unifier.getFilm().getUrlCEO());
-        dto.setImage(unifier.getFilm().getPathImage());
+        dto.setImage(unifier.getFilm().getNameImage());
         dto.setLinkTrailer(unifier.getFilm().getLinkTrailer());
 
         LocalDate dateStart = LocalDate.parse(String.valueOf(unifier.getFilm().getDateStart()), inputFormatter);
@@ -128,8 +191,8 @@ public class FilmMapper {
         dto.setDateStart(dateStart.format(outputFormatter));
         dto.setDateEnd(dateEnd.format(outputFormatter));
 
-        if (unifier.getFilm().getTime() != null) {
-            dto.setDurationTime(unifier.getFilm().getTime().toString());
+        if (unifier.getFilm().getDurationTime() != null) {
+            dto.setDurationTime(unifier.getFilm().getDurationTime().toString());
         }
         dto.setYear(String.valueOf(unifier.getFilm().getYear()));
         dto.setBudget(unifier.getFilm().getBudget());
@@ -168,7 +231,7 @@ public class FilmMapper {
 
         List<Gallery> galleries = new ArrayList<>();
         for (Gallery g : unifier.getGalleries()) {
-            galleries.add(new Gallery(g.getId(),g.getLinkImage(),g.getType()));
+            galleries.add(new Gallery(g.getId(), g.getLinkImage(), g.getType()));
         }
         dto.setGalleries(galleries);
         return dto;

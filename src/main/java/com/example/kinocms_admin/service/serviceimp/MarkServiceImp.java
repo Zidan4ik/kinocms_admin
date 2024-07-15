@@ -4,12 +4,10 @@ import com.example.kinocms_admin.entity.Film;
 import com.example.kinocms_admin.entity.Mark;
 import com.example.kinocms_admin.repository.MarkRepository;
 import com.example.kinocms_admin.service.MarkService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +24,16 @@ public class MarkServiceImp implements MarkService {
         markRepository.deleteById(id);
     }
 
-    public Set<Mark> getAllByFilm(List<Film> films){
+    public Set<Mark> getAllByFilms(List<Film> films) {
         return markRepository.getAllByFilms(films);
+    }
+
+    public Set<Mark> getAllByFilm(Film film) {
+        if (film != null) {
+            List<Film> temporaryFilms = Collections.singletonList(film);
+            Set<Mark> marksByFilm = markRepository.getAllByFilms(temporaryFilms);
+            return marksByFilm != null ? marksByFilm : Collections.emptySet();
+        }
+        return Collections.emptySet();
     }
 }

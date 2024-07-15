@@ -5,12 +5,13 @@ import com.example.kinocms_admin.entity.unifier.FilmUnifier;
 import com.example.kinocms_admin.enums.LanguageCode;
 import com.example.kinocms_admin.mapper.FilmMapper;
 import com.example.kinocms_admin.model.FilmDTOAdd;
-import com.example.kinocms_admin.model.FilmsDTOView;
+import com.example.kinocms_admin.model.FilmInfoDTO;
 import com.example.kinocms_admin.service.serviceimp.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
 import java.util.*;
 
 @Controller
@@ -27,13 +28,29 @@ public class FilmController {
     @GetMapping("/films")
     public ModelAndView viewFilms() {
         ModelAndView model = new ModelAndView("films/view-films");
-        List<Film> filmActive = filmServiceImp.findFilmsIsActive(true);
-        List<Film> filmUnActive = filmServiceImp.findFilmsIsActive(false);
-        List<FilmsDTOView> dtoFilmsActive = FilmMapper.toDTOViewFilms(filmActive);
-        List<FilmsDTOView> dtoFilmsUnActive = FilmMapper.toDTOViewFilms(filmUnActive);
+        List<Film> filmsActive = filmServiceImp.findFilmsIsActive(true);
+        List<Film> filmsUnActive = filmServiceImp.findFilmsIsActive(false);
+        List<FilmInfoDTO> filmsActiveDTO = new ArrayList<>();
+        List<FilmInfoDTO> filmsUnActiveDTO = new ArrayList<>();
 
-        model.addObject("filmToday", dtoFilmsActive);
-        model.addObject("filmSoon", dtoFilmsUnActive);
+
+        for (Film film : filmsActive) {
+            PageTranslation pageTranslation = pageTranslationServiceImp.
+                    getAllByFilmAndLanguageCode(film, LanguageCode.Ukr);
+            Set<Mark> marks = markServiceImp.getAllByFilm(film);
+            Set<Genre> genres = genreServiceImp.getAllByFilm(film);
+            filmsActiveDTO.add(FilmMapper.toDtoFilmInfo(film,pageTranslation,genres,marks));
+        }
+
+        for (Film film : filmsUnActive) {
+            PageTranslation pageTranslation = pageTranslationServiceImp.
+                    getAllByFilmAndLanguageCode(film, LanguageCode.Ukr);
+            Set<Mark> marks = markServiceImp.getAllByFilm(film);
+            Set<Genre> genres = genreServiceImp.getAllByFilm(film);
+            filmsUnActiveDTO.add(FilmMapper.toDtoFilmInfo(film,pageTranslation,genres,marks));
+        }
+        model.addObject("filmToday", filmsActiveDTO);
+        model.addObject("filmSoon", filmsUnActiveDTO);
         return model;
     }
 
@@ -42,8 +59,9 @@ public class FilmController {
         ModelAndView model = new ModelAndView("films/film-add");
         return model;
     }
+
     @GetMapping("/film/{id}/edit")
-    public ModelAndView editFilm(@PathVariable(name = "id") Long id){
+    public ModelAndView editFilm(@PathVariable(name = "id") Long id) {
         ModelAndView model = new ModelAndView("films/film-edit");
         return model;
     }
@@ -60,7 +78,7 @@ public class FilmController {
         Optional<CeoBlock> ceoBlockEng = ceoBlockServiceImp.getByFilmAndLanguageBlock(byId.get(), LanguageCode.Eng);
 
         films.add(byId.get());
-        Set<Mark> marks = markServiceImp.getAllByFilm(films);
+        Set<Mark> marks = markServiceImp.getAllByFilms(films);
         Set<Genre> genres = genreServiceImp.getAllByFilms(films);
         List<Gallery> galleries = galleryServiceImp.getAllByFilm(byId.get());
 

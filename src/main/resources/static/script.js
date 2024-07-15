@@ -1,18 +1,17 @@
-const galleriesElement = document.getElementById("galleries-ukr");
-const imageMainElement = document.getElementById("image-main");
-
-const galleriesElement2 = document.getElementById("galleries-eng");
-const imageMainElement2 = document.getElementById("image-main-eng");
-
-const btnBackVersionUkr = document.querySelector(".back-version-ukr");
-const btnBackVersionEng = document.querySelector(".back-version-eng");
+const galleriesElement = document.getElementById("galleries-ukr"),
+    imageMainElement = document.getElementById("image-main-ukr"),
+    galleriesElement2 = document.getElementById("galleries-eng"),
+    imageMainElement2 = document.getElementById("image-main-eng"),
+    btnBackVersionUkr = document.querySelector(".back-version-ukr"),
+    btnBackVersionEng = document.querySelector(".back-version-eng");
 
 let languageFlag;
 
 let array = new Array(5);
 let genres = [];
 let mainImage;
-let fileImageMain, dateStart, dateEnd, linkTrailer,
+let fileImageMain = null;
+let dateStart, dateEnd, linkTrailer,
     urlCeo, marks, time, year, budget;
 
 let dataRollBack;
@@ -44,7 +43,6 @@ function setNullInField() {
 }
 
 changeLanguage('ukr');
-
 galleriesElement.onclick = fileHandle;
 imageMainElement.onclick = fileHandle;
 
@@ -105,13 +103,13 @@ function assignDataInputs(languageCode) {
     } else {
         if (fileImageMain !== undefined && fileImageMain !== null) {
             document.getElementById(`image-main-download-${languageCode}`).src = URL.createObjectURL(fileImageMain);
-        } else{
+        } else {
             document.getElementById(`image-main-download-${languageCode}`).src = 'https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg';
         }
     }
 
 
-$(`#genresFilm-${languageCode}`).selectpicker('val', genres);
+    $(`#genresFilm-${languageCode}`).selectpicker('val', genres);
 // $(`#dateStart-eng`).select
 // $(`#bs-datepicker-daterange-${languageCode}`).datepicker('startDate',dateStart);
 // $(`#bs-datepicker-daterange-${languageCode}`).datepicker('endDate',dateEnd);
@@ -275,6 +273,7 @@ let TagifyCustomInlineSuggestion_UKR = new Tagify(TagifyCustomInlineSuggestionEl
         closeOnSelect: false
     }
 });
+
 let TagifyCustomInlineSuggestion_ENG = new Tagify(TagifyCustomInlineSuggestionEl_ENG, {
     whitelist: whitelist,
     maxTags: 3,
@@ -309,19 +308,4 @@ function rollBackForm(object) {
     document.getElementById(`keywordsCeo-eng`).value = object.keywordsCeoEng;
     document.getElementById(`descriptionCeo-ukr`).value = object.descriptionCeoUkr;
     document.getElementById(`descriptionCeo-eng`).value = object.descriptionCeoEng;
-}
-
-
-function deepCopyArray(arr) {
-    return arr.map(item => {
-        return {
-            id: item.id,
-            idFilm: item.idFilm,
-            type: item.type,
-            name: item.name,
-            file: item.file,
-            link: item.link,
-            pathToImage: item.pathToImage
-        };
-    });
 }

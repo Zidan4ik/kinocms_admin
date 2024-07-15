@@ -2,6 +2,7 @@ package com.example.kinocms_admin.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -20,15 +21,15 @@ public class Film {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(length = 2048)
     private String urlCEO;
-    private String pathImage;
-    @Lob
-    @Column(columnDefinition = "text")
+    private String nameImage;
+    @Column(length = 2048)
     private String linkTrailer;
     private LocalDate dateStart;
     private LocalDate dateEnd;
     private int year;
-    private LocalTime time;
+    private LocalTime durationTime;
     private BigDecimal budget;
 
     @OneToMany(mappedBy = "film")

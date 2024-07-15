@@ -9,16 +9,19 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.query.Page;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class PageTranslationServiceImp implements PageTranslationService {
     private final PageTranslationRepository pageTranslationRepository;
+
     @Override
     public void save(PageTranslation page, Film film, LanguageCode code) {
         Optional<PageTranslation> translator = getByFilmAndLanguageCode(film, code);
-        if(translator.isPresent()){
+        if (translator.isPresent()) {
             page.setId(translator.get().getId());
         }
         pageTranslationRepository.save(page);
@@ -34,7 +37,16 @@ public class PageTranslationServiceImp implements PageTranslationService {
         return pageTranslationRepository.findById(id);
     }
 
-    public Optional<PageTranslation> getByFilmAndLanguageCode(Film film, LanguageCode code){
-        return pageTranslationRepository.findByFilmAndAndLanguageCode(film,code);
+    public Optional<PageTranslation> getByFilmAndLanguageCode(Film film, LanguageCode code) {
+        return pageTranslationRepository.findByFilmAndAndLanguageCode(film, code);
+    }
+
+    public PageTranslation getAllByFilmAndLanguageCode(Film film, LanguageCode code) {
+        Optional<PageTranslation> translationBD = pageTranslationRepository.findByFilmAndAndLanguageCode(film, code);
+        if (translationBD.isPresent()) {
+            return translationBD.get();
+        } else {
+            return null;
+        }
     }
 }

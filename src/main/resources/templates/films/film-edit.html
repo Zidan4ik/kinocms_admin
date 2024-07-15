@@ -57,14 +57,14 @@
                                 </div>
                             </ul>
                         </div>
-                        <form method="post" id="filmForm" enctype="multipart/form-data">
+                        <form method="post" class="filmForm" enctype="multipart/form-data">
                             <div class="tab-content" id="pills-tabContent">
                                 <div class="tab-pane fade show active" id="pills-ukraine" role="tabpanel"
                                      aria-labelledby="pills-ukraine-tab" tabindex="0">
                                     <div class="row mb-3">
                                         <div class="col-4">
                                             <label class="form-label" for="titleFilm-ukr">Назва фільму</label>
-                                            <input class="form-control" id="titleFilm-ukr"
+                                            <input class="form-control js-input" id="titleFilm-ukr"
                                                    style="width: 100%" placeholder="введіть назву">
                                         </div>
                                         <div class="col">
@@ -72,11 +72,11 @@
                                             <div class="input-group input-daterange" id="bs-datepicker-daterange-ukr">
                                                 <input
                                                         id="dateStart-ukr" type="text" placeholder="DD/MM/YYYY"
-                                                        class="form-control"/>
+                                                        class="form-control js-input"/>
                                                 <span class="input-group-text">-</span>
                                                 <input
                                                         id="dateEnd-ukr" type="text" placeholder="DD/MM/YYYY"
-                                                        class="form-control"/>
+                                                        class="form-control js-input"/>
                                             </div>
                                         </div>
                                     </div>
@@ -87,7 +87,7 @@
                                                   placeholder="введіть опис"></textarea>
                                     </div>
                                     <!-- main image -->
-                                    <div class="row" style="width: auto;height: 150px" id="image-main">
+                                    <div class="row" style="width: auto;height: 150px" id="image-main-ukr">
                                         <div class="col-4 d-flex">
                                             <div class="row">
                                                 <div class="col-6 d-flex align-items-center">
@@ -96,25 +96,25 @@
                                                 <div class="col-6 d-flex align-items-center">
                                                     <img id="image-main-download-ukr"
                                                          style="width: 200px;height: 200px;text-align: center">
-                                                    <!--                                                    th:src="${film.getImage()!=null?-->
-                                                    <!--                                                    film.getPathToImage():-->
-                                                    <!--                                                    'https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg'}"-->
-
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-5 d-inline-block d-flex align-items-center gap-5">
-                                            <label class="input-add" for="btn-download-image-ukr"
-                                                   data-index="0" data-type="imageDownload-ukr">
-                                                Добавити</label>
-                                            <input id="btn-download-image-ukr"
-                                                   type="file"
-                                                   style="display: none"/>
+                                        <div class="col d-flex flex-column align-items-center justify-content-center">
+                                            <div class="d-flex gap-5">
+                                                <label class="input-add" for="btn-download-image-ukr"
+                                                       data-index="0" data-type="imageDownload-ukr">
+                                                    Добавити</label>
+                                                <input id="btn-download-image-ukr"
+                                                       type="file"
+                                                       style="display: none">
 
-                                            <btn class="input-add"
-                                                 data-index="0" data-type="imageDelete-ukr">
-                                                Видалити
-                                            </btn>
+                                                <btn class="input-add"
+                                                     data-index="0" data-type="imageDelete-ukr">
+                                                    Видалити
+                                                </btn>
+                                            </div>
+                                            <div class="isValid-image">
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="mt-5"><h5>Галерея</h5></div>
@@ -124,7 +124,7 @@
                                     <div class="mb-3" style="width: 100%">
                                         <label for="linkTrailer-ukr" class="form-label">Посилання на трейлер</label>
                                         <input id="linkTrailer-ukr" name="linkTrailer"
-                                               class="form-control" placeholder="введіть посилання"
+                                               class="form-control js-input" placeholder="введіть посилання"
                                                style="height: 37.6px">
                                     </div>
                                     <!-- marks -->
@@ -132,6 +132,7 @@
                                         <label for="marksFilm-ukr" class="form-label">Тип кіно</label>
                                         <input id="marksFilm-ukr"
                                                class="form-control" placeholder="вибери значок" style="height: 37.6px;">
+                                        <p style="color:red" class="isValid-marks"></p>
                                     </div>
                                     <!-- genres -->
                                     <div class="mb-3">
@@ -148,26 +149,27 @@
                                             <option value="mysticism">Містика</option>
                                             <option value="detective">Детектив</option>
                                         </select>
+                                        <p style="color: red" class="isValid-genres"></p>
                                     </div>
                                     <!-- additional info-->
                                     <div class="row mb-3">
                                         <div class="col-4 row">
                                             <label for="timeFilm-ukr" class="form-label">Час тривалості</label>
                                             <div class="col-md-10">
-                                                <input class="form-control" type="time" id="timeFilm-ukr"
+                                                <input class="form-control js-input" type="time" id="timeFilm-ukr"
                                                        placeholder="-"/>
                                             </div>
                                         </div>
                                         <div class="col-4">
                                             <label class="form-label" for="yearFilm-ukr">Дата випуску</label>
-                                            <input class="form-control" id="yearFilm-ukr"
+                                            <input class="form-control js-input" id="yearFilm-ukr"
                                                    style="width: 100%" placeholder="введіть рік" type="text">
                                         </div>
                                         <div class="col-4">
                                             <label class="form-label" for="budgetFilm-ukr">Бюджет фільму</label>
                                             <div class="input-group input-group-merge">
                                                 <span class="input-group-text">$</span>
-                                                <input type="text" class="form-control" placeholder="100"
+                                                <input type="text" class="form-control js-input" placeholder="100"
                                                        aria-label="Amount (to the nearest dollar)"
                                                        id="budgetFilm-ukr"/>
                                             </div>
@@ -183,7 +185,7 @@
                                                     <div>
                                                         <label class="form-label" for="urlCeo-ukr">Уніфікований локатор
                                                             ресурсів:</label>
-                                                        <input type="text" id="urlCeo-ukr" class="form-control"
+                                                        <input type="text" id="urlCeo-ukr" class="form-control js-input"
                                                                placeholder="введіть посилання" style="width: 500px">
                                                     </div>
                                                 </div>
@@ -192,7 +194,8 @@
                                                 <div class="col-12 d-flex justify-content-center mb-4">
                                                     <div>
                                                         <label class="form-label" for="titleCeo-ukr">Заголовок:</label>
-                                                        <input type="text" id="titleCeo-ukr" class="form-control"
+                                                        <input type="text" id="titleCeo-ukr"
+                                                               class="form-control js-input"
                                                                placeholder="введіть заголовок" style="width: 500px">
                                                     </div>
                                                 </div>
@@ -202,7 +205,8 @@
                                                     <div>
                                                         <label class="form-label" for="keywordsCeo-ukr">Ключові
                                                             слова:</label>
-                                                        <input type="text" id="keywordsCeo-ukr" class="form-control"
+                                                        <input type="text" id="keywordsCeo-ukr"
+                                                               class="form-control js-input"
                                                                placeholder="введіть ключові слова" style="width: 500px">
                                                     </div>
                                                 </div>
@@ -235,17 +239,17 @@
                                     <div class="row mb-3">
                                         <div class="col-4">
                                             <label class="form-label" for="titleFilm-eng">The name of the movie</label>
-                                            <input class="form-control" id="titleFilm-eng"
+                                            <input class="form-control js-input" id="titleFilm-eng"
                                                    style="width: 100%" placeholder="enter a name">
                                         </div>
                                         <div class="col">
                                             <label for="dateStart-eng" class="form-label">A period of time</label>
                                             <div class="input-group input-daterange" id="bs-datepicker-daterange-eng">
                                                 <input id="dateStart-eng" type="text" placeholder="DD/MM/YYYY"
-                                                       class="form-control"/>
+                                                       class="form-control js-input"/>
                                                 <span class="input-group-text">-</span>
                                                 <input id="dateEnd-eng" type="text" placeholder="DD/MM/YYYY"
-                                                       class="form-control"/>
+                                                       class="form-control js-input"/>
                                             </div>
                                         </div>
                                     </div>
@@ -268,18 +272,22 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-5 d-inline-block d-flex align-items-center gap-5">
-                                            <label class="input-add" for="btn-download-image-eng"
-                                                   data-index="0" data-type="imageDownload-eng">
-                                                Add</label>
-                                            <input id="btn-download-image-eng"
-                                                   type="file"
-                                                   style="display: none"/>
+                                        <div class="col d-flex flex-column align-items-center justify-content-center">
+                                            <div class="d-flex gap-5">
+                                                <label class="input-add" for="btn-download-image-eng"
+                                                       data-index="0" data-type="imageDownload-eng">
+                                                    Добавити</label>
+                                                <input id="btn-download-image-eng"
+                                                       type="file"
+                                                       style="display: none">
 
-                                            <btn class="input-add"
-                                                 data-index="0" data-type="imageDelete-eng">
-                                                Remove
-                                            </btn>
+                                                <btn class="input-add"
+                                                     data-index="0" data-type="imageDelete-eng">
+                                                    Видалити
+                                                </btn>
+                                            </div>
+                                            <div class="isValid-image">
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="mt-5"><h5>Gallery</h5></div>
@@ -289,7 +297,7 @@
                                     <div class="mb-3" style="width: 100%">
                                         <label for="linkTrailer-eng" class="form-label">Link to trailer</label>
                                         <input id="linkTrailer-eng" name="linkTrailer"
-                                               class="form-control" placeholder="enter link"
+                                               class="form-control js-input" placeholder="enter link"
                                                style="height: 37.6px">
                                     </div>
                                     <!-- marks -->
@@ -297,6 +305,7 @@
                                         <label for="marksFilm-eng" class="form-label">Type of cinema</label>
                                         <input id="marksFilm-eng"
                                                class="form-control" placeholder="enter marks" style="height: 37.6px;">
+                                        <p style="color:red" class="isValid-marks"></p>
                                     </div>
                                     <!-- genres -->
                                     <div class="mb-3">
@@ -313,26 +322,27 @@
                                             <option value="mysticism">Mysticism</option>
                                             <option value="detective">Detective</option>
                                         </select>
+                                        <p style="color: red" class="isValid-genres"></p>
                                     </div>
                                     <!-- additional info-->
                                     <div class="row mb-3">
                                         <div class="col-4 row">
                                             <label for="timeFilm-eng" class="form-label">Duration time</label>
                                             <div class="col-md-10">
-                                                <input class="form-control" type="time" id="timeFilm-eng"
+                                                <input class="form-control js-input" type="time" id="timeFilm-eng"
                                                        placeholder="-"/>
                                             </div>
                                         </div>
                                         <div class="col-4">
                                             <label class="form-label" for="yearFilm-eng">Release date</label>
-                                            <input class="form-control" id="yearFilm-eng"
+                                            <input class="form-control js-input" id="yearFilm-eng"
                                                    style="width: 100%" placeholder="enter the year" type="text">
                                         </div>
                                         <div class="col-4">
                                             <label class="form-label" for="budgetFilm-eng">Film budget</label>
                                             <div class="input-group input-group-merge">
                                                 <span class="input-group-text">$</span>
-                                                <input type="text" class="form-control" placeholder="100"
+                                                <input type="text" class="form-control js-input" placeholder="100"
                                                        aria-label="Amount (to the nearest dollar)"
                                                        id="budgetFilm-eng"/>
                                             </div>
@@ -347,7 +357,7 @@
                                                 <div class="col-12 d-flex justify-content-center mb-4">
                                                     <div>
                                                         <label class="form-label" for="urlCeo-eng">URL:</label>
-                                                        <input type="text" id="urlCeo-eng" class="form-control"
+                                                        <input type="text" id="urlCeo-eng" class="form-control js-input"
                                                                placeholder="enter link" style="width: 500px">
                                                     </div>
                                                 </div>
@@ -356,7 +366,8 @@
                                                 <div class="col-12 d-flex justify-content-center mb-4">
                                                     <div>
                                                         <label class="form-label" for="titleCeo-eng">Title:</label>
-                                                        <input type="text" id="titleCeo-eng" class="form-control"
+                                                        <input type="text" id="titleCeo-eng"
+                                                               class="form-control js-input"
                                                                placeholder="enter title" style="width: 500px">
                                                     </div>
                                                 </div>
@@ -366,7 +377,8 @@
                                                     <div>
                                                         <label class="form-label"
                                                                for="keywordsCeo-eng">Keywords:</label>
-                                                        <input type="text" id="keywordsCeo-eng" class="form-control"
+                                                        <input type="text" id="keywordsCeo-eng"
+                                                               class="form-control js-input"
                                                                placeholder="enter keywords" style="width: 500px">
                                                     </div>
                                                 </div>
@@ -477,89 +489,165 @@
                 urlCeo = data.urlCeo;
                 marks = data.marks;
                 genres = data.genres;
-                mainImage = "/uploads/film/main-image/"+data.id+"/"+data.image;
-                if (data.galleries.length != null) {
-                    let temporaryArray = new Array(5);
-                    createGallery(temporaryArray);
-                    for (let i = 0; i < data.galleries.length; i++) {
-                        let object = data.galleries[i];
-                        temporaryArray[i] = {
-                            id: object.id,
-                            idFilm: data.id,
-                            type: object.type,
-                            name: object.linkImage,
-                            file: null,
-                            link: null,
-                            pathToImage: "/uploads/film/galleries/" + data.id + "/" + object.linkImage
+                if (data.image !== '') {
+                    mainImage = "/uploads/film/main-image/" + data.id + "/" + data.image;
+                }
+                    if (data.galleries.length != null) {
+                        let temporaryArray = new Array(5);
+                        createGallery(temporaryArray);
+                        for (let i = 0; i < data.galleries.length; i++) {
+                            let object = data.galleries[i];
+                            console.log(object);
+                            temporaryArray[i] = {
+                                id: object.id,
+                                idFilm: data.id,
+                                type: object.type,
+                                name: object.linkImage,
+                                file: null,
+                                link: null,
+                                pathToImage: "/uploads/film/galleries/" + data.id + "/" + object.linkImage
+                            }
                         }
+                        array = temporaryArray;
+                        render();
                     }
-                    array = temporaryArray;
-                    render();
-                }
-                document.getElementById(`titleFilm-ukr`).value = data.titleFilmUkr;
-                document.getElementById(`titleFilm-eng`).value = data.titleFilmEng;
-                document.getElementById(`descriptionFilm-ukr`).value = data.descriptionFilmUkr;
-                document.getElementById(`descriptionFilm-eng`).value = data.descriptionFilmEng;
-                document.getElementById(`titleCeo-eng`).value = data.titleCeoEng;
-                document.getElementById(`titleCeo-ukr`).value = data.titleCeoUkr;
-                document.getElementById(`keywordsCeo-ukr`).value = data.keywordsCeoUkr;
-                document.getElementById(`keywordsCeo-eng`).value = data.keywordsCeoEng;
-                document.getElementById(`descriptionCeo-ukr`).value = data.descriptionCeoUkr;
-                document.getElementById(`descriptionCeo-eng`).value = data.descriptionCeoEng;
-                const elementImg = document.getElementById(`image-main-download-${languageFlag}`);
-                elementImg.src = data.pathToImage;
+                    document.getElementById(`titleFilm-ukr`).value = data.titleFilmUkr;
+                    document.getElementById(`titleFilm-eng`).value = data.titleFilmEng;
+                    document.getElementById(`descriptionFilm-ukr`).value = data.descriptionFilmUkr;
+                    document.getElementById(`descriptionFilm-eng`).value = data.descriptionFilmEng;
+                    document.getElementById(`titleCeo-eng`).value = data.titleCeoEng;
+                    document.getElementById(`titleCeo-ukr`).value = data.titleCeoUkr;
+                    document.getElementById(`keywordsCeo-ukr`).value = data.keywordsCeoUkr;
+                    document.getElementById(`keywordsCeo-eng`).value = data.keywordsCeoEng;
+                    document.getElementById(`descriptionCeo-ukr`).value = data.descriptionCeoUkr;
+                    document.getElementById(`descriptionCeo-eng`).value = data.descriptionCeoEng;
+                    const elementImg = document.getElementById(`image-main-download-${languageFlag}`);
+                    elementImg.src = data.pathToImage;
 
 
-                dataRollBack = {
-                    titleFilmUkr: data.titleFilmUkr,
-                    titleFilmEng: data.titleFilmEng,
-                    descriptionFilmUkr: data.descriptionFilmUkr,
-                    descriptionFilmEng: data.descriptionFilmEng,
-                    titleCeoUkr: data.titleCeoUkr,
-                    titleCeoEng: data.titleCeoEng,
-                    keywordsCeoUkr: data.keywordsCeoUkr,
-                    keywordsCeoEng: data.keywordsCeoEng,
-                    descriptionCeoUkr: data.descriptionCeoUkr,
-                    descriptionCeoEng: data.descriptionCeoEng,
-                    elementImg: data.pathToImage,
-                    time: data.durationTime,
-                    year: data.year,
-                    budget: data.budget,
-                    dateStart: data.dateStart,
-                    dateEnd: data.dateEnd,
-                    linkTrailer: data.linkTrailer,
-                    urlCeo: data.urlCeo,
-                    marks: data.marks,
-                    genres: data.genres,
-                    galleries: JSON.parse(JSON.stringify(array)),
-                    mainImage: "/uploads/film/main-image/"+data.id+"/"+data.image
+                    dataRollBack = {
+                        titleFilmUkr: data.titleFilmUkr,
+                        titleFilmEng: data.titleFilmEng,
+                        descriptionFilmUkr: data.descriptionFilmUkr,
+                        descriptionFilmEng: data.descriptionFilmEng,
+                        titleCeoUkr: data.titleCeoUkr,
+                        titleCeoEng: data.titleCeoEng,
+                        keywordsCeoUkr: data.keywordsCeoUkr,
+                        keywordsCeoEng: data.keywordsCeoEng,
+                        descriptionCeoUkr: data.descriptionCeoUkr,
+                        descriptionCeoEng: data.descriptionCeoEng,
+                        elementImg: data.pathToImage,
+                        time: data.durationTime,
+                        year: data.year,
+                        budget: data.budget,
+                        dateStart: data.dateStart,
+                        dateEnd: data.dateEnd,
+                        linkTrailer: data.linkTrailer,
+                        urlCeo: data.urlCeo,
+                        marks: data.marks,
+                        genres: data.genres,
+                        galleries: JSON.parse(JSON.stringify(array)),
+                        mainImage: "/uploads/film/main-image/" + data.id + "/" + data.image
+                    }
+                    assignDataInputs(languageFlag);
                 }
-                assignDataInputs(languageFlag);
+            }
+        )
+        });
+
+
+        btnBackVersionUkr.onclick = function () {
+            rollBackForm(JSON.parse(JSON.stringify(dataRollBack)));
+            assignDataInputs(languageFlag);
+            render();
+        }
+        btnBackVersionEng.onclick = function () {
+            rollBackForm(JSON.parse(JSON.stringify(dataRollBack)));
+            assignDataInputs(languageFlag);
+            render();
+        }
+</script>
+
+
+<script>
+    const form = document.querySelector(".filmForm");
+    const inputForm = document.querySelectorAll(".js-input");
+    const isValidImage = document.querySelectorAll(".isValid-image");
+    const marksValidParagraphs = document.querySelectorAll(".isValid-marks");
+    const genresValidParagraphs = document.querySelectorAll(".isValid-genres");
+
+    let marksCurrent = null;
+    let genresCurrent = null;
+
+    function validateForm() {
+        let isValid = true;
+        inputForm.forEach(function (input) {
+            if (input.value === '') {
+                input.classList.remove('successful');
+                input.classList.add('error');
+                console.log('input not filled');
+                isValid = false;
+            } else {
+                input.classList.remove('error');
+                input.classList.add('successful');
+            }
+        });
+
+        isValidImage.forEach(function (input) {
+            input.innerHTML = "";
+            if (fileImageMain === null && mainImage === null) {
+                let paragraph = document.createElement("p");
+                paragraph.textContent = "The file was not downloaded";
+                paragraph.style.color = "red";
+
+                input.appendChild(paragraph);
+                console.log('the file was not downloaded');
+                isValid = false;
+            }
+        });
+
+        if (languageFlag === 'ukr') {
+            marksCurrent = TagifyCustomInlineSuggestion_UKR;
+            genresCurrent = document.getElementById(`genresFilm-ukr`).selectedOptions;
+        } else if (languageFlag === 'eng') {
+            marksCurrent = TagifyCustomInlineSuggestion_ENG;
+            genresCurrent = document.getElementById(`genresFilm-eng`).selectedOptions;
+        }
+
+        marksValidParagraphs.forEach(function (input) {
+            if (marksCurrent.value.length === 0) {
+                input.textContent = "More than one mark was not selected";
+                isValid = false;
+            } else {
+                input.textContent = "";
             }
         })
-    });
 
 
-    btnBackVersionUkr.onclick = function () {
-        rollBackForm(JSON.parse(JSON.stringify(dataRollBack)));
-        assignDataInputs(languageFlag);
-        render();
+        genresValidParagraphs.forEach(function (input) {
+            if (genresCurrent.length === 0) {
+                input.textContent = "More than one genre was not selected";
+                isValid = false;
+            } else {
+                input.textContent = "";
+            }
+        });
+        return isValid;
     }
-    btnBackVersionEng.onclick = function () {
-        rollBackForm(JSON.parse(JSON.stringify(dataRollBack)));
-        assignDataInputs(languageFlag);
-        render();
-    }
-</script>
-<script>
+
     $(document).ready(function () {
         // SUBMIT FORM
-        $("#filmForm").submit(function (event) {
-            // Prevent the form from submitting via the browser.
+        form.onsubmit = function () {
             event.preventDefault();
-            ajaxPost();
-        });
-        getDataFromInputs(languageFlag);
+            getDataFromInputs(languageFlag);
+            if (validateForm()) {
+                ajaxPost();
+            } else {
+                console.log('Form validation failed');
+            }
+        };
+
+        // getDataFromInputs(languageFlag);
 
         function ajaxPost() {
             let formObject = getFormObject(languageFlag);
@@ -585,7 +673,7 @@
                     console.log("Error submitting form:", error);
                 }
             });
-            window.location.replace("/admin/films");
+            // window.location.replace("/admin/films");
         }
     });
 </script>

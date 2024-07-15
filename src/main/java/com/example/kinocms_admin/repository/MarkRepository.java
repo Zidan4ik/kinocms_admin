@@ -15,5 +15,10 @@ import java.util.Set;
 public interface MarkRepository extends JpaRepository<Mark,Long> {
     @Query("SELECT m FROM Mark m WHERE m.name=:markName")
     Optional<Mark> findByName(@Param("markName") String name);
+//    @Query("SELECT m FROM Mark m JOIN m.films f WHERE f IN :films")
     Set<Mark> getAllByFilms(List<Film> films);
+
+    @Query("SELECT CASE WHEN COUNT(m) > 0 THEN TRUE ELSE FALSE END FROM Film f JOIN f.marksList m WHERE f.id = :filmId")
+    boolean hasMarks(@Param("filmId") Long filmId);
+
 }
