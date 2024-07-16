@@ -1,0 +1,95 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/core.css"/>
+    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/theme-default.css"/>
+    <link rel="stylesheet" href="/vuexy/assets/vendor/fonts/tabler-icons.css">
+    <link rel="stylesheet" href="/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/vuexy/assets/vendor/js/helpers.js"></script>
+    <script src="/vuexy/assets/js/config.js"></script>
+    <script src="/vuexy/dist/js/bootstrap.js"></script>
+</head>
+
+<body>
+<!-- Layout wrapper -->
+<div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
+
+    <!-- Layout container -->
+    <div class="layout-container">
+
+        <!-- Navbar -->
+        <div th:insert="~{blocks/navbar::navbar}"></div>
+        <!--/ Navbar -->
+
+        <!-- Layout page -->
+        <div class="layout-page">
+
+            <!-- Menu -->
+            <aside th:insert="blocks/sidebar::sidebar"
+                   id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme sidebar"
+                   style="display: flex;flex-direction: column;height: 100%;">
+            </aside>
+            <!--/ Menu -->
+
+            <!-- Content wrapper -->
+            <div class="content-wrapper">
+                <!-- Content -->
+                <div class="container-xxl d-flex align-items-stretch flex-grow-1 p-0">
+                    <div class="flex-shrink-1 flex-grow-1 container-p-x container-p-y">
+                        <div class="row" style="margin-top: 50px">
+                            <div class="col">
+                                <h3 style="text-align: end">Список поточних фільмів</h3>
+                            </div>
+                        </div>
+                        <div class="row row-cols-4 mb-4 g-4 p-4">
+                            <div class="col" th:each="cinema:${cinemasDTO}">
+                                <div class="d-flex justify-content-center">
+                                    <img class="d-flex justify-content-center" th:src="${cinema.getNameLogo()!=null?'':'https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg'}"
+                                         style="width: 220px;height: 275px;">
+                                </div>
+                                <div>
+                                    <p style="text-align: center;font-size: 20px;font-weight: bold;">title of cinema</p>
+                                </div>
+                            </div>
+                            <div class="col-2 d-flex justify-content-center align-items-center">
+                                <a th:href="@{/admin/cinema/add}" class="d-flex align-items-center justify-content-center"
+                                   style="width: 150px; height: 150px;">
+                                    <i class="ti ti-plus" style="font-size: 150px; color: green; display: block; width: 100%; height: 100%;"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/ Content -->
+
+                <!-- Footer -->
+                <footer class="content-footer footer bg-footer-theme">
+                    Footer
+                </footer>
+                <!--/ Footer -->
+
+                <!-- Content area backdrop -->
+                <div class="content-backdrop fade"></div>
+
+            </div>
+            <!--/ Content wrapper -->
+
+        </div>
+        <!--/ Layout page -->
+
+    </div>
+    <!--/ Layout container -->
+
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
+
+    <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+    <div class="drag-target"></div>
+
+</div>
+<!--/ Layout wrapper -->
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</body>
+</html>

@@ -20,46 +20,7 @@ import java.util.Set;
 
 @Service
 public class FilmMapper {
-    //    public static List<FilmsDTOView> toDTOViewFilms(List<Film> filmsEntity,
-//                                                    List<PageTranslation> translatorsEntity,
-//                                                    List<Genre> genres,
-//                                                    List<Mark> marks) {
-//        List<FilmsDTOView> dtoList = new ArrayList<>();
-//        for (Film film : filmsEntity) {
-//            FilmsDTOView dto = new FilmsDTOView();
-//            StringBuilder dtoMarks = new StringBuilder();
-//            dto.setId(film.getId());
-//            String date = film.getDateStart().getDayOfMonth() + " " + MonthTranslator.translate(film.getDateStart().getMonth()) + " - "
-//                    + film.getDateEnd().getDayOfMonth() + " " + MonthTranslator.translate(film.getDateEnd().getMonth());
-//            dto.setDate(date);
-//            dto.setPathImage(film.getNameImage());
-//            dto.setTime(film.getDurationTime().toString());
-//            for (PageTranslation t : translatorsEntity) {
-//                if (t.getFilm() == film) {
-//                    dto.setTitle(t.getTitle());
-//                    break;
-//                }
-//            }
-//
-//            for (int i = 0; i < marks.size(); i++) {
-//                for (Film f : marks.get(i).getFilms()) {
-////                    marks.get(i).getFilms();
-//                    if (f.getId().equals(film.getId())) {
-//                        dtoMarks.append(marks.get(i).getName());
-//                        if (i < marks.size() - 1) {
-//                            dtoMarks.append(", ");
-//                        }
-//                        break;
-//                    }
-//                }
-//            }
-//
-//            dto.setMarks(dtoMarks.toString());
-//
-//            dtoList.add(dto);
-//        }
-//        return dtoList;
-//    }
+
     public static FilmInfoDTO toDtoFilmInfo(Film filmEntity,
                                             PageTranslation translationEntity,
                                             Set<Genre> genresEntity,

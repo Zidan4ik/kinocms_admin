@@ -39,7 +39,7 @@ public class FilmController {
                     getAllByFilmAndLanguageCode(film, LanguageCode.Ukr);
             Set<Mark> marks = markServiceImp.getAllByFilm(film);
             Set<Genre> genres = genreServiceImp.getAllByFilm(film);
-            filmsActiveDTO.add(FilmMapper.toDtoFilmInfo(film,pageTranslation,genres,marks));
+            filmsActiveDTO.add(FilmMapper.toDtoFilmInfo(film, pageTranslation, genres, marks));
         }
 
         for (Film film : filmsUnActive) {
@@ -47,7 +47,7 @@ public class FilmController {
                     getAllByFilmAndLanguageCode(film, LanguageCode.Ukr);
             Set<Mark> marks = markServiceImp.getAllByFilm(film);
             Set<Genre> genres = genreServiceImp.getAllByFilm(film);
-            filmsUnActiveDTO.add(FilmMapper.toDtoFilmInfo(film,pageTranslation,genres,marks));
+            filmsUnActiveDTO.add(FilmMapper.toDtoFilmInfo(film, pageTranslation, genres, marks));
         }
         model.addObject("filmToday", filmsActiveDTO);
         model.addObject("filmSoon", filmsUnActiveDTO);

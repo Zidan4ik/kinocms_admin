@@ -25,7 +25,10 @@ public class CeoBlock {
     private String descriptions;
     @ManyToOne
     private Film film;
-
+    @ManyToOne
+    private Cinema cinema;
+    @ManyToOne
+    private Hall hall;
     public CeoBlock(LanguageCode languageCode, PageType pageType, String title, String keywords, String descriptions, Film film) {
         this.languageCode = languageCode;
         this.pageType = pageType;

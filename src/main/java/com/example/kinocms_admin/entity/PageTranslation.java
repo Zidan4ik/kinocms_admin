@@ -27,7 +27,10 @@ public class PageTranslation {
     private String conditions;
     @ManyToOne
     private Film film;
-
+    @ManyToOne
+    private Cinema cinema;
+    @ManyToOne
+    private Hall hall;
     public PageTranslation(LanguageCode languageCode, PageType pageType, String title, String description, String conditions, Film film) {
         this.languageCode = languageCode;
         this.pageType = pageType;

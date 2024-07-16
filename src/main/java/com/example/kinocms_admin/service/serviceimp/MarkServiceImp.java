@@ -1,5 +1,6 @@
 package com.example.kinocms_admin.service.serviceimp;
 
+import com.example.kinocms_admin.entity.Cinema;
 import com.example.kinocms_admin.entity.Film;
 import com.example.kinocms_admin.entity.Mark;
 import com.example.kinocms_admin.repository.MarkRepository;
@@ -32,6 +33,14 @@ public class MarkServiceImp implements MarkService {
         if (film != null) {
             List<Film> temporaryFilms = Collections.singletonList(film);
             Set<Mark> marksByFilm = markRepository.getAllByFilms(temporaryFilms);
+            return marksByFilm != null ? marksByFilm : Collections.emptySet();
+        }
+        return Collections.emptySet();
+    }
+    public Set<Mark> getAllByCinema(Cinema cinema) {
+        if (cinema != null) {
+            List<Cinema> temporaryFilms = Collections.singletonList(cinema);
+            Set<Mark> marksByFilm = markRepository.getAllByCinemas(temporaryFilms);
             return marksByFilm != null ? marksByFilm : Collections.emptySet();
         }
         return Collections.emptySet();

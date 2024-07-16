@@ -20,6 +20,12 @@ public class Gallery {
     @ManyToOne
     @JoinColumn(name = "film_id")
     private Film film;
+    @ManyToOne
+    @JoinColumn(name = "hall_id")
+    private Hall hall;
+    @ManyToOne
+    @JoinColumn(name = "cell_id")
+    private Cinema cinema;
 
     public Gallery(String linkImage, GalleriesType type, Film film) {
         this.linkImage = linkImage;

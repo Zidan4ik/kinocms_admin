@@ -1,9 +1,11 @@
 package com.example.kinocms_admin.controller;
 
 
+import com.example.kinocms_admin.entity.Cinema;
 import com.example.kinocms_admin.entity.unifier.FilmUnifier;
 import com.example.kinocms_admin.enums.LanguageCode;
 import com.example.kinocms_admin.mapper.FilmMapper;
+import com.example.kinocms_admin.model.CinemaDTOAdd;
 import com.example.kinocms_admin.model.FilmDTOAdd;
 
 import com.example.kinocms_admin.model.GalleriesDTO;
@@ -15,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,4 +64,11 @@ public class ControllersRest {
 //        return new ResponseEntity<>(response, HttpStatus.OK);
         return ResponseEntity.ok(HttpStatus.OK);
     }
+
+    @PostMapping(value = "/cinema/add")
+    public ResponseEntity<Object> addCinema(@ModelAttribute(name = "cinema")CinemaDTOAdd cinemaDTO){
+
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
 }

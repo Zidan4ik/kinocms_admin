@@ -1,5 +1,6 @@
 package com.example.kinocms_admin.service.serviceimp;
 
+import com.example.kinocms_admin.entity.Cinema;
 import com.example.kinocms_admin.entity.Film;
 import com.example.kinocms_admin.entity.Gallery;
 import com.example.kinocms_admin.model.GalleriesDTO;
@@ -45,5 +46,8 @@ public class GalleryServiceImp implements GalleryService {
 
     public List<Gallery> getAllByFilm(Film film) {
         return galleryRepository.getAllByFilm(film);
+    }
+    public List<Gallery> getAllByCinema(Cinema cinema) {
+        return galleryRepository.getAllByCinema(cinema);
     }
 }

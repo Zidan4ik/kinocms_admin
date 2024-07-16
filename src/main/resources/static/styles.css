@@ -42,3 +42,17 @@
     margin-bottom: 0px;
     font-size: smaller;
 }
+
+.image-container{
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    overflow: hidden;
+    display: flex;
+    align-items:center;
+    justify-content:center;
+}
+.image-container img {
+    width: 70%;
+    height: 100%;
+}

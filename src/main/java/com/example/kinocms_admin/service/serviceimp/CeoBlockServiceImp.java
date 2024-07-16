@@ -1,6 +1,7 @@
 package com.example.kinocms_admin.service.serviceimp;
 
 import com.example.kinocms_admin.entity.CeoBlock;
+import com.example.kinocms_admin.entity.Cinema;
 import com.example.kinocms_admin.entity.Film;
 import com.example.kinocms_admin.enums.LanguageCode;
 import com.example.kinocms_admin.repository.CeoBlockRepository;
@@ -34,5 +35,8 @@ public class CeoBlockServiceImp implements CeoBlockService {
     }
     public Optional<CeoBlock> getByFilmAndLanguageBlock(Film film, LanguageCode code){
         return ceoBlockRepository.getByFilmAndLanguageCode(film,code);
+    }
+    public Optional<CeoBlock> getByCinemaAndLanguageCode(Cinema cinema, LanguageCode code){
+        return ceoBlockRepository.getByCinemaAndLanguageCode(cinema,code);
     }
 }
