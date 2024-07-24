@@ -23,18 +23,24 @@ public class GenreServiceImp implements GenreService {
 
     }
 
-    public void saveIfNotExist(Set<Genre> genres) {
-        for (Genre g : genres) {
-            Optional<Genre> name = genreRepository.findByName(g.getName());
-            if (!name.isPresent()) {
-                genreRepository.save(g);
-            }
-        }
-    }
-
     @Override
     public void deleteById(long id) {
         genreRepository.deleteById(id);
+    }
+
+    @Override
+    public Set<Genre> getAllByFilms(List<Film> films) {
+        return genreRepository.getAllByFilms(films);
+    }
+
+    @Override
+    public Set<Genre> getAllByFilm(Film film) {
+        if (film != null) {
+            List<Film> temporaryFilms = Collections.singletonList(film);
+            Set<Genre> genresByFilm = genreRepository.getAllByFilms(temporaryFilms);
+            return genresByFilm != null ? genresByFilm : Collections.emptySet();
+        }
+        return Collections.emptySet();
     }
 
     public void assignFilmToGenre(Set<Genre> genres, List<Film> films) {
@@ -44,17 +50,12 @@ public class GenreServiceImp implements GenreService {
         genreRepository.saveAll(genres);
     }
 
-    @Override
-    public Set<Genre> getAllByFilms(List<Film> films) {
-        return genreRepository.getAllByFilms(films);
-    }
-
-    public Set<Genre> getAllByFilm(Film film) {
-        if (film != null) {
-            List<Film> temporaryFilms = Collections.singletonList(film);
-            Set<Genre> genresByFilm = genreRepository.getAllByFilms(temporaryFilms);
-            return genresByFilm != null ? genresByFilm : Collections.emptySet();
+    public void saveIfNotExist(Set<Genre> genres) {
+        for (Genre g : genres) {
+            Optional<Genre> name = genreRepository.findByName(g.getName());
+            if (!name.isPresent()) {
+                genreRepository.save(g);
+            }
         }
-        return Collections.emptySet();
     }
 }

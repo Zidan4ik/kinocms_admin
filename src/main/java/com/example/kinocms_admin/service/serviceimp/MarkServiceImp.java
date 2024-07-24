@@ -25,10 +25,12 @@ public class MarkServiceImp implements MarkService {
         markRepository.deleteById(id);
     }
 
+    @Override
     public Set<Mark> getAllByFilms(List<Film> films) {
         return markRepository.getAllByFilms(films);
     }
 
+    @Override
     public Set<Mark> getAllByFilm(Film film) {
         if (film != null) {
             List<Film> temporaryFilms = Collections.singletonList(film);
@@ -37,6 +39,8 @@ public class MarkServiceImp implements MarkService {
         }
         return Collections.emptySet();
     }
+
+    @Override
     public Set<Mark> getAllByCinema(Cinema cinema) {
         if (cinema != null) {
             List<Cinema> temporaryFilms = Collections.singletonList(cinema);

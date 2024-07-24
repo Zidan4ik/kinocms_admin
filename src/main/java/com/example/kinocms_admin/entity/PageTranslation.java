@@ -39,4 +39,20 @@ public class PageTranslation {
         this.conditions = conditions;
         this.film = film;
     }
+
+    public PageTranslation(LanguageCode languageCode, PageType pageType, String title, String description, String conditions, Cinema cinema) {
+        this.languageCode = languageCode;
+        this.pageType = pageType;
+        this.title = title;
+        this.description = description;
+        this.conditions = conditions;
+        this.cinema = cinema;
+    }
+
+    public PageTranslation(LanguageCode languageCode, PageType pageType, String description, Hall hall) {
+        this.languageCode = languageCode;
+        this.pageType = pageType;
+        this.description = description;
+        this.hall = hall;
+    }
 }

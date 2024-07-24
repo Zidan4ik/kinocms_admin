@@ -24,13 +24,25 @@ public class Gallery {
     @JoinColumn(name = "hall_id")
     private Hall hall;
     @ManyToOne
-    @JoinColumn(name = "cell_id")
+    @JoinColumn(name = "cinema_id")
     private Cinema cinema;
 
     public Gallery(String linkImage, GalleriesType type, Film film) {
         this.linkImage = linkImage;
         this.type = type;
         this.film = film;
+    }
+
+    public Gallery(String linkImage, GalleriesType type, Hall hall) {
+        this.linkImage = linkImage;
+        this.type = type;
+        this.hall = hall;
+    }
+
+    public Gallery(String linkImage, GalleriesType type, Cinema cinema) {
+        this.linkImage = linkImage;
+        this.type = type;
+        this.cinema = cinema;
     }
 
     public Gallery(Long id, String linkImage, GalleriesType type) {

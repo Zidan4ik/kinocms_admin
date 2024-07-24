@@ -37,7 +37,8 @@ public class CinemaDTOAdd {
     private List<Hall> hallDTOAddList;
     private List<Gallery> galleries;
     private List<String> galleryDTO;
-    public String getPathToImage() {
+
+    public String getPathToBanner() {
         return "/uploads/cinema/banner/" + id + "/" + nameBanner;
     }
 

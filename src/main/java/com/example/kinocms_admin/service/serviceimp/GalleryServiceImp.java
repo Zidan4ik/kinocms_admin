@@ -3,6 +3,7 @@ package com.example.kinocms_admin.service.serviceimp;
 import com.example.kinocms_admin.entity.Cinema;
 import com.example.kinocms_admin.entity.Film;
 import com.example.kinocms_admin.entity.Gallery;
+import com.example.kinocms_admin.entity.Hall;
 import com.example.kinocms_admin.model.GalleriesDTO;
 import com.example.kinocms_admin.repository.GalleryRepository;
 import com.example.kinocms_admin.service.GalleryService;
@@ -29,25 +30,34 @@ public class GalleryServiceImp implements GalleryService {
     public void delete(Long id) {
         galleryRepository.deleteById(id);
     }
+
+    @Override
+    public List<Gallery> getAllByFilm(Film film) {
+        return galleryRepository.getAllByFilm(film);
+    }
+
+    @Override
+    public List<Gallery> getAllByCinema(Cinema cinema) {
+        return galleryRepository.getAllByCinema(cinema);
+    }
+
+    @Override
+    public List<Gallery> getAllByHall(Hall hall) {
+        return galleryRepository.getAllByHall(hall);
+    }
+
     public void handleDeletingImages(List<GalleriesDTO> galleries, long id) {
         List<String> noExistImages = new ArrayList<>();
         for (GalleriesDTO g : galleries) {
-            if(g.getName()==null){
+            if (g.getName() == null) {
                 Optional<Gallery> image = galleryRepository.findById(g.getId());
-                if(image.isPresent() && !image.get().getLinkImage().isEmpty()){
+                if (image.isPresent() && !image.get().getLinkImage().isEmpty()) {
                     noExistImages.add(image.get().getLinkImage());
                 }
                 delete(g.getId());
             }
         }
-        String upload = "./uploads/film/galleries/"+id;
-        ImageUtil.deleteFiles(upload,noExistImages);
-    }
-
-    public List<Gallery> getAllByFilm(Film film) {
-        return galleryRepository.getAllByFilm(film);
-    }
-    public List<Gallery> getAllByCinema(Cinema cinema) {
-        return galleryRepository.getAllByCinema(cinema);
+        String upload = "./uploads/film/galleries/" + id;
+        ImageUtil.deleteFiles(upload, noExistImages);
     }
 }

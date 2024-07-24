@@ -5,8 +5,8 @@ galleriesElementUkr.onclick = fileHandle;
 galleriesElementEng.onclick = fileHandle;
 
 const elements = [
-    document.getElementById("image-logo-ukr"),
-    document.getElementById("image-logo-eng"),
+    document.getElementById("image-schema-ukr"),
+    document.getElementById("image-schema-eng"),
     document.getElementById("image-banner-ukr"),
     document.getElementById("image-banner-eng")
 ];
@@ -14,11 +14,12 @@ elements.forEach(e => {
     e.onclick = fileHandle;
 })
 
-let languageFlag, imageLogo, imageBanner, urlCeo, marks;
+let languageFlag, imageSchema, imageBanner, urlCeo, numberHall;
 let array = new Array(5);
-let fileLogo = null;
+let fileSchema = null;
 let fileBanner = null;
-let dataSaving;
+
+let cinemaId = document.getElementById("cinemaId");
 createGallery(array);
 changeLanguage('ukr');
 
@@ -31,25 +32,26 @@ function changeLanguage(language) {
 
 function getDataFromInputs(languageCode) {
     if (languageCode === 'ukr') {
-        marks = document.getElementById(`marks-eng`).value;
         urlCeo = document.getElementById(`urlCeo-eng`).value;
+        numberHall = document.getElementById(`numberHall-eng`).value;
+
     } else if (languageCode === 'eng') {
-        marks = document.getElementById(`marks-ukr`).value;
         urlCeo = document.getElementById(`urlCeo-ukr`).value;
+        numberHall = document.getElementById(`numberHall-ukr`).value;
     }
 }
 
 function assignDataInputs(languageCode) {
-    document.getElementById(`marks-${languageCode}`).value = marks;
     document.getElementById(`urlCeo-${languageCode}`).value = urlCeo;
+    document.getElementById(`numberHall-${languageCode}`).value = numberHall;
 
-    if (imageLogo !== undefined && imageLogo !== null) {
-        document.getElementById(`image-logo-download-${languageCode}`).src = imageLogo;
+    if (imageSchema !== undefined && imageSchema !== null) {
+        document.getElementById(`image-schema-download-${languageCode}`).src = imageSchema;
     } else {
-        if (fileLogo !== undefined && fileLogo !== null) {
-            document.getElementById(`image-logo-download-${languageCode}`).src = URL.createObjectURL(fileLogo);
+        if (fileSchema !== undefined && fileSchema !== null) {
+            document.getElementById(`image-schema-download-${languageCode}`).src = URL.createObjectURL(fileSchema);
         } else {
-            document.getElementById(`image-logo-download-${languageCode}`).src = 'https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg';
+            document.getElementById(`image-schema-download-${languageCode}`).src = 'https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg';
         }
     }
 
@@ -66,25 +68,21 @@ function assignDataInputs(languageCode) {
 
 function getFormObject(language) {
     let formObject = new FormData();
-    formObject.append("titleUkr", $("#title-ukr").val());
     formObject.append("descriptionUkr", $("#description-ukr").val());
-    formObject.append("conditionUkr", $("#condition-ukr").val());
     formObject.append("titleCeoUkr", $("#titleCeo-ukr").val());
     formObject.append("keywordsCeoUkr", $("#keywordsCeo-ukr").val());
     formObject.append("descriptionCeoUkr", $("#descriptionCeo-ukr").val());
 
-    formObject.append("titleEng", $("#title-eng").val());
     formObject.append("descriptionEng", $("#description-eng").val());
-    formObject.append("conditionEng", $("#condition-eng").val());
     formObject.append("titleCeoEng", $("#titleCeo-eng").val());
     formObject.append("keywordsCeoEng", $("#keywordsCeo-eng").val());
     formObject.append("descriptionCeoEng", $("#descriptionCeo-eng").val());
 
-    formObject.append("marks", $(`#marks-${languageFlag}`).val());
     formObject.append("urlCeo", $(`#urlCeo-${languageFlag}`).val());
-    formObject.append("id", $("#cinemaId").val());
-    if (fileLogo != null) {
-        formObject.append("fileLogo", fileLogo);
+    formObject.append("number", $(`#numberHall-${languageFlag}`).val());
+
+    if (fileSchema != null) {
+        formObject.append("fileSchema", fileSchema);
     }
     if (fileBanner != null) {
         formObject.append("fileBanner", fileBanner);
@@ -94,6 +92,8 @@ function getFormObject(language) {
             formObject.append("imagesMultipart", array[i].file);
         }
     }
+    formObject.append("cinemaId", $(`#cinemaId`).val());
+
     return formObject;
 }
 
@@ -114,17 +114,19 @@ function fileHandle(event) {
                 array[index].name = null;
             }
             inputElement.click();
-        } else if (type === "logoDelete-" + languageFlag) {
-            const imageElement = document.getElementById("image-logo-download-" + languageFlag);
-            fileLogo = null;
-            imageLogo = null;
+        } else if (type === "schemaDelete-" + languageFlag) {
+            const imageElement = document.getElementById("image-schema-download-" + languageFlag);
+            fileSchema = null;
+            imageSchema = null;
             imageElement.src = "https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg";
-        } else if (type === "logoDownload-" + languageFlag) {
-            const inputElement = document.getElementById("btn-download-logo-" + languageFlag);
+        } else if (type === "schemaDownload-" + languageFlag) {
+            const inputElement = document.getElementById("btn-download-schema-" + languageFlag);
+            console.log(inputElement);
             inputElement.onchange = function () {
-                const imageElement = document.getElementById("image-logo-download-" + languageFlag);
+                const imageElement = document.getElementById("image-schema-download-" + languageFlag);
+                console.log(imageElement);
                 imageElement.src = URL.createObjectURL(inputElement.files[0]);
-                fileLogo = inputElement.files[0];
+                fileSchema = inputElement.files[0];
                 inputElement.value = "";
             }
         } else if (type === "bannerDelete-" + languageFlag) {
@@ -134,8 +136,10 @@ function fileHandle(event) {
             imageElement.src = "https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg";
         } else if (type === 'bannerDownload-' + languageFlag) {
             const inputElement = document.getElementById("btn-download-banner-" + languageFlag);
+            console.log(inputElement);
             inputElement.onchange = function () {
                 const imageElement = document.getElementById("image-banner-download-" + languageFlag);
+                console.log(imageElement);
                 imageElement.src = URL.createObjectURL(inputElement.files[0]);
                 fileBanner = inputElement.files[0];
                 inputElement.value = "";
@@ -208,139 +212,4 @@ function getBlock(object, index) {
                      </div>`
 };
 
-const TagifyCustomInlineSuggestionEl_UKR = document.querySelector("#marks-ukr");
-const TagifyCustomInlineSuggestionEl_ENG = document.querySelector("#marks-eng");
-const whitelist = [
-    "3D",
-    "2D",
-    "IMAX",
-    "DBOX",
-    "18+",
-    "16+",
-    "12+"
-];
-let TagifyCustomInlineSuggestion_UKR = new Tagify(TagifyCustomInlineSuggestionEl_UKR, {
-    whitelist: whitelist,
-    maxTags: 3,
-    dropdown: {
-        maxItems: 10,
-        classname: "tags-inline",
-        enabled: 0,
-        closeOnSelect: false
-    }
-});
 
-let TagifyCustomInlineSuggestion_ENG = new Tagify(TagifyCustomInlineSuggestionEl_ENG, {
-    whitelist: whitelist,
-    maxTags: 3,
-    dropdown: {
-        maxItems: 10,
-        classname: "tags-inline",
-        enabled: 0,
-        closeOnSelect: false
-    }
-});
-
-    document.querySelector(`.createHallBtn`).addEventListener("click", function () {
-        const myModal = new bootstrap.Modal(document.getElementById("exampleModal"));
-        const cinemaId = document.getElementById("cinemaId").value;
-
-        if (cinemaId){
-            if (checkChanging()) {
-                myModal.show();
-            } else {
-                redirectToHallAdd();
-            }
-        } else {
-            if (checkNull()) {
-                myModal.show();
-            } else {
-                redirectToHallAdd();
-            }
-        }
-    });
-
-function checkNull() {
-    let flag = false;
-    inputForm.forEach(function (input) {
-        if (input.value !== '') {
-            console.log(1);
-            flag = true;
-        }
-    });
-    if (fileLogo) {
-        console.log(2);
-        flag = true;
-    } else if (fileBanner) {
-        console.log(3);
-        flag = true;
-    }
-    for (let i = 0; i < array.length; i++) {
-        if (array[i].file != null) {
-            console.log(4);
-            flag = true;
-        }
-    }
-    return flag;
-}
-
-function checkChanging() {
-    let flag = false;
-    const fieldsToCheck = [
-        {id: "title-ukr", value: dataSaving.titleUkr},
-        {id: "title-eng", value: dataSaving.titleEng},
-        {id: "description-ukr", value: dataSaving.descriptionUkr},
-        {id: "description-eng", value: dataSaving.descriptionEng},
-        {id: "condition-ukr", value: dataSaving.conditionUkr},
-        {id: "condition-eng", value: dataSaving.conditionEng},
-        {id: "titleCeo-ukr", value: dataSaving.titleCeoUkr},
-        {id: "titleCeo-eng", value: dataSaving.titleCeoEng},
-        {id: "descriptionCeo-ukr", value: dataSaving.descriptionCeoUkr},
-        {id: "descriptionCeo-eng", value: dataSaving.descriptionCeoEng},
-        {id: "keywordsCeo-ukr", value: dataSaving.keywordsCeoUkr},
-        {id: "keywordsCeo-eng", value: dataSaving.keywordsCeoEng},
-        {id: `urlCeo-${languageFlag}`, value: dataSaving.urlCeo},
-        {id: `image-logo-download-${languageFlag}`, value: dataSaving.imageLogo},
-        {id: `image-banner-download-${languageFlag}`, value: dataSaving.imageBanner}
-    ]
-
-    fieldsToCheck.forEach(function (field) {
-        const elementById = document.getElementById(field.id).value;
-        if (field.value !==null && elementById !== field.value) {
-            console.log(elementById+":"+field.value);
-            flag = true;
-        }
-    });
-    const marksInput = document.getElementById(`marks-${languageFlag}`).value;
-    if (marksInput !== '') {
-        let marksParse = JSON.parse(marksInput);
-        for (let i = 0; i < dataSaving.marks.length; i++) {
-            if (dataSaving.marks.length === marksParse.length) {
-                if (dataSaving.marks[i] !== marksParse[i].value) {
-                    flag = true;
-                    console.log("1")
-                }
-            } else {
-                console.log("size1")
-                flag = true;
-            }
-        }
-    }
-
-    for (let i = 0; i < dataSaving.galleries.length; i++) {
-        if (array[i].name !== dataSaving.galleries[i].name) {
-            console.log("2")
-            flag = true;
-        }
-    }
-    return flag;
-}
-
-function redirectToHallAdd() {
-    const cinemaId = document.querySelector(`.createHallBtn`).getAttribute("data-cinema-id");
-    if (cinemaId !== null) {
-        window.location.href = `/admin/hall/add?cinemaId=${cinemaId}`;
-    } else {
-        window.location.href = `/admin/hall/add`;
-    }
-}

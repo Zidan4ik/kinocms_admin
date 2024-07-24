@@ -19,17 +19,14 @@ public class Cinema {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(length = 45)
     private String nameLogo;
-    @Column(length = 45)
     private String nameBanner;
     @Column(length = 2048)
     private String urlCeo;
-    private LocalDate date_of_creation;
-
-    @OneToMany(mappedBy = "cinema")
+    private LocalDate dateOfCreation;
+    @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL)
     private List<CeoBlock> ceoBlocks;
-    @OneToMany(mappedBy = "cinema")
+    @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL)
     private List<PageTranslation> pageTranslations;
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -39,4 +36,7 @@ public class Cinema {
             inverseJoinColumns = @JoinColumn(name = "mark_id")
     )
     private Set<Mark> marksList;
+
+    @OneToMany(mappedBy = "cinema",cascade = CascadeType.ALL)
+    private List<Gallery> galleries;
 }

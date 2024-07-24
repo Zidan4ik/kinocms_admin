@@ -37,4 +37,22 @@ public class CeoBlock {
         this.descriptions = descriptions;
         this.film = film;
     }
+
+    public CeoBlock(LanguageCode languageCode, PageType pageType, String title, String keywords, String descriptions, Hall hall) {
+        this.languageCode = languageCode;
+        this.pageType = pageType;
+        this.title = title;
+        this.keywords = keywords;
+        this.descriptions = descriptions;
+        this.hall = hall;
+    }
+
+    public CeoBlock(LanguageCode languageCode, PageType pageType, String title, String keywords, String descriptions, Cinema cinema) {
+        this.languageCode = languageCode;
+        this.pageType = pageType;
+        this.title = title;
+        this.keywords = keywords;
+        this.descriptions = descriptions;
+        this.cinema = cinema;
+    }
 }

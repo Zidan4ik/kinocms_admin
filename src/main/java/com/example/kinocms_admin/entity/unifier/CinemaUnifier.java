@@ -21,4 +21,14 @@ public class CinemaUnifier {
     private PageTranslation pageTranslationEng;
     private Set<Mark> marks;
     private List<Gallery> galleries;
+
+    public CinemaUnifier(Cinema cinema, CeoBlock ceoBlockUkr, CeoBlock ceoBlockEng, PageTranslation pageTranslationUkr, PageTranslation pageTranslationEng, Set<Mark> marks, List<Gallery> galleries) {
+        this.cinema = cinema;
+        this.ceoBlockUkr = ceoBlockUkr;
+        this.ceoBlockEng = ceoBlockEng;
+        this.pageTranslationUkr = pageTranslationUkr;
+        this.pageTranslationEng = pageTranslationEng;
+        this.marks = marks;
+        this.galleries = galleries;
+    }
 }

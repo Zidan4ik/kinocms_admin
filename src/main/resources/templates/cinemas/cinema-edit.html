@@ -153,7 +153,8 @@
                                                class="form-control" placeholder="вибери значок" style="height: 37.6px;">
                                         <p style="color:red" class="isValid-marks"></p>
                                     </div>
-                                    <!-- Table Halls -->
+
+                                    <!-- Table of halls -->
                                     <div>
                                         <div class="d-flex justify-content-center mt-5">
                                             <h3>Список залів</h3>
@@ -193,9 +194,9 @@
                                             </table>
                                         </div>
                                         <a class="btn btn-secondary createHallBtn"
-                                           th:data-cinema-id="${cinema.getId()}">Create hall</a>
+                                           th:data-cinema-id="${cinema.getId()}">Створити зал</a>
                                     </div>
-                                    <!--/ Table Halls -->
+                                    <!--/ Table of halls -->
 
                                     <!-- ceo block -->
                                     <div class="col-12 mt-5">
@@ -348,16 +349,18 @@
                                                class="form-control" placeholder="enter marks" style="height: 37.6px;">
                                         <p style="color:red" class="isValid-marks"></p>
                                     </div>
-                                    <!-- Table Halls -->
+                                    <!--/ marks -->
+
+                                    <!-- Table of halls -->
                                     <div>
                                         <div class="d-flex justify-content-center mt-5">
-                                            <h3>List of halls</h3>
+                                            <h3>List halls</h3>
                                         </div>
                                         <div class="table-responsive">
                                             <table class="table table-bordered">
                                                 <thead>
                                                 <tr>
-                                                    <th>Number Hall</th>
+                                                    <th>Number hall</th>
                                                     <th>Date of creation</th>
                                                     <th>Acts</th>
                                                 </tr>
@@ -388,9 +391,10 @@
                                             </table>
                                         </div>
                                         <a class="btn btn-secondary createHallBtn"
-                                           th:data-cinema-id="${cinema.getId()}">Створити зал</a>
+                                           th:data-cinema-id="${cinema.getId()}">Create hall</a>
                                     </div>
-                                    <!--/ Table Halls -->
+                                    <!--/ Table of halls -->
+
                                     <!-- ceo block -->
                                     <div class="col-12 mt-5">
                                         <div class="row">
@@ -558,7 +562,7 @@
                 getDataFromInputs('ukr');
                 assignDataInputs('ukr');
             }
-            if (validateForm()) {
+            if (!validateForm()) {
                 ajaxPost();
             } else {
                 console.log('Form validation failed');
@@ -573,7 +577,7 @@
             let formObject = getFormObject(languageFlag);
             $.ajax({
                 type: "post",
-                url: "add",
+                url: "edit",
                 data: formObject,
                 processData: false,
                 contentType: false,
@@ -590,7 +594,7 @@
             let formObject = getFormObject(languageFlag);
             $.ajax({
                 type: "post",
-                url: "temporary/add",
+                url: "temporary/edit",
                 data: formObject,
                 processData: false,
                 contentType: false,
@@ -603,92 +607,89 @@
             });
         }
     });
-
-
     window.addEventListener("DOMContentLoaded", () => {
-            const elementCinemaId = document.getElementById("cinemaId");
-            if(elementCinemaId && elementCinemaId.value){
-                let id = elementCinemaId.value;
-                const request = new XMLHttpRequest();
-                request.open("GET", `/admin/cinema/${id}`);
-                request.setRequestHeader("Content-type", "application/json; charset=utf-8");
-                request.send();
-                request.addEventListener("load", function () {
-                        if (request.status === 200) {
-                            let data = JSON.parse(request.response);
-                            console.log(data);
+        const elementCinemaId = document.getElementById("cinemaId");
+        if (elementCinemaId && elementCinemaId.value) {
+            let id = elementCinemaId.value;
+            const request = new XMLHttpRequest();
+            request.open("GET", `/admin/cinema/${id}`);
+            request.setRequestHeader("Content-type", "application/json; charset=utf-8");
+            request.send();
+            request.addEventListener("load", function () {
+                    if (request.status === 200) {
+                        let data = JSON.parse(request.response);
+                        console.log(data);
 
-                            urlCeo = data.urlCeo;
-                            marks = data.marks;
-                            if (data.nameLogo !== '') {
-                                imageLogo = "/uploads/cinema/logo/" + data.id + "/" + data.nameLogo;
-                            }
-                            if (data.nameBanner !== '') {
-                                imageBanner = "/uploads/cinema/banner/" + data.id + "/" + data.nameBanner;
-                            }
-                            if (data.galleries.length != null) {
-                                let temporaryArray = new Array(5);
-                                createGallery(temporaryArray);
-                                for (let i = 0; i < data.galleries.length; i++) {
-                                    let object = data.galleries[i];
-                                    console.log("object: " + object);
-                                    temporaryArray[i] = {
-                                        id: object.id,
-                                        idFilm: data.id,
-                                        type: object.type,
-                                        name: object.linkImage,
-                                        file: null,
-                                        link: null,
-                                        pathToImage: "/uploads/cinema/galleries/" + data.id + "/" + object.linkImage
-                                    }
-                                }
-                                array = temporaryArray;
-                                render();
-                            }
-
-                            dataSaving = {
-                                titleUkr: data.titleUkr,
-                                titleEng: data.titleEng,
-                                descriptionUkr: data.descriptionUkr,
-                                descriptionEng: data.descriptionEng,
-                                conditionUkr: data.conditionUkr,
-                                conditionEng: data.conditionEng,
-                                titleCeoUkr: data.titleCeoUkr,
-                                titleCeoEng: data.titleCeoEng,
-                                keywordsCeoUkr: data.keywordsCeoUkr,
-                                keywordsCeoEng: data.keywordsCeoEng,
-                                descriptionCeoUkr: data.descriptionCeoUkr,
-                                descriptionCeoEng: data.descriptionCeoEng,
-                                imageLogo: data.getPathToLogo,
-                                imageBanner: data.getPathToBanner,
-                                urlCeo: data.urlCeo,
-                                marks: data.marks,
-                                galleries: JSON.parse(JSON.stringify(array))
-                            }
-
-                            document.getElementById(`title-ukr`).value = data.titleUkr;
-                            document.getElementById(`title-eng`).value = data.titleEng;
-                            document.getElementById(`description-ukr`).value = data.descriptionUkr;
-                            document.getElementById(`description-eng`).value = data.descriptionEng;
-                            document.getElementById(`condition-ukr`).value = data.conditionUkr;
-                            document.getElementById(`condition-eng`).value = data.conditionEng;
-                            document.getElementById(`titleCeo-eng`).value = data.titleCeoEng;
-                            document.getElementById(`titleCeo-ukr`).value = data.titleCeoUkr;
-                            document.getElementById(`keywordsCeo-ukr`).value = data.keywordsCeoUkr;
-                            document.getElementById(`keywordsCeo-eng`).value = data.keywordsCeoEng;
-                            document.getElementById(`descriptionCeo-ukr`).value = data.descriptionCeoUkr;
-                            document.getElementById(`descriptionCeo-eng`).value = data.descriptionCeoEng;
-                            const elementImgLogo = document.getElementById(`image-logo-download-${languageFlag}`);
-                            elementImgLogo.src = data.getPathToLogo;
-                            const elementImgBanner = document.getElementById(`image-banner-download-${languageFlag}`);
-                            elementImgBanner.src = data.getPathToBanner;
-                            assignDataInputs(languageFlag);
+                        urlCeo = data.urlCeo;
+                        marks = data.marks;
+                        if (data.nameLogo !== null) {
+                            imageLogo = "/uploads/cinema/logo/" + data.id + "/" + data.nameLogo;
                         }
-                    }
-                )
-            }
-        });
+                        if (data.nameBanner !== null) {
+                            imageBanner = "/uploads/cinema/banner/" + data.id + "/" + data.nameBanner;
+                        }
+                        if (data.galleries.length != null) {
+                            let temporaryArray = new Array(5);
+                            createGallery(temporaryArray);
+                            for (let i = 0; i < data.galleries.length; i++) {
+                                let object = data.galleries[i];
+                                console.log("object: " + object);
+                                temporaryArray[i] = {
+                                    id: object.id,
+                                    idFilm: data.id,
+                                    type: object.type,
+                                    name: object.linkImage,
+                                    file: null,
+                                    link: null,
+                                    pathToImage: "/uploads/cinema/galleries/" + data.id + "/" + object.linkImage
+                                }
+                            }
+                            array = temporaryArray;
+                            render();
+                        }
 
+                        dataSaving = {
+                            titleUkr: data.titleUkr,
+                            titleEng: data.titleEng,
+                            descriptionUkr: data.descriptionUkr,
+                            descriptionEng: data.descriptionEng,
+                            conditionUkr: data.conditionUkr,
+                            conditionEng: data.conditionEng,
+                            titleCeoUkr: data.titleCeoUkr,
+                            titleCeoEng: data.titleCeoEng,
+                            keywordsCeoUkr: data.keywordsCeoUkr,
+                            keywordsCeoEng: data.keywordsCeoEng,
+                            descriptionCeoUkr: data.descriptionCeoUkr,
+                            descriptionCeoEng: data.descriptionCeoEng,
+                            imageLogo: data.getPathToLogo,
+                            imageBanner: data.getPathToBanner,
+                            urlCeo: data.urlCeo,
+                            marks: data.marks,
+                            galleries: JSON.parse(JSON.stringify(array))
+                        }
+
+                        document.getElementById(`title-ukr`).value = data.titleUkr;
+                        document.getElementById(`title-eng`).value = data.titleEng;
+                        document.getElementById(`description-ukr`).value = data.descriptionUkr;
+                        document.getElementById(`description-eng`).value = data.descriptionEng;
+                        document.getElementById(`condition-ukr`).value = data.conditionUkr;
+                        document.getElementById(`condition-eng`).value = data.conditionEng;
+                        document.getElementById(`titleCeo-eng`).value = data.titleCeoEng;
+                        document.getElementById(`titleCeo-ukr`).value = data.titleCeoUkr;
+                        document.getElementById(`keywordsCeo-ukr`).value = data.keywordsCeoUkr;
+                        document.getElementById(`keywordsCeo-eng`).value = data.keywordsCeoEng;
+                        document.getElementById(`descriptionCeo-ukr`).value = data.descriptionCeoUkr;
+                        document.getElementById(`descriptionCeo-eng`).value = data.descriptionCeoEng;
+                        const elementImgLogo = document.getElementById(`image-logo-download-${languageFlag}`);
+                        elementImgLogo.src = data.getPathToLogo;
+                        const elementImgBanner = document.getElementById(`image-banner-download-${languageFlag}`);
+                        elementImgBanner.src = data.getPathToBanner;
+                        assignDataInputs(languageFlag);
+                    }
+                }
+            )
+        }
+    });
 </script>
 </body>
 </html>

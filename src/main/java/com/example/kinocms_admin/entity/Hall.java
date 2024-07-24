@@ -27,17 +27,10 @@ public class Hall {
     private LocalDate dateOfCreation;
     @ManyToOne
     private Cinema cinema;
-    @OneToMany(mappedBy = "hall")
+    @OneToMany(mappedBy = "hall", cascade = CascadeType.ALL)
     private List<Gallery> galleryList;
-    @OneToMany(mappedBy = "hall")
+    @OneToMany(mappedBy = "hall", cascade = CascadeType.ALL)
     private List<CeoBlock> ceoBlocks;
-    @OneToMany(mappedBy = "hall")
+    @OneToMany(mappedBy = "hall", cascade = CascadeType.ALL)
     private List<PageTranslation> pageTranslations;
-    @ManyToMany
-    @JoinTable(
-            name = "hall_marks",
-            joinColumns = @JoinColumn(name = "hall_id"),
-            inverseJoinColumns = @JoinColumn(name = "mark_id")
-    )
-    private List<Mark> marks;
 }
