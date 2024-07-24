@@ -478,20 +478,20 @@
         request.setRequestHeader("Content-type", "application/json; charset=utf-8");
         request.send();
         request.addEventListener("load", function () {
-            if (request.status == 200) {
-                let data = JSON.parse(request.response);
-                time = data.durationTime;
-                year = data.year;
-                budget = data.budget;
-                dateStart = data.dateStart;
-                dateEnd = data.dateEnd;
-                linkTrailer = data.linkTrailer;
-                urlCeo = data.urlCeo;
-                marks = data.marks;
-                genres = data.genres;
-                if (data.image !== '') {
-                    mainImage = "/uploads/film/main-image/" + data.id + "/" + data.image;
-                }
+                if (request.status == 200) {
+                    let data = JSON.parse(request.response);
+                    time = data.durationTime;
+                    year = data.year;
+                    budget = data.budget;
+                    dateStart = data.dateStart;
+                    dateEnd = data.dateEnd;
+                    linkTrailer = data.linkTrailer;
+                    urlCeo = data.urlCeo;
+                    marks = data.marks;
+                    genres = data.genres;
+                    if (data.image !== '') {
+                        mainImage = "/uploads/film/main-image/" + data.id + "/" + data.image;
+                    }
                     if (data.galleries.length != null) {
                         let temporaryArray = new Array(5);
                         createGallery(temporaryArray);
@@ -553,19 +553,19 @@
                 }
             }
         )
-        });
+    });
 
 
-        btnBackVersionUkr.onclick = function () {
-            rollBackForm(JSON.parse(JSON.stringify(dataRollBack)));
-            assignDataInputs(languageFlag);
-            render();
-        }
-        btnBackVersionEng.onclick = function () {
-            rollBackForm(JSON.parse(JSON.stringify(dataRollBack)));
-            assignDataInputs(languageFlag);
-            render();
-        }
+    btnBackVersionUkr.onclick = function () {
+        rollBackForm(JSON.parse(JSON.stringify(dataRollBack)));
+        assignDataInputs(languageFlag);
+        render();
+    }
+    btnBackVersionEng.onclick = function () {
+        rollBackForm(JSON.parse(JSON.stringify(dataRollBack)));
+        assignDataInputs(languageFlag);
+        render();
+    }
 </script>
 
 
@@ -636,18 +636,21 @@
     }
 
     $(document).ready(function () {
-        // SUBMIT FORM
         form.onsubmit = function () {
             event.preventDefault();
-            getDataFromInputs(languageFlag);
+            if (languageFlag === 'ukr') {
+                getDataFromInputs('eng');
+                assignDataInputs('eng');
+            } else if (languageFlag === 'eng') {
+                getDataFromInputs('ukr');
+                assignDataInputs('ukr');
+            }
             if (validateForm()) {
                 ajaxPost();
             } else {
                 console.log('Form validation failed');
             }
         };
-
-        // getDataFromInputs(languageFlag);
 
         function ajaxPost() {
             let formObject = getFormObject(languageFlag);
@@ -659,21 +662,19 @@
                 };
                 formObject.append("galleryDTO", JSON.stringify(object));
             }
-            // DO POST
             $.ajax({
                 type: "post",
                 url: "edit",
                 data: formObject,
                 processData: false,
                 contentType: false,
-                success: function (response) {
-                    console.log("Form submitted successfully");
+                success: function () {
+                    window.location.replace("/admin/films");
                 },
                 error: function (error) {
                     console.log("Error submitting form:", error);
                 }
             });
-            // window.location.replace("/admin/films");
         }
     });
 </script>

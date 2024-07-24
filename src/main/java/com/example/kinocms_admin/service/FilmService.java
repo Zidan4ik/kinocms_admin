@@ -14,4 +14,6 @@ public interface FilmService {
     List<Film> getAll();
 
     Optional<Film> getById(long id);
+
+    List<Film> findFilmsIsActive(boolean status);
 }

@@ -527,7 +527,6 @@
 
         form.onsubmit = function () {
             event.preventDefault();
-            console.log(languageFlag);
             if (languageFlag === 'ukr') {
                 getDataFromInputs('eng');
                 assignDataInputs('eng');
@@ -550,14 +549,13 @@
                 data: formObject,
                 processData: false,
                 contentType: false,
-                success: function (response) {
-                    // console.log("Form submitted successfully");
+                success: function () {
+                    window.location.replace("/admin/films");
                 },
                 error: function (error) {
                     console.log("Error submitting form:", error);
                 }
             });
-            // window.location.replace("/admin/films");
         }
     });
 </script>

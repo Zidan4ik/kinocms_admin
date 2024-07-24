@@ -44,8 +44,6 @@
 }
 
 .image-container{
-    width: 200px;
-    height: 200px;
     text-align: center;
     overflow: hidden;
     display: flex;

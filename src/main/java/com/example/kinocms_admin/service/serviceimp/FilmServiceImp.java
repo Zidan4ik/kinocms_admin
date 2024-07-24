@@ -2,14 +2,13 @@ package com.example.kinocms_admin.service.serviceimp;
 
 import com.example.kinocms_admin.entity.Film;
 import com.example.kinocms_admin.entity.Gallery;
-import com.example.kinocms_admin.entity.Genre;
-import com.example.kinocms_admin.entity.Mark;
 import com.example.kinocms_admin.enums.GalleriesType;
 import com.example.kinocms_admin.repository.FilmRepository;
 import com.example.kinocms_admin.repository.GalleryRepository;
 import com.example.kinocms_admin.repository.GenreRepository;
 import com.example.kinocms_admin.repository.MarkRepository;
 import com.example.kinocms_admin.service.FilmService;
+import com.example.kinocms_admin.util.HandleDataUtil;
 import com.example.kinocms_admin.util.ImageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -59,8 +58,8 @@ public class FilmServiceImp implements FilmService {
         }
 
         film.setGalleries(galleriesRes);
-        film.setGenresList(findSimilarGenre(film.getGenresList()));
-        film.setMarksList(findSimilarMark(film.getMarksList()));
+        film.setGenresList(HandleDataUtil.findSimilarGenre(film.getGenresList(),genreRepository));
+        film.setMarksList(HandleDataUtil.findSimilarMark(film.getMarksList(),markRepository));
         filmRepository.save(film);
 
         try {
@@ -92,6 +91,7 @@ public class FilmServiceImp implements FilmService {
         return filmRepository.findById(id);
     }
 
+    @Override
     public List<Film> findFilmsIsActive(boolean status) {
         List<Film> films = new ArrayList<>();
         LocalDate today = LocalDate.now();
@@ -111,31 +111,4 @@ public class FilmServiceImp implements FilmService {
         }
         return films;
     }
-
-    private Set<Genre> findSimilarGenre(Set<Genre> genres) {
-        Set<Genre> res = new HashSet<>();
-        for (Genre g : genres) {
-            Optional<Genre> name = genreRepository.findByName(g.getName());
-            if (name.isPresent()) {
-                res.add(name.get());
-            } else {
-                res.add(g);
-            }
-        }
-        return res;
-    }
-
-    private Set<Mark> findSimilarMark(Set<Mark> marks) {
-        Set<Mark> res = new HashSet<>();
-        for (Mark g : marks) {
-            Optional<Mark> name = markRepository.findByName(g.getName());
-            if (name.isPresent()) {
-                res.add(name.get());
-            } else {
-                res.add(g);
-            }
-        }
-        return res;
-    }
-
 }

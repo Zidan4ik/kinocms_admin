@@ -7,7 +7,7 @@ import com.example.kinocms_admin.enums.PageType;
 import com.example.kinocms_admin.model.FilmDTOAdd;
 import com.example.kinocms_admin.model.FilmInfoDTO;
 import com.example.kinocms_admin.util.MonthTranslator;
-import com.example.kinocms_admin.util.SubstringUtil;
+import com.example.kinocms_admin.util.HandleDataUtil;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -38,19 +38,25 @@ public class FilmMapper {
 
         List<String> marksString = new ArrayList<>();
         List<String> genresString = new ArrayList<>();
-        for (Mark m:marksEntity){
+        for (Mark m : marksEntity) {
             marksString.add(m.getName());
         }
-        for (Genre g:genresEntity){
-            if(g.getName().equals("action"))
+        for (Genre g : genresEntity) {
+            if (g.getName().equals("action")) {
                 genresString.add("бойовик");
-            if(g.getName().equals("comedy"))
+            } else if (g.getName().equals("comedy")) {
                 genresString.add("комедія");
-            if(g.getName().equals("fantasy"))
+            } else if (g.getName().equals("fantasy")) {
                 genresString.add("фантастика");
-            if(g.getName().equals("horror"))
+            } else if (g.getName().equals("horror")) {
                 genresString.add("жах");
-//            genresString.add(g.getName());
+            } else if (g.getName().equals("Melodramas")) {
+                genresString.add("мелодрами");
+            } else if (g.getName().equals("Mysticism")) {
+                genresString.add("містика");
+            } else if (g.getName().equals("Detective")) {
+                genresString.add("детектив");
+            }
         }
         String marksRes = String.join(", ", marksString);
         String genresRes = String.join(", ", genresString);
@@ -79,7 +85,6 @@ public class FilmMapper {
         }
         film.setBudget(dto.getBudget());
 
-        List<CeoBlock> ceoBlocks = new ArrayList<>();
         CeoBlock ceoBlockUkr = new CeoBlock(
                 LanguageCode.Ukr,
                 PageType.film,
@@ -88,7 +93,6 @@ public class FilmMapper {
                 dto.getDescriptionCeoUkr(),
                 film
         );
-        ceoBlocks.add(ceoBlockUkr);
         CeoBlock ceoBlockEng = new CeoBlock(
                 LanguageCode.Eng,
                 PageType.film,
@@ -97,9 +101,6 @@ public class FilmMapper {
                 dto.getDescriptionCeoEng(),
                 film
         );
-        ceoBlocks.add(ceoBlockEng);
-
-        List<PageTranslation> pageTranslations = new ArrayList<>();
         PageTranslation pageTranslationUkr = new PageTranslation(
                 LanguageCode.Ukr,
                 PageType.film,
@@ -108,7 +109,6 @@ public class FilmMapper {
                 null,
                 film
         );
-        pageTranslations.add(pageTranslationUkr);
         PageTranslation pageTranslationEng = new PageTranslation(
                 LanguageCode.Eng,
                 PageType.film,
@@ -117,11 +117,9 @@ public class FilmMapper {
                 null,
                 film
         );
-        pageTranslations.add(pageTranslationEng);
-
         Set<Mark> marksResult = new HashSet<>();
         for (String s : dto.getMarks()) {
-            marksResult.add(new Mark(SubstringUtil.substringMark(s)));
+            marksResult.add(new Mark(HandleDataUtil.substringMark(s)));
         }
 
         Set<Genre> genresResult = new HashSet<>();
