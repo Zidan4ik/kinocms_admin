@@ -7,7 +7,6 @@ import com.example.kinocms_admin.enums.PageType;
 import com.example.kinocms_admin.model.NewDtoAdd;
 import com.example.kinocms_admin.model.NewsDTOView;
 import com.example.kinocms_admin.util.HandleDataUtil;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -46,14 +45,6 @@ public class NewMapper {
             }
         }
         dto.setMarks(marks);
-
-        List<Gallery> galleries = new ArrayList<>();
-        if (unifier.getGalleryList() != null) {
-            for (Gallery g : unifier.getGalleryList()) {
-                galleries.add(new Gallery(g.getId(), g.getLinkImage(), g.getType()));
-            }
-        }
-        dto.setGalleriesBD(galleries);
 
         if (unifier.getCeoBlockUkr() != null) {
             dto.setTitleCeoUkr(unifier.getCeoBlockUkr().getTitle());
@@ -123,6 +114,16 @@ public class NewMapper {
                 dto.getKeywordsCeoEng(),
                 entity
         );
+        List<CeoBlock> ceoBlocks = new ArrayList<>(){{
+            add(ceoBlockUkr);
+            add(ceoBlockEng);
+        }};
+        List<PageTranslation> pageTranslations = new ArrayList<>(){{
+            add(pageTranslationUkr);
+            add(pageTranslationEng);
+        }};
+        entity.setCeoBlocks(ceoBlocks);
+        entity.setPageTranslations(pageTranslations);
         return new NewUnifier(entity,ceoBlockUkr,ceoBlockEng,pageTranslationUkr,pageTranslationEng);
     }
 

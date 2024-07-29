@@ -43,11 +43,6 @@ public class GalleryServiceImp implements GalleryService {
         return galleryRepository.getAllByHall(hall);
     }
 
-    @Override
-    public List<Gallery> getAllByNew(New newEntity) {
-        return galleryRepository.getAllByNewEntity(newEntity);
-    }
-
     public void handleDeletingImages(List<GalleriesDTO> galleries, long id) {
         List<String> noExistImages = new ArrayList<>();
         String typePage = null;

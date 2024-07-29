@@ -25,12 +25,10 @@ public class New {
     private boolean status;
     @Column(length = 2048)
     private String urlCeo;
-    @OneToMany(mappedBy = "newEntity", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "newEntity", cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private List<PageTranslation> pageTranslations;
-    @OneToMany(mappedBy = "newEntity", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "newEntity", cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private List<CeoBlock> ceoBlocks;
-    @OneToMany(mappedBy = "newEntity", cascade = CascadeType.ALL)
-    private List<Gallery> galleries;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "news_marks",

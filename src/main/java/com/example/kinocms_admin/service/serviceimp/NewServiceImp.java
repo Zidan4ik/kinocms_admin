@@ -21,7 +21,6 @@ import java.util.*;
 @RequiredArgsConstructor
 public class NewServiceImp implements NewService{
     private final NewRepository newRepository;
-    private final GalleryServiceImp galleryServiceImp;
     private final MarkServiceImp markServiceImp;
 
     @Override
@@ -30,43 +29,26 @@ public class NewServiceImp implements NewService{
     }
 
     @Override
-    public void saveNew(New newEntity, MultipartFile fileImage, List<MultipartFile> galleriesMF) {
+    public void saveNew(New newEntity, MultipartFile fileImage) {
         String uploadDir;
         String fileNameSchema = null;
-        HashMap<String, MultipartFile> mapFile = new HashMap<>();
-        List<Gallery> galleriesRes = new ArrayList<>();
+
         if (newEntity.getId() != null) {
             Optional<New> newBD = getById(newEntity.getId());
             newBD.ifPresent((object)-> newEntity.setNameImage(object.getNameImage()));
-            List<Gallery> byFilm = galleryServiceImp.getAllByNew(getById(newEntity.getId()).get());
-            if (!byFilm.isEmpty()) {
-                newEntity.setGalleries(byFilm);
-            }
+            newEntity.setPageTranslations(null);
+            newEntity.setCeoBlocks(null);
         }
         if (fileImage != null) {
             fileNameSchema = UUID.randomUUID() + "." + StringUtils.cleanPath(Objects.requireNonNull(fileImage.getOriginalFilename()));
             newEntity.setNameImage(fileNameSchema);
         }
-        if (galleriesMF != null) {
-            for (MultipartFile fileGallery : galleriesMF) {
-                if (fileGallery != null) {
-                    String name = UUID.randomUUID() + "." + StringUtils.cleanPath(Objects.requireNonNull(fileGallery.getOriginalFilename()));
-                    galleriesRes.add(new Gallery(name, GalleriesType.news, newEntity));
-                    mapFile.put(name, fileGallery);
-                }
-            }
-        }
-        newEntity.setGalleries(galleriesRes);
         newEntity.setMarksList(HandleDataUtil.findSimilarMark(newEntity.getMarksList(),markServiceImp));
         save(newEntity);
         try {
             if (fileImage != null && !fileImage.getOriginalFilename().isEmpty()) {
                 uploadDir = "./uploads/news/image/" + newEntity.getId();
                 ImageUtil.saveAfterDelete(uploadDir, fileImage, fileNameSchema);
-            }
-            if (!mapFile.isEmpty()) {
-                uploadDir = "./uploads/news/galleries/" + newEntity.getId();
-                ImageUtil.savesAfterDelete(uploadDir, mapFile);
             }
         } catch (IOException e) {
             e.printStackTrace();

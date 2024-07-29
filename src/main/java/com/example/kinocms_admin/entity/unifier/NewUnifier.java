@@ -15,7 +15,6 @@ import java.util.Set;
 @NoArgsConstructor
 public class NewUnifier {
     private New newEntity;
-    private List<Gallery> galleryList;
     private Set<Mark> marks;
     private CeoBlock ceoBlockUkr;
     private CeoBlock ceoBlockEng;

@@ -1,17 +1,15 @@
 package com.example.kinocms_admin.service.serviceimp;
 
-import com.example.kinocms_admin.entity.CeoBlock;
 import com.example.kinocms_admin.entity.Cinema;
 import com.example.kinocms_admin.entity.Gallery;
 import com.example.kinocms_admin.entity.Hall;
 import com.example.kinocms_admin.enums.GalleriesType;
-import com.example.kinocms_admin.enums.LanguageCode;
-import com.example.kinocms_admin.repository.GalleryRepository;
 import com.example.kinocms_admin.repository.HallRepository;
 import com.example.kinocms_admin.service.HallService;
 import com.example.kinocms_admin.util.ImageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,8 +21,6 @@ import java.util.*;
 public class HallServiceImp implements HallService {
     private final HallRepository hallRepository;
     private final GalleryServiceImp galleryServiceImp;
-    private final PageTranslationServiceImp pageTranslationServiceImp;
-    private final CeoBlockServiceImp ceoBlockServiceImp;
 
     @Override
     public void save(Hall hall, MultipartFile schemaMF, MultipartFile bannerMF, List<MultipartFile> galleriesMF) {
@@ -101,5 +97,12 @@ public class HallServiceImp implements HallService {
     @Override
     public List<Hall> getAllByCinema(Cinema cinema) {
         return hallRepository.getAllByCinema(cinema);
+    }
+
+
+    @Transactional
+    @Override
+    public void deleteAllByCinema(Cinema cinema) {
+        hallRepository.deleteAllByCinema(cinema);
     }
 }

@@ -17,4 +17,5 @@ public interface HallService {
     Optional<Hall> getById(Long id);
 
     List<Hall> getAllByCinema(Cinema cinema);
+    void deleteAllByCinema(Cinema cinema);
 }

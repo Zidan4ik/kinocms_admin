@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface NewService {
     void save(New newEntity);
-    void saveNew(New newEntity, MultipartFile fileImage,List<MultipartFile> galleriesMF);
+    void saveNew(New newEntity, MultipartFile fileImage);
     void deleteById(Long id);
     List<New> getAll();
     Optional<New> getById(Long id);

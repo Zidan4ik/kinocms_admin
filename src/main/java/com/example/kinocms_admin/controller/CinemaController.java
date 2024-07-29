@@ -98,6 +98,8 @@ public class CinemaController {
     @GetMapping("/cinema/{id}/delete")
     public ModelAndView deleteCinema(@PathVariable Long id){
         ModelAndView model = new ModelAndView("redirect:/admin/cinemas");
+        Optional<Cinema> cinemaById = cinemaServiceImp.getById(id);
+        cinemaById.ifPresent(hallServiceImp::deleteAllByCinema);
         cinemaServiceImp.deleteById(id);
         return model;
     }

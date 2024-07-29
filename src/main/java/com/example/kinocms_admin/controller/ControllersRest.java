@@ -137,21 +137,20 @@ public class ControllersRest {
     @PostMapping("/new/add")
     public ResponseEntity<Object> addNew(@ModelAttribute(name = "newEntity") NewDtoAdd newDtoAdd) {
         NewUnifier unifier = NewMapper.toEntityAdd(newDtoAdd);
-        newServiceImp.saveNew(unifier.getNewEntity(), newDtoAdd.getFileImage(), newDtoAdd.getGalleriesMF());
+        newServiceImp.saveNew(unifier.getNewEntity(), newDtoAdd.getFileImage());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PostMapping("/new/{id}/edit")
     public ResponseEntity<Object> editNew(@ModelAttribute(name = "newEntity") NewDtoAdd newDtoAdd) {
         NewUnifier unifier = NewMapper.toEntityAdd(newDtoAdd);
-        newServiceImp.saveNew(unifier.getNewEntity(), newDtoAdd.getFileImage(), newDtoAdd.getGalleriesMF());
+        newServiceImp.saveNew(unifier.getNewEntity(), newDtoAdd.getFileImage());
 
         Optional<New> newBD = newServiceImp.getById(newDtoAdd.getId());
-        ceoBlockServiceImp.saveNew(unifier.getCeoBlockUkr(), newBD.get(), LanguageCode.Ukr);
-        ceoBlockServiceImp.saveNew(unifier.getCeoBlockEng(), newBD.get(), LanguageCode.Eng);
-
-        pageTranslationServiceImp.saveNew(unifier.getPageTranslationUkr(), newBD.get(), LanguageCode.Ukr);
-        pageTranslationServiceImp.saveNew(unifier.getPageTranslationEng(), newBD.get(), LanguageCode.Eng);
+        newBD.ifPresent(c->ceoBlockServiceImp.saveNew(unifier.getCeoBlockUkr(),c,LanguageCode.Ukr));
+        newBD.ifPresent(c->ceoBlockServiceImp.saveNew(unifier.getCeoBlockEng(),c,LanguageCode.Eng));
+        newBD.ifPresent(c->pageTranslationServiceImp.saveNew(unifier.getPageTranslationUkr(),c,LanguageCode.Ukr));
+        newBD.ifPresent(c->pageTranslationServiceImp.saveNew(unifier.getPageTranslationEng(),c,LanguageCode.Eng));
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }

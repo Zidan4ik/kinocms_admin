@@ -24,7 +24,6 @@ public class NewController {
     private final NewServiceImp newServiceImp;
     private final PageTranslationServiceImp pageTranslationServiceImp;
     private final CeoBlockServiceImp ceoBlockServiceImp;
-    private final GalleryServiceImp galleryServiceImp;
     private final MarkServiceImp markServiceImp;
 
     @GetMapping("/news")
@@ -71,13 +70,13 @@ public class NewController {
             pageTranslationUkr.ifPresent(unifier::setPageTranslationUkr);
             pageTranslationEng.ifPresent(unifier::setPageTranslationEng);
 
-            unifier.setGalleryList(galleryServiceImp.getAllByNew(newBD.get()));
         }
         return NewMapper.toDtoAdd(unifier);
     }
     @GetMapping("/new/{id}/delete")
     public ModelAndView deleteNew(@PathVariable Long id){
         ModelAndView model = new ModelAndView("redirect:/admin/news");
+
         newServiceImp.deleteById(id);
         return model;
     }
