@@ -21,6 +21,7 @@ public class HallDTOAdd {
     private String descriptionUkr;
     private String descriptionEng;
     private List<Gallery> galleries;
+    private List<String> galleryDTO;
     private String titleCeoUkr;
     private String titleCeoEng;
     private String keywordsCeoUkr;
@@ -34,9 +35,9 @@ public class HallDTOAdd {
     private MultipartFile fileBannerCinema;
 
     public String getPathToSchema() {
-        return "/uploads/hall/schema/" + id + "/" + nameSchema;
+        return "/uploads/halls/schema/" + id + "/" + nameSchema;
     }
     public String getPathToBanner() {
-        return "/uploads/hall/banner/" + id + "/" + nameBanner;
+        return "/uploads/halls/banner/" + id + "/" + nameBanner;
     }
 }

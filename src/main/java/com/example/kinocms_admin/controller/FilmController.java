@@ -35,19 +35,19 @@ public class FilmController {
 
 
         for (Film film : filmsActive) {
-            PageTranslation pageTranslation = pageTranslationServiceImp.
-                    getAllByFilmAndLanguageCode(film, LanguageCode.Ukr);
+            Optional<PageTranslation> pageTranslation = pageTranslationServiceImp.
+                    getByFilmAndLanguageCode(film, LanguageCode.Ukr);
             Set<Mark> marks = markServiceImp.getAllByFilm(film);
             Set<Genre> genres = genreServiceImp.getAllByFilm(film);
-            filmsActiveDTO.add(FilmMapper.toDtoFilmInfo(film, pageTranslation, genres, marks));
+            pageTranslation.ifPresent(translation -> filmsActiveDTO.add(FilmMapper.toDtoFilmInfo(film, translation, genres, marks)));
         }
 
         for (Film film : filmsUnActive) {
-            PageTranslation pageTranslation = pageTranslationServiceImp.
-                    getAllByFilmAndLanguageCode(film, LanguageCode.Ukr);
+            Optional<PageTranslation> pageTranslation = pageTranslationServiceImp.
+                    getByFilmAndLanguageCode(film, LanguageCode.Ukr);
             Set<Mark> marks = markServiceImp.getAllByFilm(film);
             Set<Genre> genres = genreServiceImp.getAllByFilm(film);
-            filmsUnActiveDTO.add(FilmMapper.toDtoFilmInfo(film, pageTranslation, genres, marks));
+            pageTranslation.ifPresent(translation -> filmsUnActiveDTO.add(FilmMapper.toDtoFilmInfo(film, translation, genres, marks)));
         }
         model.addObject("filmToday", filmsActiveDTO);
         model.addObject("filmSoon", filmsUnActiveDTO);

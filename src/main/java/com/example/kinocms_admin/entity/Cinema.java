@@ -24,9 +24,9 @@ public class Cinema {
     @Column(length = 2048)
     private String urlCeo;
     private LocalDate dateOfCreation;
-    @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cinema", cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private List<CeoBlock> ceoBlocks;
-    @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cinema", cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private List<PageTranslation> pageTranslations;
 
     @ManyToMany(cascade = CascadeType.ALL)

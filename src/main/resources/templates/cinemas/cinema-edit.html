@@ -501,7 +501,7 @@
         function validateForm() {
             let isValid = true;
             inputForm.forEach(function (input) {
-                if (input.value === '') {
+                if (input.value === '' ) {
                     input.classList.remove('successful');
                     input.classList.add('error');
                     console.log('input not filled');
@@ -514,7 +514,7 @@
 
             isValidLogo.forEach(function (input) {
                 input.innerHTML = "";
-                if (fileLogo === null) {
+                if (fileLogo === null && imageLogo === null) {
                     let paragraph = document.createElement("p");
                     paragraph.textContent = "The file was not downloaded";
                     paragraph.style.color = "red";
@@ -525,7 +525,7 @@
             });
             isValidBanner.forEach(function (input) {
                 input.innerHTML = "";
-                if (fileBanner === null) {
+                if (fileBanner === null & imageBanner === null) {
                     let paragraph = document.createElement("p");
                     paragraph.textContent = "The file was not downloaded";
                     paragraph.style.color = "red";
@@ -562,7 +562,7 @@
                 getDataFromInputs('ukr');
                 assignDataInputs('ukr');
             }
-            if (!validateForm()) {
+            if (validateForm()) {
                 ajaxPost();
             } else {
                 console.log('Form validation failed');
@@ -618,15 +618,13 @@
             request.addEventListener("load", function () {
                     if (request.status === 200) {
                         let data = JSON.parse(request.response);
-                        console.log(data);
-
                         urlCeo = data.urlCeo;
                         marks = data.marks;
                         if (data.nameLogo !== null) {
-                            imageLogo = "/uploads/cinema/logo/" + data.id + "/" + data.nameLogo;
+                            imageLogo = "/uploads/cinemas/logo/" + data.id + "/" + data.nameLogo;
                         }
                         if (data.nameBanner !== null) {
-                            imageBanner = "/uploads/cinema/banner/" + data.id + "/" + data.nameBanner;
+                            imageBanner = "/uploads/cinemas/banner/" + data.id + "/" + data.nameBanner;
                         }
                         if (data.galleries.length != null) {
                             let temporaryArray = new Array(5);
@@ -641,7 +639,7 @@
                                     name: object.linkImage,
                                     file: null,
                                     link: null,
-                                    pathToImage: "/uploads/cinema/galleries/" + data.id + "/" + object.linkImage
+                                    pathToImage: "/uploads/cinemas/galleries/" + data.id + "/" + object.linkImage
                                 }
                             }
                             array = temporaryArray;

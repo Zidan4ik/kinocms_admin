@@ -24,9 +24,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FilmServiceImp implements FilmService {
     private final FilmRepository filmRepository;
-    private final GenreRepository genreRepository;
-    private final MarkRepository markRepository;
-    private final GalleryRepository galleryRepository;
+    private final GenreServiceImp genreServiceImp;
+    private final MarkServiceImp markServiceImp;
+    private final GalleryServiceImp galleryServiceImp;
 
     @Override
     public void save(Film film, MultipartFile file, List<MultipartFile> multipartFiles) {
@@ -44,7 +44,7 @@ public class FilmServiceImp implements FilmService {
         }
 
         if (film.getId() != null) {
-            List<Gallery> byFilm = galleryRepository.getAllByFilm(filmRepository.findById(film.getId()).get());
+            List<Gallery> byFilm = galleryServiceImp.getAllByFilm(filmRepository.findById(film.getId()).get());
             film.setGalleries(byFilm);
         }
         if (multipartFiles != null) {
@@ -58,17 +58,17 @@ public class FilmServiceImp implements FilmService {
         }
 
         film.setGalleries(galleriesRes);
-        film.setGenresList(HandleDataUtil.findSimilarGenre(film.getGenresList(),genreRepository));
-        film.setMarksList(HandleDataUtil.findSimilarMark(film.getMarksList(),markRepository));
+        film.setGenresList(HandleDataUtil.findSimilarGenre(film.getGenresList(),genreServiceImp));
+        film.setMarksList(HandleDataUtil.findSimilarMark(film.getMarksList(),markServiceImp));
         filmRepository.save(film);
 
         try {
             if (file != null && !file.getOriginalFilename().isEmpty()) {
-                uploadDir = "./uploads/film/main-image/" + film.getId();
+                uploadDir = "./uploads/films/main-image/" + film.getId();
                 ImageUtil.saveAfterDelete(uploadDir, file, fileName);
             }
             if (!mapFile.isEmpty()) {
-                uploadDir = "./uploads/film/galleries/" + film.getId();
+                uploadDir = "./uploads/films/galleries/" + film.getId();
                 ImageUtil.savesAfterDelete(uploadDir, mapFile);
             }
         } catch (IOException e) {

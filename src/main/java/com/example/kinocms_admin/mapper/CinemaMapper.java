@@ -65,7 +65,7 @@ public class CinemaMapper {
         return dto;
     }
 
-    public static Cinema toEntityAdd(CinemaDTOAdd dto) {
+    public static CinemaUnifier toEntityAdd(CinemaDTOAdd dto) {
         Cinema entity = new Cinema();
         entity.setId(dto.getId());
         entity.setUrlCeo(dto.getUrlCeo());
@@ -118,7 +118,7 @@ public class CinemaMapper {
 
         entity.setPageTranslations(pagesTranslators);
         entity.setCeoBlocks(ceoBlocks);
-        return entity;
+        return new CinemaUnifier(entity,ceoBlockUkr,ceoBlockEng,pageTranslationUkr,pageTranslationEng);
     }
     public static CinemaDtoView toDTOView(Cinema cinema, PageTranslation pageTranslation){
         CinemaDtoView dto = new CinemaDtoView();

@@ -1,9 +1,11 @@
 package com.example.kinocms_admin.service.serviceimp;
 
+import com.example.kinocms_admin.entity.CeoBlock;
 import com.example.kinocms_admin.entity.Cinema;
 import com.example.kinocms_admin.entity.Gallery;
 import com.example.kinocms_admin.entity.Hall;
 import com.example.kinocms_admin.enums.GalleriesType;
+import com.example.kinocms_admin.enums.LanguageCode;
 import com.example.kinocms_admin.repository.GalleryRepository;
 import com.example.kinocms_admin.repository.HallRepository;
 import com.example.kinocms_admin.service.HallService;
@@ -20,7 +22,10 @@ import java.util.*;
 @RequiredArgsConstructor
 public class HallServiceImp implements HallService {
     private final HallRepository hallRepository;
-    private final GalleryRepository galleryRepository;
+    private final GalleryServiceImp galleryServiceImp;
+    private final PageTranslationServiceImp pageTranslationServiceImp;
+    private final CeoBlockServiceImp ceoBlockServiceImp;
+
     @Override
     public void save(Hall hall, MultipartFile schemaMF, MultipartFile bannerMF, List<MultipartFile> galleriesMF) {
         String uploadDir;
@@ -30,27 +35,28 @@ public class HallServiceImp implements HallService {
         List<Gallery> galleriesRes = new ArrayList<>();
         if (hall.getId() != null) {
             Optional<Hall> hallById = hallRepository.findById(hall.getId());
-            hall.setNameSchema(hallById.get().getNameSchema());
-            hall.setNameBanner(hallById.get().getNameBanner());
+            hallById.ifPresent(h -> hall.setNameSchema(h.getNameSchema()));
+            hallById.ifPresent(h -> hall.setNameBanner(h.getNameBanner()));
+            hallById.ifPresent(h ->
+                    hall.setGalleryList(galleryServiceImp.getAllByHall(h)));
+
+            hall.setPageTranslations(null);
+            hall.setCeoBlocks(null);
         }
         if (schemaMF != null) {
-            fileNameSchema = UUID.randomUUID() + "." + StringUtils.cleanPath(schemaMF.getOriginalFilename());
+            fileNameSchema = UUID.randomUUID() + "." + StringUtils.cleanPath(Objects.requireNonNull(schemaMF.getOriginalFilename()));
             hall.setNameSchema(fileNameSchema);
         }
         if (bannerMF != null) {
-            fileNameBanner = UUID.randomUUID() + "." + StringUtils.cleanPath(bannerMF.getOriginalFilename());
+            fileNameBanner = UUID.randomUUID() + "." + StringUtils.cleanPath(Objects.requireNonNull(bannerMF.getOriginalFilename()));
             hall.setNameBanner(fileNameBanner);
         }
 
-        if (hall.getId() != null) {
-            List<Gallery> byFilm = galleryRepository.getAllByHall(hallRepository.findById(hall.getId()).get());
-            hall.setGalleryList(byFilm);
-        }
         if (galleriesMF != null) {
             for (MultipartFile fileGallery : galleriesMF) {
                 if (fileGallery != null) {
-                    String name = UUID.randomUUID() + "." + StringUtils.cleanPath(fileGallery.getOriginalFilename());
-                    galleriesRes.add(new Gallery(name, GalleriesType.hall, hall));
+                    String name = UUID.randomUUID() + "." + StringUtils.cleanPath(Objects.requireNonNull(fileGallery.getOriginalFilename()));
+                    galleriesRes.add(new Gallery(name, GalleriesType.halls, hall));
                     mapFile.put(name, fileGallery);
                 }
             }
@@ -60,15 +66,15 @@ public class HallServiceImp implements HallService {
 
         try {
             if (schemaMF != null && !schemaMF.getOriginalFilename().isEmpty()) {
-                uploadDir = "./uploads/hall/schema/" + hall.getId();
+                uploadDir = "./uploads/halls/schema/" + hall.getId();
                 ImageUtil.saveAfterDelete(uploadDir, schemaMF, fileNameSchema);
             }
             if (bannerMF != null && !bannerMF.getOriginalFilename().isEmpty()) {
-                uploadDir = "./uploads/hall/banner/" + hall.getId();
+                uploadDir = "./uploads/halls/banner/" + hall.getId();
                 ImageUtil.saveAfterDelete(uploadDir, bannerMF, fileNameBanner);
             }
             if (!mapFile.isEmpty()) {
-                uploadDir = "./uploads/hall/galleries/" + hall.getId();
+                uploadDir = "./uploads/halls/galleries/" + hall.getId();
                 ImageUtil.savesAfterDelete(uploadDir, mapFile);
             }
         } catch (IOException e) {

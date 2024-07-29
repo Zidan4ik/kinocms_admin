@@ -94,6 +94,14 @@ function getFormObject(language) {
             formObject.append("imagesMultipart", array[i].file);
         }
     }
+    for (let i = 0; i < array.length; i++) {
+        let object = {
+            id: array[i].id,
+            name: array[i].name,
+            type: array[i].type
+        };
+        formObject.append("galleryDTO", JSON.stringify(object));
+    }
     return formObject;
 }
 
@@ -155,7 +163,7 @@ function createGallery(array) {
             link: null,
             file: null,
             pathToImage: function () {
-                return "/uploads/films/" + this.id + "/" + this.name;
+                return "`/uploads/cinemas/" + this.id + "/" + this.name;
             }
         };
     }
@@ -307,7 +315,6 @@ function checkChanging() {
     fieldsToCheck.forEach(function (field) {
         const elementById = document.getElementById(field.id).value;
         if (field.value !==null && elementById !== field.value) {
-            console.log(elementById+":"+field.value);
             flag = true;
         }
     });
@@ -318,10 +325,8 @@ function checkChanging() {
             if (dataSaving.marks.length === marksParse.length) {
                 if (dataSaving.marks[i] !== marksParse[i].value) {
                     flag = true;
-                    console.log("1")
                 }
             } else {
-                console.log("size1")
                 flag = true;
             }
         }
@@ -329,7 +334,6 @@ function checkChanging() {
 
     for (let i = 0; i < dataSaving.galleries.length; i++) {
         if (array[i].name !== dataSaving.galleries[i].name) {
-            console.log("2")
             flag = true;
         }
     }

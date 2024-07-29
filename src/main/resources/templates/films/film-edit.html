@@ -490,7 +490,7 @@
                     marks = data.marks;
                     genres = data.genres;
                     if (data.image !== '') {
-                        mainImage = "/uploads/film/main-image/" + data.id + "/" + data.image;
+                        mainImage = "/uploads/films/main-image/" + data.id + "/" + data.image;
                     }
                     if (data.galleries.length != null) {
                         let temporaryArray = new Array(5);
@@ -505,7 +505,7 @@
                                 name: object.linkImage,
                                 file: null,
                                 link: null,
-                                pathToImage: "/uploads/film/galleries/" + data.id + "/" + object.linkImage
+                                pathToImage: "/uploads/films/galleries/" + data.id + "/" + object.linkImage
                             }
                         }
                         array = temporaryArray;
@@ -547,7 +547,7 @@
                         marks: data.marks,
                         genres: data.genres,
                         galleries: JSON.parse(JSON.stringify(array)),
-                        mainImage: "/uploads/film/main-image/" + data.id + "/" + data.image
+                        mainImage: "/uploads/films/main-image/" + data.id + "/" + data.image
                     }
                     assignDataInputs(languageFlag);
                 }
@@ -622,8 +622,7 @@
                 input.textContent = "";
             }
         })
-
-
+        
         genresValidParagraphs.forEach(function (input) {
             if (genresCurrent.length === 0) {
                 input.textContent = "More than one genre was not selected";

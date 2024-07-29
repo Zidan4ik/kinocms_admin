@@ -94,6 +94,14 @@ function getFormObject(language) {
     }
     formObject.append("cinemaId", $(`#cinemaId`).val());
 
+    for (let i = 0; i < array.length; i++) {
+        let object = {
+            id: array[i].id,
+            name: array[i].name,
+            type: array[i].type
+        };
+        formObject.append("galleryDTO", JSON.stringify(object));
+    }
     return formObject;
 }
 
@@ -159,7 +167,7 @@ function createGallery(array) {
             link: null,
             file: null,
             pathToImage: function () {
-                return "/uploads/films/" + this.id + "/" + this.name;
+                return "/uploads/halls/" + this.id + "/" + this.name;
             }
         };
     }

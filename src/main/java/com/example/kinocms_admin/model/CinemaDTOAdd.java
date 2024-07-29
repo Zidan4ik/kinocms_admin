@@ -39,10 +39,10 @@ public class CinemaDTOAdd {
     private List<String> galleryDTO;
 
     public String getPathToBanner() {
-        return "/uploads/cinema/banner/" + id + "/" + nameBanner;
+        return "/uploads/cinemas/banner/" + id + "/" + nameBanner;
     }
 
     public String getPathToLogo() {
-        return "/uploads/cinema/logo/" + id + "/" + nameLogo;
+        return "/uploads/cinemas/logo/" + id + "/" + nameLogo;
     }
 }

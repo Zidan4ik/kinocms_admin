@@ -431,7 +431,8 @@
             });
 
             return isValid;
-        }
+        };
+
 
         form.onsubmit = function () {
             event.preventDefault();
@@ -467,6 +468,7 @@
                 }
             });
         }
+
     });
 
     window.addEventListener("DOMContentLoaded", () => {
@@ -483,10 +485,10 @@
                         urlCeo = data.urlCeo;
                         numberHall = data.number;
                         if (data.nameSchema !== '') {
-                            imageSchema = "/uploads/hall/schema/" + data.id + "/" + data.nameSchema;
+                            imageSchema = "/uploads/halls/schema/" + data.id + "/" + data.nameSchema;
                         }
                         if (data.nameBanner !== '') {
-                            imageBanner = "/uploads/hall/banner/" + data.id + "/" + data.nameBanner;
+                            imageBanner = "/uploads/halls/banner/" + data.id + "/" + data.nameBanner;
                         }
                         if (data.galleries.length != null) {
                             let temporaryArray = new Array(5);
@@ -501,7 +503,7 @@
                                     name: object.linkImage,
                                     file: null,
                                     link: null,
-                                    pathToImage: "/uploads/hall/galleries/" + data.id + "/" + object.linkImage
+                                    pathToImage: "/uploads/halls/galleries/" + data.id + "/" + object.linkImage
                                 }
                             }
                             array = temporaryArray;

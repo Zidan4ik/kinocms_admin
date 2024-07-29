@@ -29,8 +29,8 @@ public class Hall {
     private Cinema cinema;
     @OneToMany(mappedBy = "hall", cascade = CascadeType.ALL)
     private List<Gallery> galleryList;
-    @OneToMany(mappedBy = "hall", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "hall", cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private List<CeoBlock> ceoBlocks;
-    @OneToMany(mappedBy = "hall", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "hall", cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private List<PageTranslation> pageTranslations;
 }

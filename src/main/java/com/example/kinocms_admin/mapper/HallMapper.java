@@ -51,6 +51,14 @@ public class HallMapper {
                 dto.getKeywordsCeoEng(),
                 hall
         );
+        List<CeoBlock> ceoBlocks = new ArrayList<>();
+        List<PageTranslation> pageTranslations = new ArrayList<>();
+        ceoBlocks.add(ceoBlockUkr);
+        ceoBlocks.add(ceoBlockEng);
+        pageTranslations.add(translatorUkr);
+        pageTranslations.add(translatorEng);
+        hall.setCeoBlocks(ceoBlocks);
+        hall.setPageTranslations(pageTranslations);
 
         return new HallUnifier(hall,translatorUkr,translatorEng,ceoBlockUkr,ceoBlockEng);
     }

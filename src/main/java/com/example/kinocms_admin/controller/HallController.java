@@ -47,22 +47,23 @@ public class HallController {
     @ResponseBody
     public HallDTOAdd getHallDate(@PathVariable(name = "id") Long id) {
         Optional<Hall> hallById = hallServiceImp.getById(id);
-        Optional<PageTranslation> pageTranslationUkr = pageTranslationServiceImp.getByHallAndLanguageCode(hallById.get(), LanguageCode.Ukr);
-        Optional<PageTranslation> pageTranslationEng = pageTranslationServiceImp.getByHallAndLanguageCode(hallById.get(), LanguageCode.Eng);
-        Optional<CeoBlock> ceoBlockUkr = ceoBlockServiceImp.getByHallAndLanguageCode(hallById.get(),LanguageCode.Ukr);
-        Optional<CeoBlock> ceoBlockEng = ceoBlockServiceImp.getByHallAndLanguageCode(hallById.get(),LanguageCode.Eng);
-        List<Gallery> galleries = galleryServiceImp.getAllByHall(hallById.get());
+        HallUnifier unifier = new HallUnifier();
+        if(hallById.isPresent()){
+            Optional<PageTranslation> pageTranslationUkr = pageTranslationServiceImp.getByHallAndLanguageCode(hallById.get(), LanguageCode.Ukr);
+            Optional<PageTranslation> pageTranslationEng = pageTranslationServiceImp.getByHallAndLanguageCode(hallById.get(), LanguageCode.Eng);
+            Optional<CeoBlock> ceoBlockUkr = ceoBlockServiceImp.getByHallAndLanguageCode(hallById.get(),LanguageCode.Ukr);
+            Optional<CeoBlock> ceoBlockEng = ceoBlockServiceImp.getByHallAndLanguageCode(hallById.get(),LanguageCode.Eng);
+            List<Gallery> galleries = galleryServiceImp.getAllByHall(hallById.get());
 
-        HallUnifier unifier = new HallUnifier(
-                hallById.get(),
-                pageTranslationUkr.get(),
-                pageTranslationEng.get(),
-                ceoBlockUkr.get(),
-                ceoBlockEng.get(),
-                galleries
-        );
-        HallDTOAdd dtoAdd = HallMapper.toDTOAdd(unifier);
-        return dtoAdd;
+            unifier.setHall(hallById.get());
+            pageTranslationUkr.ifPresent(unifier::setPageTranslationUkr);
+            pageTranslationEng.ifPresent(unifier::setPageTranslationEng);
+            ceoBlockUkr.ifPresent(unifier::setCeoBlockUkr);
+            ceoBlockEng.ifPresent(unifier::setCeoBlockEng);
+            unifier.setGalleries(galleries);
+        }
+
+        return HallMapper.toDTOAdd(unifier);
     }
     @GetMapping("/hall/{id}/delete")
     public ModelAndView deleteHall(@PathVariable Long id,

@@ -2,8 +2,8 @@ package com.example.kinocms_admin.util;
 
 import com.example.kinocms_admin.entity.Genre;
 import com.example.kinocms_admin.entity.Mark;
-import com.example.kinocms_admin.repository.GenreRepository;
-import com.example.kinocms_admin.repository.MarkRepository;
+import com.example.kinocms_admin.service.MarkService;
+import com.example.kinocms_admin.service.serviceimp.GenreServiceImp;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -31,10 +31,10 @@ public class HandleDataUtil {
         return split[1];
     }
 
-    public static Set<Genre> findSimilarGenre(Set<Genre> genres, GenreRepository genreRepository) {
+    public static Set<Genre> findSimilarGenre(Set<Genre> genres, GenreServiceImp genreServiceImp) {
         Set<Genre> res = new HashSet<>();
         for (Genre g : genres) {
-            Optional<Genre> name = genreRepository.findByName(g.getName());
+            Optional<Genre> name = genreServiceImp.getByName(g.getName());
             if (name.isPresent()) {
                 res.add(name.get());
             } else {
@@ -44,11 +44,11 @@ public class HandleDataUtil {
         return res;
     }
 
-    public static Set<Mark> findSimilarMark(Set<Mark> marks, MarkRepository markRepository) {
+    public static Set<Mark> findSimilarMark(Set<Mark> marks, MarkService markService) {
         Set<Mark> res = new HashSet<>();
         if (marks != null) {
             for (Mark g : marks) {
-                Optional<Mark> name = markRepository.findByName(g.getName());
+                Optional<Mark> name = markService.getByName(g.getName());
                 if (name.isPresent()) {
                     res.add(name.get());
                 } else {

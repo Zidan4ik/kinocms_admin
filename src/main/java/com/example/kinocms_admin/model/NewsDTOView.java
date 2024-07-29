@@ -7,11 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CinemaDtoView {
+public class NewsDTOView {
     private Long id;
-    private String title;
-    private String imageLogo;
-    public String getPathToLogo(){
-        return "/uploads/cinemas/logo/"+id+"/"+imageLogo;
-    }
+    private String name;
+    private String dateOfCreation;
+    private Boolean status;
 }

@@ -510,7 +510,7 @@
 
             isValidLogo.forEach(function (input) {
                 input.innerHTML = "";
-                if (fileLogo === null) {
+                if (fileLogo === null && imageLogo === null) {
                     let paragraph = document.createElement("p");
                     paragraph.textContent = "The file was not downloaded";
                     paragraph.style.color = "red";
@@ -521,7 +521,7 @@
             });
             isValidBanner.forEach(function (input) {
                 input.innerHTML = "";
-                if (fileBanner === null) {
+                if (fileBanner === null && imageBanner === null) {
                     let paragraph = document.createElement("p");
                     paragraph.textContent = "The file was not downloaded";
                     paragraph.style.color = "red";
@@ -621,10 +621,10 @@
                             urlCeo = data.urlCeo;
                             marks = data.marks;
                             if (data.nameLogo !== '') {
-                                imageLogo = "/uploads/cinema/logo/" + data.id + "/" + data.nameLogo;
+                                imageLogo = "/uploads/cinemas/logo/" + data.id + "/" + data.nameLogo;
                             }
                             if (data.nameBanner !== '') {
-                                imageBanner = "/uploads/cinema/banner/" + data.id + "/" + data.nameBanner;
+                                imageBanner = "/uploads/cinemas/banner/" + data.id + "/" + data.nameBanner;
                             }
                             if (data.galleries.length != null) {
                                 let temporaryArray = new Array(5);
@@ -639,7 +639,7 @@
                                         name: object.linkImage,
                                         file: null,
                                         link: null,
-                                        pathToImage: "/uploads/cinema/galleries/" + data.id + "/" + object.linkImage
+                                        pathToImage: "/uploads/cinemas/galleries/" + data.id + "/" + object.linkImage
                                     }
                                 }
                                 array = temporaryArray;
