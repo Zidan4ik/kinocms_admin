@@ -1,9 +1,6 @@
 package com.example.kinocms_admin.service.serviceimp;
 
-import com.example.kinocms_admin.entity.Cinema;
-import com.example.kinocms_admin.entity.Film;
-import com.example.kinocms_admin.entity.Gallery;
-import com.example.kinocms_admin.entity.Hall;
+import com.example.kinocms_admin.entity.*;
 import com.example.kinocms_admin.model.GalleriesDTO;
 import com.example.kinocms_admin.repository.GalleryRepository;
 import com.example.kinocms_admin.service.GalleryService;
@@ -46,8 +43,14 @@ public class GalleryServiceImp implements GalleryService {
         return galleryRepository.getAllByHall(hall);
     }
 
+    @Override
+    public List<Gallery> getAllByNew(New newEntity) {
+        return galleryRepository.getAllByNewEntity(newEntity);
+    }
+
     public void handleDeletingImages(List<GalleriesDTO> galleries, long id) {
         List<String> noExistImages = new ArrayList<>();
+        String typePage = null;
         for (GalleriesDTO g : galleries) {
             if (g.getName() == null) {
                 Optional<Gallery> image = galleryRepository.findById(g.getId());
@@ -56,8 +59,11 @@ public class GalleryServiceImp implements GalleryService {
                 }
                 delete(g.getId());
             }
+            if (g.getType() != null) {
+                typePage = g.getType().toString();
+            }
         }
-        String upload = "./uploads/film/galleries/" + id;
+        String upload = "./uploads/" + typePage + "/galleries/" + id;
         ImageUtil.deleteFiles(upload, noExistImages);
     }
 }

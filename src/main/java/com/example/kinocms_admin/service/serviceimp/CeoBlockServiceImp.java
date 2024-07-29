@@ -1,9 +1,6 @@
 package com.example.kinocms_admin.service.serviceimp;
 
-import com.example.kinocms_admin.entity.CeoBlock;
-import com.example.kinocms_admin.entity.Cinema;
-import com.example.kinocms_admin.entity.Film;
-import com.example.kinocms_admin.entity.Hall;
+import com.example.kinocms_admin.entity.*;
 import com.example.kinocms_admin.enums.LanguageCode;
 import com.example.kinocms_admin.repository.CeoBlockRepository;
 import com.example.kinocms_admin.service.CeoBlockService;
@@ -27,13 +24,21 @@ public class CeoBlockServiceImp implements CeoBlockService {
     @Override
     public void saveHall(CeoBlock ceoBlock, Hall hall, LanguageCode code) {
         Optional<CeoBlock> hallBD = getByHallAndLanguageCode(hall, code);
-        hallBD.ifPresent(object -> ceoBlock.setId(object.getId()));
+        hallBD.ifPresent(h -> ceoBlock.setId(h.getId()));
         ceoBlockRepository.save(ceoBlock);
     }
+
     @Override
     public void saveCinema(CeoBlock ceoBlock, Cinema cinema, LanguageCode code) {
         Optional<CeoBlock> cinemaBD = getByCinemaAndLanguageCode(cinema, code);
         cinemaBD.ifPresent(object -> ceoBlock.setId(object.getId()));
+        ceoBlockRepository.save(ceoBlock);
+    }
+
+    @Override
+    public void saveNew(CeoBlock ceoBlock, New newCinema, LanguageCode code) {
+        Optional<CeoBlock> newBD = getByNewEntityAndLanguageCode(newCinema, code);
+        newBD.ifPresent(object -> ceoBlock.setId(object.getId()));
         ceoBlockRepository.save(ceoBlock);
     }
 
@@ -60,5 +65,10 @@ public class CeoBlockServiceImp implements CeoBlockService {
     @Override
     public Optional<CeoBlock> getByHallAndLanguageCode(Hall hall, LanguageCode code) {
         return ceoBlockRepository.getByHallAndLanguageCode(hall, code);
+    }
+
+    @Override
+    public Optional<CeoBlock> getByNewEntityAndLanguageCode(New newEntity, LanguageCode code) {
+        return ceoBlockRepository.getByNewEntityAndLanguageCode(newEntity, code);
     }
 }

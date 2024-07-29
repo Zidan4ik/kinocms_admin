@@ -31,6 +31,8 @@ public class PageTranslation {
     private Cinema cinema;
     @ManyToOne
     private Hall hall;
+    @ManyToOne
+    private New newEntity;
     public PageTranslation(LanguageCode languageCode, PageType pageType, String title, String description, String conditions, Film film) {
         this.languageCode = languageCode;
         this.pageType = pageType;
@@ -54,5 +56,13 @@ public class PageTranslation {
         this.pageType = pageType;
         this.description = description;
         this.hall = hall;
+    }
+
+    public PageTranslation(LanguageCode languageCode, PageType pageType, String title, String description, New newEntity) {
+        this.languageCode = languageCode;
+        this.pageType = pageType;
+        this.title = title;
+        this.description = description;
+        this.newEntity = newEntity;
     }
 }

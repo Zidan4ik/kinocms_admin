@@ -1,5 +1,5 @@
 package com.example.kinocms_admin.enums;
 
 public enum GalleriesType {
-    films, cinema, hall
+    films, cinemas, halls, news
 }

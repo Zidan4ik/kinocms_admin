@@ -1,9 +1,6 @@
 package com.example.kinocms_admin.service.serviceimp;
 
-import com.example.kinocms_admin.entity.Cinema;
-import com.example.kinocms_admin.entity.Film;
-import com.example.kinocms_admin.entity.Hall;
-import com.example.kinocms_admin.entity.PageTranslation;
+import com.example.kinocms_admin.entity.*;
 import com.example.kinocms_admin.enums.LanguageCode;
 import com.example.kinocms_admin.repository.PageTranslationRepository;
 import com.example.kinocms_admin.service.PageTranslationService;
@@ -42,6 +39,13 @@ public class PageTranslationServiceImp implements PageTranslationService {
     }
 
     @Override
+    public void saveNew(PageTranslation page, New newEntity, LanguageCode code) {
+        Optional<PageTranslation> translator = getByNewAndLanguageCode(newEntity, code);
+        translator.ifPresent(pageTranslation -> page.setId(pageTranslation.getId()));
+        pageTranslationRepository.save(page);
+    }
+
+    @Override
     public void deleteById(long id) {
         pageTranslationRepository.deleteById(id);
     }
@@ -66,12 +70,8 @@ public class PageTranslationServiceImp implements PageTranslationService {
     }
 
     @Override
-    public PageTranslation getAllByFilmAndLanguageCode(Film film, LanguageCode code) {
-        Optional<PageTranslation> translationBD = pageTranslationRepository.findByFilmAndAndLanguageCode(film, code);
-        if (translationBD.isPresent()) {
-            return translationBD.get();
-        } else {
-            return null;
-        }
+    public Optional<PageTranslation> getByNewAndLanguageCode(New newEntity, LanguageCode code) {
+        return pageTranslationRepository.findByNewEntityAndLanguageCode(newEntity,code);
     }
+
 }

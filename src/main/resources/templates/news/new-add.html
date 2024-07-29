@@ -1,0 +1,462 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/core.css"/>
+    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/theme-default.css"/>
+    <link rel="stylesheet" href="/vuexy/assets/vendor/fonts/tabler-icons.css">
+    <link rel="stylesheet" href="/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/vuexy/assets/vendor/libs/tagify/tagify.css"/>
+    <link rel="stylesheet" href="/vuexy/assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.css"/>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+<!-- Layout wrapper -->
+<div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
+
+    <!-- Layout container -->
+    <div class="layout-container">
+
+        <!-- Navbar -->
+        <div th:insert="~{blocks/navbar::navbar}"></div>
+        <!--/ Navbar -->
+
+        <!-- Layout page -->
+        <div class="layout-page">
+
+            <!-- Menu -->
+            <aside th:insert="blocks/sidebar::sidebar"
+                   id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme sidebar"
+                   style="display: flex;flex-direction: column;height: 100%;">
+            </aside>
+            <!--/ Menu -->
+
+            <!-- Content wrapper -->
+            <div class="content-wrapper">
+                <!-- Content -->
+                <div class="container-xxl d-flex align-items-stretch flex-grow-1 p-0">
+                    <div class="flex-shrink-1 flex-grow-1 container-p-x container-p-y">
+                        <div style="margin-top: 50px">
+                            <ul class="nav nav-pills mb-3 justify-content-end" id="pills-tab" role="tablist">
+                                <div class="col-sm-2 d-flex align-items-center">
+                                    <label class="switch">
+                                        <span class="switch-label">Статус:</span>
+                                        <input type="checkbox" class="switch-input" id="statusSwitch"/>
+                                        <span class="switch-toggle-slider">
+                                            <span class="switch-on"></span>
+                                            <span class="switch-off"></span>
+                                                </span>
+                                    </label>
+                                </div>
+                                <div class="btn-group">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="pills-ukraine-tab" data-bs-toggle="pill"
+                                                data-bs-target="#pills-ukraine" type="button" role="tab"
+                                                aria-controls="pills-ukraine" aria-selected="true"
+                                                th:onclick="changeLanguage('ukr')">Українська
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="pills-england-tab" data-bs-toggle="pill"
+                                                data-bs-target="#pills-england" type="button" role="tab"
+                                                aria-controls="pills-england" aria-selected="false"
+                                                th:onclick="changeLanguage('eng')">Англійська
+                                        </button>
+                                    </li>
+                                </div>
+                            </ul>
+                        </div>
+                        <form method="post" class="submitForm" enctype="multipart/form-data">
+                            <div class="tab-content" id="pills-tabContent">
+                                <div class="tab-pane fade show active" id="pills-ukraine" role="tabpanel"
+                                     aria-labelledby="pills-ukraine-tab" tabindex="0">
+                                    <div class="row mb-3">
+                                        <!-- Title -->
+                                        <div class="col-4">
+                                            <label class="form-label" for="title-ukr">Назва новини:</label>
+                                            <input class="form-control js-input" id="title-ukr"
+                                                   style="width: 100%" placeholder="введіть назву">
+                                        </div>
+                                        <!--/ Title -->
+
+                                        <!-- Date -->
+                                        <div class="col-4">
+                                            <label class="form-label" for="dateOfPublication-ukr">Дата
+                                                публікування:</label>
+                                            <input class="form-control js-input" id="dateOfPublication-ukr"
+                                                   style="width: 100%" placeholder="">
+                                        </div>
+                                        <!--/ Date -->
+                                    </div>
+
+                                    <!-- Description -->
+                                    <div class="mb-3">
+                                        <label class="form-label" for="description-ukr">Опис:</label>
+                                        <textarea class="form-control" rows="3" id="description-ukr"
+                                                  style="width:100%; height: 250px;"
+                                                  placeholder="введіть текст для опису"></textarea>
+                                    </div>
+                                    <!--/ Description -->
+
+                                    <!-- Image -->
+                                    <div class="row" id="image-ukr">
+                                        <div class="col-6">
+                                            <div class="row">
+                                                <div class="col-3 d-flex align-items-center justify-content-end">
+                                                    <label class="form-label">Головне фото:</label>
+                                                </div>
+                                                <div class="col image-container">
+                                                    <img id="image-download-ukr"
+                                                         src="https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg"
+                                                         style="height: 60%">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col d-flex flex-column align-items-center justify-content-center">
+                                            <div class="d-flex gap-5">
+                                                <label class="input-add" for="btn-download-image-ukr"
+                                                       data-index="0" data-type="imageDownload-ukr">
+                                                    Добавити</label>
+                                                <input id="btn-download-image-ukr"
+                                                       type="file"
+                                                       style="display: none">
+
+                                                <btn class="input-add"
+                                                     data-index="0" data-type="imageDelete-ukr">
+                                                    Видалити
+                                                </btn>
+                                            </div>
+                                            <div class="isValid-image">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/ Image -->
+
+                                    <!-- Galleries -->
+                                    <div class="mt-5"><h5>Галерея</h5></div>
+                                    <div class="row gap-4 galleries-ukr" id="galleries-ukr"></div>
+                                    <!--/ Galleries -->
+
+                                    <!-- Marks -->
+                                    <div class="mb-3" style="width: 100%">
+                                        <label for="marks-ukr" class="form-label">Тип кіно</label>
+                                        <input id="marks-ukr"
+                                               class="form-control" placeholder="вибери значок" style="height: 37.6px;">
+                                        <p style="color:red" class="isValid-marks"></p>
+                                    </div>
+                                    <!--/ Marks -->
+
+                                    <!-- Ceo Block -->
+                                    <div class="col-12 mt-5">
+                                        <div class="row">
+                                            <h5 class="col-12 d-flex justify-content-center">SEO Блок: </h5>
+                                            <div>
+                                                <!-- URL -->
+                                                <div class="col-12 d-flex justify-content-center mb-4">
+                                                    <div>
+                                                        <label class="form-label" for="urlCeo-ukr">Уніфікований локатор
+                                                            ресурсів:</label>
+                                                        <input type="text" id="urlCeo-ukr" class="form-control js-input"
+                                                               placeholder="введіть посилання" style="width: 500px">
+                                                    </div>
+                                                </div>
+                                                <!--/ URL -->
+
+                                                <!-- Title -->
+                                                <div class="col-12 d-flex justify-content-center mb-4">
+                                                    <div>
+                                                        <label class="form-label" for="titleCeo-ukr">Заголовок:</label>
+                                                        <input type="text" id="titleCeo-ukr"
+                                                               class="form-control js-input"
+                                                               placeholder="введіть заголовок" style="width: 500px">
+                                                    </div>
+                                                </div>
+                                                <!--/ Title -->
+
+                                                <!-- Keywords -->
+                                                <div class="col-12 d-flex justify-content-center mb-4">
+                                                    <div>
+                                                        <label class="form-label" for="keywordsCeo-ukr">Ключові
+                                                            слова:</label>
+                                                        <input type="text" id="keywordsCeo-ukr"
+                                                               class="form-control js-input"
+                                                               placeholder="введіть ключові слова" style="width: 500px">
+                                                    </div>
+                                                </div>
+                                                <!--/ Keywords -->
+
+                                                <!-- Description -->
+                                                <div class="col-12 d-flex justify-content-center mb-4">
+                                                    <div style="width: 500px">
+                                                        <label class="form-label"
+                                                               for="descriptionCeo-ukr">Опис:</label>
+                                                        <textarea class="form-control" rows="3"
+                                                                  id="descriptionCeo-ukr"
+                                                                  style="width:100%; height: 250px;"
+                                                                  placeholder="введіть опис"></textarea>
+                                                    </div>
+                                                </div>
+                                                <!--/ Description -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/ Ceo Block -->
+
+                                    <div class="d-flex justify-content-center">
+                                        <button class="btn btn-secondary" style="width: 200px"
+                                                type="submit"> Зберегти
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane fade" id="pills-england" role="tabpanel"
+                                     aria-labelledby="pills-england-tab" tabindex="0">
+                                    <div class="row mb-3">
+                                        <!-- Title -->
+                                        <div class="col-4">
+                                            <label class="form-label" for="title-eng">The name of the
+                                                new:</label>
+                                            <input class="form-control js-input" id="title-eng"
+                                                   style="width: 100%" placeholder="enter a name">
+                                        </div>
+                                        <!--/ Title -->
+
+                                        <!-- Date -->
+                                        <div class="col-4">
+                                            <label class="form-label" for="dateOfPublication-eng">The date of
+                                                publication:</label>
+                                            <input class="form-control js-input" id="dateOfPublication-eng"
+                                                   style="width: 100%" placeholder="">
+                                        </div>
+                                        <!--/ Date -->
+                                    </div>
+
+                                    <!-- Description -->
+                                    <div class="mb-3">
+                                        <label class="form-label" for="description-eng">Description:</label>
+                                        <textarea class="form-control" rows="3" id="description-eng"
+                                                  style="width:100%; height: 250px;"
+                                                  placeholder="enter a text description"></textarea>
+                                    </div>
+                                    <!--/ Description -->
+
+                                    <!-- Image -->
+                                    <div class="row" style="width: auto;height: 150px" id="image-eng">
+                                        <div class="col-6">
+                                            <div class="row">
+                                                <div class="col-3 d-flex align-items-center justify-content-end">
+                                                    <label class="form-label">Main image:</label>
+                                                </div>
+                                                <div class="col image-container">
+                                                    <img id="image-download-eng"
+                                                         src="https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg"
+                                                         style="height: 60%;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col d-flex flex-column align-items-center justify-content-center">
+                                            <div class="d-flex gap-5">
+                                                <label class="input-add" for="btn-download-image-eng"
+                                                       data-index="0" data-type="imageDownload-eng">
+                                                    Добавити</label>
+                                                <input id="btn-download-image-eng"
+                                                       type="file"
+                                                       style="display: none">
+
+                                                <btn class="input-add"
+                                                     data-index="0" data-type="imageDelete-eng">
+                                                    Видалити
+                                                </btn>
+                                            </div>
+                                            <div class="isValid-image">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/ Image -->
+
+                                    <!-- Galleries -->
+                                    <div class="mt-5"><h5>Gallery</h5></div>
+                                    <div class="row gap-4 galleries-eng" id="galleries-eng"></div>
+                                    <!--/ Galleries -->
+
+                                    <!-- Marks -->
+                                    <div class="mb-3" style="width: 100%">
+                                        <label for="marks-eng" class="form-label">Type of cinema:</label>
+                                        <input id="marks-eng"
+                                               class="form-control" placeholder="enter marks" style="height: 37.6px;">
+                                        <p style="color:red" class="isValid-marks"></p>
+                                    </div>
+                                    <!--/ Marks -->
+
+                                    <!-- Ceo Block -->
+                                    <div class="col-12 mt-5">
+                                        <div class="row">
+                                            <h5 class="col-12 d-flex justify-content-center">SEO Block: </h5>
+                                            <div>
+                                                <!-- URL -->
+                                                <div class="col-12 d-flex justify-content-center mb-4">
+                                                    <div>
+                                                        <label class="form-label" for="urlCeo-eng">URL:</label>
+                                                        <input type="text" id="urlCeo-eng" class="form-control js-input"
+                                                               placeholder="enter link" style="width: 500px">
+                                                    </div>
+                                                </div>
+                                                <!--/ URL -->
+
+                                                <!-- Title -->
+                                                <div class="col-12 d-flex justify-content-center mb-4">
+                                                    <div>
+                                                        <label class="form-label" for="titleCeo-eng">Title:</label>
+                                                        <input type="text" id="titleCeo-eng"
+                                                               class="form-control js-input"
+                                                               placeholder="enter title" style="width: 500px">
+                                                    </div>
+                                                </div>
+                                                <!--/ Title -->
+
+                                                <!-- Keywords -->
+                                                <div class="col-12 d-flex justify-content-center mb-4">
+                                                    <div>
+                                                        <label class="form-label"
+                                                               for="keywordsCeo-eng">Keywords:</label>
+                                                        <input type="text" id="keywordsCeo-eng"
+                                                               class="form-control js-input"
+                                                               placeholder="enter keywords" style="width: 500px">
+                                                    </div>
+                                                </div>
+                                                <!--/ Keywords -->
+
+                                                <!-- Description -->
+                                                <div class="col-12 d-flex justify-content-center mb-4">
+                                                    <div style="width: 500px">
+                                                        <label class="form-label"
+                                                               for="descriptionCeo-eng">Description:</label>
+                                                        <textarea class="form-control" rows="3"
+                                                                  id="descriptionCeo-eng"
+                                                                  style="width:100%; height: 250px;"
+                                                                  placeholder="enter description"></textarea>
+                                                    </div>
+                                                </div>
+                                                <!--/ Description -->
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+                                        <button class="btn btn-secondary" style="width: 200px"
+                                                type="submit"> Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!--/ Content -->
+            </div>
+            <!--/ Content wrapper -->
+        </div>
+        <!--/ Layout page -->
+    </div>
+    <!--/ Layout container -->
+</div>
+<!--/ Layout wrapper -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/vuexy/assets/vendor/js/helpers.js"></script>
+<script src="/vuexy/assets/js/config.js"></script>
+<script src="/vuexy/dist/js/bootstrap.js"></script>
+<script src="/vuexy/assets/vendor/libs/tagify/tagify.js"></script>
+<script src="/vuexy/assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+<script src="/script-new.js"></script>
+
+<script>
+    $("#dateOfPublication-ukr").datepicker({format: "dd/mm/yyyy"});
+    $("#dateOfPublication-eng").datepicker({format: "dd/mm/yyyy"});
+
+    const form = document.querySelector(".submitForm");
+    const inputForm = document.querySelectorAll(".js-input");
+    const isValidImage = document.querySelectorAll(".isValid-image");
+    const marksValidParagraphs = document.querySelectorAll(".isValid-marks");
+    let marksCurrent = null;
+    $(document).ready(function () {
+        function validateForm() {
+            let isValid = true;
+            inputForm.forEach(function (input) {
+                if (input.value === '') {
+                    input.classList.remove('successful');
+                    input.classList.add('error');
+                    console.log('input not filled');
+                    isValid = false;
+                } else {
+                    input.classList.remove('error');
+                    input.classList.add('successful');
+                }
+            });
+
+            isValidImage.forEach(function (input) {
+                input.innerHTML = "";
+                if (fileImage === null) {
+                    let paragraph = document.createElement("p");
+                    paragraph.textContent = "The file was not downloaded";
+                    paragraph.style.color = "red";
+                    input.appendChild(paragraph);
+                    console.log('the file was not downloaded');
+                    isValid = false;
+                }
+            });
+
+            if (languageFlag === 'ukr') {
+                marksCurrent = TagifyCustomInlineSuggestion_UKR;
+            } else if (languageFlag === 'eng') {
+                marksCurrent = TagifyCustomInlineSuggestion_ENG;
+            }
+
+            marksValidParagraphs.forEach(function (input) {
+                if (marksCurrent.value.length === 0) {
+                    input.textContent = "More than one mark was not selected";
+                    isValid = false;
+                } else {
+                    input.textContent = "";
+                }
+            });
+            return isValid;
+        }
+
+        form.onsubmit = function () {
+            event.preventDefault();
+            console.log(languageFlag);
+            if (languageFlag === 'ukr') {
+                getDataFromInputs('eng');
+                assignDataInputs('eng');
+            } else if (languageFlag === 'eng') {
+                getDataFromInputs('ukr');
+                assignDataInputs('ukr');
+            }
+            if (validateForm()) {
+                ajaxPost();
+            } else {
+                console.log('Form validation failed');
+            }
+        };
+
+
+        function ajaxPost() {
+            let formObject = getFormObject(languageFlag);
+            $.ajax({
+                type: "post",
+                url: "add",
+                data: formObject,
+                processData: false,
+                contentType: false,
+                success: function () {
+                    window.location.replace("/admin/news");
+                },
+                error: function (error) {
+                    console.log("Error submitting form:", error);
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>

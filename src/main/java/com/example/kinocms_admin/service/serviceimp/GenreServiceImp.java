@@ -19,11 +19,6 @@ public class GenreServiceImp implements GenreService {
     private final GenreRepository genreRepository;
 
     @Override
-    public void save(List<Genre> genres) {
-
-    }
-
-    @Override
     public void deleteById(long id) {
         genreRepository.deleteById(id);
     }
@@ -43,19 +38,8 @@ public class GenreServiceImp implements GenreService {
         return Collections.emptySet();
     }
 
-    public void assignFilmToGenre(Set<Genre> genres, List<Film> films) {
-        for (Genre genre : genres) {
-            genre.setFilms(films);
-        }
-        genreRepository.saveAll(genres);
-    }
-
-    public void saveIfNotExist(Set<Genre> genres) {
-        for (Genre g : genres) {
-            Optional<Genre> name = genreRepository.findByName(g.getName());
-            if (!name.isPresent()) {
-                genreRepository.save(g);
-            }
-        }
+    @Override
+    public Optional<Genre> getByName(String name) {
+        return genreRepository.findByName(name);
     }
 }

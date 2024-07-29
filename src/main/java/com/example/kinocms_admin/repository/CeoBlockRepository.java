@@ -1,9 +1,6 @@
 package com.example.kinocms_admin.repository;
 
-import com.example.kinocms_admin.entity.CeoBlock;
-import com.example.kinocms_admin.entity.Cinema;
-import com.example.kinocms_admin.entity.Film;
-import com.example.kinocms_admin.entity.Hall;
+import com.example.kinocms_admin.entity.*;
 import com.example.kinocms_admin.enums.LanguageCode;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -15,4 +12,5 @@ public interface CeoBlockRepository extends JpaRepository<CeoBlock,Long> {
     Optional<CeoBlock> getByFilmAndLanguageCode(Film film, LanguageCode code);
     Optional<CeoBlock> getByCinemaAndLanguageCode(Cinema cinema, LanguageCode code);
     Optional<CeoBlock> getByHallAndLanguageCode(Hall hall, LanguageCode code);
+    Optional<CeoBlock> getByNewEntityAndLanguageCode(New newEntity, LanguageCode code);
 }

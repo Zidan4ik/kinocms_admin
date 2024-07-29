@@ -21,6 +21,8 @@ public class Mark {
     private List<Film> films;
     @ManyToMany(mappedBy = "marksList")
     private List<Cinema> cinemas;
+    @ManyToMany(mappedBy = "marksList")
+    private List<New> news;
     public Mark(String name) {
         this.name = name;
     }

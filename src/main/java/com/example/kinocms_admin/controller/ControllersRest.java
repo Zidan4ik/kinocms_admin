@@ -1,29 +1,30 @@
 package com.example.kinocms_admin.controller;
 
-
 import com.example.kinocms_admin.entity.Cinema;
+import com.example.kinocms_admin.entity.Gallery;
 import com.example.kinocms_admin.entity.Hall;
+import com.example.kinocms_admin.entity.New;
+import com.example.kinocms_admin.entity.unifier.CinemaUnifier;
 import com.example.kinocms_admin.entity.unifier.FilmUnifier;
 import com.example.kinocms_admin.entity.unifier.HallUnifier;
+import com.example.kinocms_admin.entity.unifier.NewUnifier;
 import com.example.kinocms_admin.enums.LanguageCode;
 import com.example.kinocms_admin.mapper.CinemaMapper;
 import com.example.kinocms_admin.mapper.FilmMapper;
 import com.example.kinocms_admin.mapper.HallMapper;
-import com.example.kinocms_admin.model.CinemaDTOAdd;
-import com.example.kinocms_admin.model.FilmDTOAdd;
+import com.example.kinocms_admin.mapper.NewMapper;
+import com.example.kinocms_admin.model.*;
 
-import com.example.kinocms_admin.model.GalleriesDTO;
-import com.example.kinocms_admin.model.HallDTOAdd;
 import com.example.kinocms_admin.service.serviceimp.*;
 import com.example.kinocms_admin.util.JsonUtil;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-
 
 @RestController
 @RequestMapping("/admin")
@@ -35,6 +36,7 @@ public class ControllersRest {
     private final GalleryServiceImp galleryServiceImp;
     private final CinemaServiceImp cinemaServiceImp;
     private final HallServiceImp hallServiceImp;
+    private final NewServiceImp newServiceImp;
 
     @PostMapping(value = "/film/add")
     public ResponseEntity<Object> addFilm(
@@ -67,22 +69,34 @@ public class ControllersRest {
 
     @PostMapping(value = "/cinema/add")
     public ResponseEntity<Object> addCinema(@ModelAttribute(name = "cinema") CinemaDTOAdd cinemaDTO) {
-        Cinema cinemaEntity = CinemaMapper.toEntityAdd(cinemaDTO);
-        cinemaServiceImp.save(cinemaEntity, cinemaDTO.getFileLogo(), cinemaDTO.getFileBanner(), cinemaDTO.getImagesMultipart());
+        CinemaUnifier unifier = CinemaMapper.toEntityAdd(cinemaDTO);
+        cinemaServiceImp.save(unifier.getCinema(), cinemaDTO.getFileLogo(), cinemaDTO.getFileBanner(), cinemaDTO.getImagesMultipart());
         return ResponseEntity.ok(HttpStatus.OK);
     }
+
     @PostMapping(value = "/cinema/{id}/edit")
     public ResponseEntity<Object> editCinema(@ModelAttribute(name = "cinema") CinemaDTOAdd cinemaDTO) {
-        Cinema cinemaEntity = CinemaMapper.toEntityAdd(cinemaDTO);
-        cinemaServiceImp.save(cinemaEntity, cinemaDTO.getFileLogo(), cinemaDTO.getFileBanner(), cinemaDTO.getImagesMultipart());
+        CinemaUnifier unifier = CinemaMapper.toEntityAdd(cinemaDTO);
+        List<GalleriesDTO> galleriesDTOS = JsonUtil.transformationJsonToObject(cinemaDTO.getGalleryDTO(), GalleriesDTO.class);
+        galleryServiceImp.handleDeletingImages(galleriesDTOS, cinemaDTO.getId());
+
+        cinemaServiceImp.save(unifier.getCinema(), cinemaDTO.getFileLogo(), cinemaDTO.getFileBanner(), cinemaDTO.getImagesMultipart());
+
+        Optional<Cinema> cinemaById = cinemaServiceImp.getById(cinemaDTO.getId());
+        cinemaById.ifPresent(c -> ceoBlockServiceImp.saveCinema(unifier.getCeoBlockUkr(), c, LanguageCode.Ukr));
+        cinemaById.ifPresent(c -> ceoBlockServiceImp.saveCinema(unifier.getCeoBlockEng(), c, LanguageCode.Eng));
+
+        cinemaById.ifPresent(c -> pageTranslationServiceImp.saveCinema(unifier.getPageTranslationUkr(), c, LanguageCode.Ukr));
+        cinemaById.ifPresent(c -> pageTranslationServiceImp.saveCinema(unifier.getPageTranslationEng(), c, LanguageCode.Eng));
+
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PostMapping(value = "/cinema/temporary/add")
     public ResponseEntity<Object> addCinemaTemporary(@ModelAttribute(name = "cinema") CinemaDTOAdd cinemaDTO) {
-        Cinema cinemaEntity = CinemaMapper.toEntityAdd(cinemaDTO);
-        cinemaServiceImp.save(cinemaEntity, cinemaDTO.getFileLogo(), cinemaDTO.getFileBanner(), cinemaDTO.getImagesMultipart());
-        return ResponseEntity.ok(cinemaEntity.getId());
+        CinemaUnifier unifier = CinemaMapper.toEntityAdd(cinemaDTO);
+        cinemaServiceImp.save(unifier.getCinema(), cinemaDTO.getFileLogo(), cinemaDTO.getFileBanner(), cinemaDTO.getImagesMultipart());
+        return ResponseEntity.ok(unifier.getCinema().getId());
     }
 
     @PostMapping("/hall/add")
@@ -98,20 +112,46 @@ public class ControllersRest {
         hallServiceImp.save(unifierHall.getHall(), hallDTO.getFileSchema(), hallDTO.getFileBanner(), hallDTO.getImagesMultipart());
         return ResponseEntity.ok(hallDTO.getCinemaId());
     }
+
     @PostMapping("/hall/{id}/edit")
-    public ResponseEntity<Object> editHall(@ModelAttribute(name = "hall") HallDTOAdd hallDTOAdd){
+    public ResponseEntity<Object> editHall(@ModelAttribute(name = "hall") HallDTOAdd hallDTOAdd) {
         HallUnifier unifier = HallMapper.toEntityAdd(hallDTOAdd);
+
+        List<GalleriesDTO> galleries = JsonUtil.transformationJsonToObject(hallDTOAdd.getGalleryDTO(), GalleriesDTO.class);
+        galleryServiceImp.handleDeletingImages(galleries, hallDTOAdd.getId());
+
         Optional<Cinema> cinemaById = cinemaServiceImp.getById(hallDTOAdd.getCinemaId());
-        unifier.getHall().setCinema(cinemaById.get());
-        hallServiceImp.save(unifier.getHall(),hallDTOAdd.getFileSchema(),hallDTOAdd.getFileBanner(),hallDTOAdd.getImagesMultipart());
-
+        cinemaById.ifPresent(cinema -> unifier.getHall().setCinema(cinema));
+        hallServiceImp.save(unifier.getHall(), hallDTOAdd.getFileSchema(), hallDTOAdd.getFileBanner(), hallDTOAdd.getImagesMultipart());
         Optional<Hall> hallById = hallServiceImp.getById(hallDTOAdd.getId());
-        ceoBlockServiceImp.saveHall(unifier.getCeoBlockUkr(),hallById.get(),LanguageCode.Ukr);
-        ceoBlockServiceImp.saveHall(unifier.getCeoBlockEng(),hallById.get(),LanguageCode.Eng);
 
-        pageTranslationServiceImp.saveHall(unifier.getPageTranslationUkr(),hallById.get(),LanguageCode.Ukr);
-        pageTranslationServiceImp.saveHall(unifier.getPageTranslationEng(),hallById.get(),LanguageCode.Eng);
+        hallById.ifPresent(hall -> ceoBlockServiceImp.saveHall(unifier.getCeoBlockUkr(), hall, LanguageCode.Ukr));
+        hallById.ifPresent(hall -> ceoBlockServiceImp.saveHall(unifier.getCeoBlockEng(), hall, LanguageCode.Eng));
+
+        hallById.ifPresent(translator -> pageTranslationServiceImp.saveHall(unifier.getPageTranslationUkr(), translator, LanguageCode.Ukr));
+        hallById.ifPresent(translator -> pageTranslationServiceImp.saveHall(unifier.getPageTranslationEng(), translator, LanguageCode.Eng));
 
         return ResponseEntity.ok(hallDTOAdd.getCinemaId());
+    }
+
+    @PostMapping("/new/add")
+    public ResponseEntity<Object> addNew(@ModelAttribute(name = "newEntity") NewDtoAdd newDtoAdd) {
+        NewUnifier unifier = NewMapper.toEntityAdd(newDtoAdd);
+        newServiceImp.saveNew(unifier.getNewEntity(), newDtoAdd.getFileImage(), newDtoAdd.getGalleriesMF());
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @PostMapping("/new/{id}/edit")
+    public ResponseEntity<Object> editNew(@ModelAttribute(name = "newEntity") NewDtoAdd newDtoAdd) {
+        NewUnifier unifier = NewMapper.toEntityAdd(newDtoAdd);
+        newServiceImp.saveNew(unifier.getNewEntity(), newDtoAdd.getFileImage(), newDtoAdd.getGalleriesMF());
+
+        Optional<New> newBD = newServiceImp.getById(newDtoAdd.getId());
+        ceoBlockServiceImp.saveNew(unifier.getCeoBlockUkr(), newBD.get(), LanguageCode.Ukr);
+        ceoBlockServiceImp.saveNew(unifier.getCeoBlockEng(), newBD.get(), LanguageCode.Eng);
+
+        pageTranslationServiceImp.saveNew(unifier.getPageTranslationUkr(), newBD.get(), LanguageCode.Ukr);
+        pageTranslationServiceImp.saveNew(unifier.getPageTranslationEng(), newBD.get(), LanguageCode.Eng);
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 }

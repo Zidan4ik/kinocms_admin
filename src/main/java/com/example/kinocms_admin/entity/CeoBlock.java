@@ -29,6 +29,8 @@ public class CeoBlock {
     private Cinema cinema;
     @ManyToOne
     private Hall hall;
+    @ManyToOne
+    private New newEntity;
     public CeoBlock(LanguageCode languageCode, PageType pageType, String title, String keywords, String descriptions, Film film) {
         this.languageCode = languageCode;
         this.pageType = pageType;
@@ -54,5 +56,14 @@ public class CeoBlock {
         this.keywords = keywords;
         this.descriptions = descriptions;
         this.cinema = cinema;
+    }
+
+    public CeoBlock(LanguageCode languageCode, PageType pageType, String title, String keywords, String descriptions, New newEntity) {
+        this.languageCode = languageCode;
+        this.pageType = pageType;
+        this.title = title;
+        this.keywords = keywords;
+        this.descriptions = descriptions;
+        this.newEntity = newEntity;
     }
 }
