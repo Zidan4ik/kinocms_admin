@@ -1,9 +1,6 @@
 package com.example.kinocms_admin.service;
 
-import com.example.kinocms_admin.entity.Cinema;
-import com.example.kinocms_admin.entity.Film;
-import com.example.kinocms_admin.entity.Mark;
-import com.example.kinocms_admin.entity.New;
+import com.example.kinocms_admin.entity.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,11 +15,11 @@ public interface MarkService {
 
     Set<Mark> getAllByFilm(Film film);
     Set<Mark> getAllByNew(New newEntity);
+    Set<Mark> getAllByNew(Share share);
 
     Set<Mark> getAllByFilms(List<Film> films);
     Set<Mark> getAllByNews(List<New> news);
-
+    Set<Mark> getAllByShares(List<Share> news);
     Optional<Mark> getByName(String name);
-
 
 }

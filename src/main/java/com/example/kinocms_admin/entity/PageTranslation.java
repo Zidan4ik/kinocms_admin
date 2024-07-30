@@ -33,6 +33,8 @@ public class PageTranslation {
     private Hall hall;
     @ManyToOne
     private New newEntity;
+    @ManyToOne
+    private Share share;
     public PageTranslation(LanguageCode languageCode, PageType pageType, String title, String description, String conditions, Film film) {
         this.languageCode = languageCode;
         this.pageType = pageType;
@@ -64,5 +66,13 @@ public class PageTranslation {
         this.title = title;
         this.description = description;
         this.newEntity = newEntity;
+    }
+
+    public PageTranslation(LanguageCode languageCode, PageType pageType, String title, String description, Share share) {
+        this.languageCode = languageCode;
+        this.pageType = pageType;
+        this.title = title;
+        this.description = description;
+        this.share = share;
     }
 }

@@ -31,6 +31,8 @@ public class CeoBlock {
     private Hall hall;
     @ManyToOne
     private New newEntity;
+    @ManyToOne
+    private Share share;
     public CeoBlock(LanguageCode languageCode, PageType pageType, String title, String keywords, String descriptions, Film film) {
         this.languageCode = languageCode;
         this.pageType = pageType;
@@ -65,5 +67,14 @@ public class CeoBlock {
         this.keywords = keywords;
         this.descriptions = descriptions;
         this.newEntity = newEntity;
+    }
+
+    public CeoBlock(LanguageCode languageCode, PageType pageType, String title, String keywords, String descriptions, Share share) {
+        this.languageCode = languageCode;
+        this.pageType = pageType;
+        this.title = title;
+        this.keywords = keywords;
+        this.descriptions = descriptions;
+        this.share = share;
     }
 }

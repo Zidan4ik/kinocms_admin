@@ -43,6 +43,13 @@ public class CeoBlockServiceImp implements CeoBlockService {
     }
 
     @Override
+    public void saveShare(CeoBlock ceoBlock, Share share, LanguageCode code) {
+        Optional<CeoBlock> shareBD = getByShareAndLanguageCode(share, code);
+        shareBD.ifPresent(object -> ceoBlock.setId(object.getId()));
+        ceoBlockRepository.save(ceoBlock);
+    }
+
+    @Override
     public void deleteById(long id) {
         ceoBlockRepository.deleteById(id);
     }
@@ -70,5 +77,10 @@ public class CeoBlockServiceImp implements CeoBlockService {
     @Override
     public Optional<CeoBlock> getByNewEntityAndLanguageCode(New newEntity, LanguageCode code) {
         return ceoBlockRepository.getByNewEntityAndLanguageCode(newEntity, code);
+    }
+
+    @Override
+    public Optional<CeoBlock> getByShareAndLanguageCode(Share share, LanguageCode code) {
+        return ceoBlockRepository.getByShareAndLanguageCode(share, code);
     }
 }

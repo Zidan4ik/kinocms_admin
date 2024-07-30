@@ -1,0 +1,99 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/core.css"/>
+    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/theme-default.css"/>
+    <link rel="stylesheet" href="/vuexy/assets/vendor/fonts/tabler-icons.css">
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/vuexy/dist/js/bootstrap.js"></script>
+</head>
+
+<body>
+<!-- Layout wrapper -->
+<div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
+
+    <!-- Layout container -->
+    <div class="layout-container">
+
+        <!-- Navbar -->
+        <div th:insert="~{blocks/navbar::navbar}"></div>
+        <!--/ Navbar -->
+
+        <!-- Layout page -->
+        <div class="layout-page">
+
+            <!-- Menu -->
+            <aside th:insert="blocks/sidebar::sidebar"
+                   id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme sidebar"
+                   style="display: flex;flex-direction: column;height: 100%;">
+            </aside>
+            <!--/ Menu -->
+
+            <!-- Content wrapper -->
+            <div class="content-wrapper">
+
+                <!-- Content -->
+                <div class="container-xxl d-flex align-items-stretch flex-grow-1 p-0">
+                    <div class="flex-shrink-1 flex-grow-1 container-p-x container-p-y">
+                        <div class="row" style="margin-top: 50px">
+                            <div class="col">
+                                <h3 style="text-align: end">Список акцій</h3>
+                            </div>
+                            <div class="col-5 d-flex justify-content-end">
+                                <a class="btn btn-dark waves-effect waves-light"
+                                   th:href="@{/admin/share/add}"
+                                   style="box-shadow:0 1px 15px #809699; height: 80%;width: 40%;margin-right: 10px;">
+                                    Добавлення Акції
+                                </a>
+                            </div>
+                        </div>
+                        <!-- Table Shares -->
+                        <div class="table-responsive" th:if="${!shares.isEmpty()}">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Назва</th>
+                                    <th>Дата створення</th>
+                                    <th>Дії</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="o,iterStart : ${shares}">
+                                    <td th:text="${o.getName()}"></td>
+                                    <td th:text="${o.getDateOfCreation()}"></td>
+                                    <td>
+                                        <div class="d-flex justify-content-center">
+                                            <div class="btn-group">
+                                                <a th:href="@{/admin/share/{id}/edit (id=${o.getId()})}"
+                                                   class="btn btn-label-dark trash-icon">
+                                                    <i class="ti ti-edit-circle"></i>
+                                                </a>
+                                                <a th:href="@{/admin/share/{id}/delete (id=${o.getId()})}"
+                                                   class="btn btn-label-dark trash-icon">
+                                                    <i class="ti ti-trash"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--/ Table Shares -->
+                    </div>
+                </div>
+                <!--/ Content -->
+
+            </div>
+            <!--/ Content wrapper -->
+
+        </div>
+        <!--/ Layout page -->
+
+    </div>
+    <!--/ Layout container -->
+
+</div>
+<!--/ Layout wrapper -->
+
+</body>
+</html>

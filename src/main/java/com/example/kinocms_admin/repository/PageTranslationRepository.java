@@ -14,4 +14,5 @@ public interface PageTranslationRepository extends JpaRepository<PageTranslation
     Optional<PageTranslation> findByCinemaAndLanguageCode(Cinema cinema, LanguageCode code);
     Optional<PageTranslation> findByHallAndLanguageCode(Hall film, LanguageCode code);
     Optional<PageTranslation> findByNewEntityAndLanguageCode(New newEntity, LanguageCode code);
+    Optional<PageTranslation> findByShareAndLanguageCode(Share share, LanguageCode code);
 }

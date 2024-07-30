@@ -1,18 +1,9 @@
 package com.example.kinocms_admin.controller;
 
-import com.example.kinocms_admin.entity.Cinema;
-import com.example.kinocms_admin.entity.Gallery;
-import com.example.kinocms_admin.entity.Hall;
-import com.example.kinocms_admin.entity.New;
-import com.example.kinocms_admin.entity.unifier.CinemaUnifier;
-import com.example.kinocms_admin.entity.unifier.FilmUnifier;
-import com.example.kinocms_admin.entity.unifier.HallUnifier;
-import com.example.kinocms_admin.entity.unifier.NewUnifier;
+import com.example.kinocms_admin.entity.*;
+import com.example.kinocms_admin.entity.unifier.*;
 import com.example.kinocms_admin.enums.LanguageCode;
-import com.example.kinocms_admin.mapper.CinemaMapper;
-import com.example.kinocms_admin.mapper.FilmMapper;
-import com.example.kinocms_admin.mapper.HallMapper;
-import com.example.kinocms_admin.mapper.NewMapper;
+import com.example.kinocms_admin.mapper.*;
 import com.example.kinocms_admin.model.*;
 
 import com.example.kinocms_admin.service.serviceimp.*;
@@ -37,7 +28,7 @@ public class ControllersRest {
     private final CinemaServiceImp cinemaServiceImp;
     private final HallServiceImp hallServiceImp;
     private final NewServiceImp newServiceImp;
-
+    private final ShareServiceImp shareServiceImp;
     @PostMapping(value = "/film/add")
     public ResponseEntity<Object> addFilm(
             @ModelAttribute(name = "film") FilmDTOAdd filmDTO) {
@@ -151,6 +142,26 @@ public class ControllersRest {
         newBD.ifPresent(c->ceoBlockServiceImp.saveNew(unifier.getCeoBlockEng(),c,LanguageCode.Eng));
         newBD.ifPresent(c->pageTranslationServiceImp.saveNew(unifier.getPageTranslationUkr(),c,LanguageCode.Ukr));
         newBD.ifPresent(c->pageTranslationServiceImp.saveNew(unifier.getPageTranslationEng(),c,LanguageCode.Eng));
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @PostMapping("/share/add")
+    public ResponseEntity<Object> addShare(@ModelAttribute(name = "share") ShareDTOAdd shareDTOAdd) {
+        ShareUnifier unifier = ShareMapper.toEntityAdd(shareDTOAdd);
+        shareServiceImp.saveShare(unifier.getShare(), shareDTOAdd.getFileImage(),shareDTOAdd.getFileBanner());
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @PostMapping("/share/{id}/edit")
+    public ResponseEntity<Object> editShare(@ModelAttribute(name = "share") ShareDTOAdd shareDTOAdd) {
+        ShareUnifier unifier = ShareMapper.toEntityAdd(shareDTOAdd);
+        shareServiceImp.saveShare(unifier.getShare(), shareDTOAdd.getFileImage(), shareDTOAdd.getFileBanner());
+
+        Optional<Share> shareBD = shareServiceImp.getById(shareDTOAdd.getId());
+        shareBD.ifPresent(c->ceoBlockServiceImp.saveShare(unifier.getCeoBlockUkr(),c,LanguageCode.Ukr));
+        shareBD.ifPresent(c->ceoBlockServiceImp.saveShare(unifier.getCeoBlockEng(),c,LanguageCode.Eng));
+        shareBD.ifPresent(c->pageTranslationServiceImp.saveShare(unifier.getPageTranslationUkr(),c,LanguageCode.Ukr));
+        shareBD.ifPresent(c->pageTranslationServiceImp.saveShare(unifier.getPageTranslationEng(),c,LanguageCode.Eng));
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }

@@ -46,6 +46,13 @@ public class PageTranslationServiceImp implements PageTranslationService {
     }
 
     @Override
+    public void saveShare(PageTranslation page, Share share, LanguageCode code) {
+        Optional<PageTranslation> translator = getByShareAndLanguageCode(share, code);
+        translator.ifPresent(pageTranslation -> page.setId(pageTranslation.getId()));
+        pageTranslationRepository.save(page);
+    }
+
+    @Override
     public void deleteById(long id) {
         pageTranslationRepository.deleteById(id);
     }
@@ -72,6 +79,11 @@ public class PageTranslationServiceImp implements PageTranslationService {
     @Override
     public Optional<PageTranslation> getByNewAndLanguageCode(New newEntity, LanguageCode code) {
         return pageTranslationRepository.findByNewEntityAndLanguageCode(newEntity,code);
+    }
+
+    @Override
+    public Optional<PageTranslation> getByShareAndLanguageCode(Share share, LanguageCode code) {
+        return pageTranslationRepository.findByShareAndLanguageCode(share,code);
     }
 
 }

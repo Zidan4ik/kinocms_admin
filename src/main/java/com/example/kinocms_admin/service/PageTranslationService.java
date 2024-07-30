@@ -10,6 +10,7 @@ public interface PageTranslationService {
     void saveCinema(PageTranslation page, Cinema cinema, LanguageCode code);
     void saveHall(PageTranslation page, Hall hall, LanguageCode code);
     void saveNew(PageTranslation page, New newEntity, LanguageCode code);
+    void saveShare(PageTranslation page, Share share, LanguageCode code);
 
     void deleteById(long id);
 
@@ -21,5 +22,6 @@ public interface PageTranslationService {
 
     Optional<PageTranslation> getByHallAndLanguageCode(Hall hall, LanguageCode code);
     Optional<PageTranslation> getByNewAndLanguageCode(New newEntity, LanguageCode code);
+    Optional<PageTranslation> getByShareAndLanguageCode(Share share, LanguageCode code);
 
 }

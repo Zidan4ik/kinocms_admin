@@ -23,6 +23,8 @@ public class Mark {
     private List<Cinema> cinemas;
     @ManyToMany(mappedBy = "marksList")
     private List<New> news;
+    @ManyToMany(mappedBy = "marksList")
+    private List<Share> shares;
     public Mark(String name) {
         this.name = name;
     }

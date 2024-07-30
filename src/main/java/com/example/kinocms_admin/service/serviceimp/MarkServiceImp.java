@@ -1,9 +1,6 @@
 package com.example.kinocms_admin.service.serviceimp;
 
-import com.example.kinocms_admin.entity.Cinema;
-import com.example.kinocms_admin.entity.Film;
-import com.example.kinocms_admin.entity.Mark;
-import com.example.kinocms_admin.entity.New;
+import com.example.kinocms_admin.entity.*;
 import com.example.kinocms_admin.repository.MarkRepository;
 import com.example.kinocms_admin.service.MarkService;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +39,11 @@ public class MarkServiceImp implements MarkService {
     }
 
     @Override
+    public Set<Mark> getAllByShares(List<Share> shares) {
+        return markRepository.getAllByShares(shares);
+    }
+
+    @Override
     public Set<Mark> getAllByFilm(Film film) {
         if (film != null) {
             List<Film> temporaryFilms = Collections.singletonList(film);
@@ -55,8 +57,18 @@ public class MarkServiceImp implements MarkService {
     public Set<Mark> getAllByNew(New newEntity) {
         if (newEntity != null) {
             List<New> singletonList = Collections.singletonList(newEntity);
-            Set<Mark> marksByFilm = getAllByNews(singletonList);
-            return marksByFilm != null ? marksByFilm : Collections.emptySet();
+            Set<Mark> marksByNew = getAllByNews(singletonList);
+            return marksByNew != null ? marksByNew : Collections.emptySet();
+        }
+        return Collections.emptySet();
+    }
+
+    @Override
+    public Set<Mark> getAllByNew(Share share) {
+        if (share != null) {
+            List<Share> singletonList = Collections.singletonList(share);
+            Set<Mark> marksByShare = getAllByShares(singletonList);
+            return marksByShare != null ? marksByShare : Collections.emptySet();
         }
         return Collections.emptySet();
     }
@@ -65,8 +77,8 @@ public class MarkServiceImp implements MarkService {
     public Set<Mark> getAllByCinema(Cinema cinema) {
         if (cinema != null) {
             List<Cinema> temporaryFilms = Collections.singletonList(cinema);
-            Set<Mark> marksByFilm = markRepository.getAllByCinemas(temporaryFilms);
-            return marksByFilm != null ? marksByFilm : Collections.emptySet();
+            Set<Mark> marksByCinema = markRepository.getAllByCinemas(temporaryFilms);
+            return marksByCinema != null ? marksByCinema : Collections.emptySet();
         }
         return Collections.emptySet();
     }

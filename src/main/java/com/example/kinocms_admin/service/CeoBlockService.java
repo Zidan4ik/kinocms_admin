@@ -10,6 +10,7 @@ public interface CeoBlockService {
     void saveHall(CeoBlock ceoBlock, Hall hall, LanguageCode code);
     void saveCinema(CeoBlock ceoBlock, Cinema cinema, LanguageCode code);
     void saveNew(CeoBlock ceoBlock, New newCinema, LanguageCode code);
+    void saveShare(CeoBlock ceoBlock, Share share, LanguageCode code);
     void deleteById(long id);
 
     Optional<CeoBlock> getById(long id);
@@ -19,4 +20,6 @@ public interface CeoBlockService {
     Optional<CeoBlock> getByCinemaAndLanguageCode(Cinema cinema, LanguageCode code);
     Optional<CeoBlock> getByHallAndLanguageCode(Hall hall, LanguageCode code);
     Optional<CeoBlock> getByNewEntityAndLanguageCode(New newEntity, LanguageCode code);
+    Optional<CeoBlock> getByShareAndLanguageCode(Share share, LanguageCode code);
+
 }

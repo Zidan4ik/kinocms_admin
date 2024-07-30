@@ -1,9 +1,6 @@
 package com.example.kinocms_admin.repository;
 
-import com.example.kinocms_admin.entity.Cinema;
-import com.example.kinocms_admin.entity.Film;
-import com.example.kinocms_admin.entity.Mark;
-import com.example.kinocms_admin.entity.New;
+import com.example.kinocms_admin.entity.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,5 +17,6 @@ public interface MarkRepository extends JpaRepository<Mark,Long> {
     Set<Mark> getAllByFilms(List<Film> films);
     Set<Mark> getAllByCinemas(List<Cinema> cinemas);
     Set<Mark> getAllByNews(List<New> news);
+    Set<Mark> getAllByShares(List<Share> shares);
 
 }
