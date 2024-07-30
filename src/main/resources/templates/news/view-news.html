@@ -3,32 +3,8 @@
     <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/core.css"/>
     <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/theme-default.css"/>
     <link rel="stylesheet" href="/vuexy/assets/vendor/fonts/tabler-icons.css">
-    <link rel="stylesheet" href="/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="/styles.css">
 
-    <style>
-        .image-container {
-            position: relative;
-        }
-
-        .film-image, .hover-block {
-            transition: opacity 0.3s;
-        }
-
-        .image-container .hover-block {
-            display: none;
-        }
-
-        .image-container:hover .film-image {
-            display: none;
-        }
-
-        .image-container:hover .hover-block {
-            display: block;
-        }
-    </style>
-    <script src="/vuexy/assets/vendor/js/helpers.js"></script>
-    <script src="/vuexy/assets/js/config.js"></script>
     <script src="/vuexy/dist/js/bootstrap.js"></script>
 </head>
 
@@ -71,7 +47,7 @@
                                 </a>
                             </div>
                         </div>
-                        <!-- Table Halls -->
+                        <!-- Table News -->
                         <div class="table-responsive" th:if="${!news.isEmpty()}">
                             <table class="table table-bordered">
                                 <thead>
@@ -103,7 +79,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <!--/ Table Halls -->
+                        <!--/ Table News -->
                     </div>
                 </div>
                 <!--/ Content -->
@@ -135,7 +111,5 @@
 </div>
 <!--/ Layout wrapper -->
 
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 </html>
