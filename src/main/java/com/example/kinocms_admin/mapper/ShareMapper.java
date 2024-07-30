@@ -76,21 +76,21 @@ public class ShareMapper {
 
         PageTranslation pageTranslationUkr = new PageTranslation(
                 LanguageCode.Ukr,
-                PageType.news,
+                PageType.share,
                 dto.getTitleUkr(),
                 dto.getDescriptionUkr(),
                 entity
         );
         PageTranslation pageTranslationEng = new PageTranslation(
                 LanguageCode.Eng,
-                PageType.news,
+                PageType.share,
                 dto.getTitleEng(),
                 dto.getDescriptionEng(),
                 entity
         );
         CeoBlock ceoBlockUkr = new CeoBlock(
                 LanguageCode.Ukr,
-                PageType.news,
+                PageType.share,
                 dto.getTitleCeoUkr(),
                 dto.getDescriptionCeoUkr(),
                 dto.getKeywordsCeoUkr(),
@@ -98,7 +98,7 @@ public class ShareMapper {
         );
         CeoBlock ceoBlockEng = new CeoBlock(
                 LanguageCode.Eng,
-                PageType.news,
+                PageType.share,
                 dto.getTitleCeoEng(),
                 dto.getDescriptionCeoEng(),
                 dto.getKeywordsCeoEng(),
