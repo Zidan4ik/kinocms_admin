@@ -11,4 +11,5 @@ public interface GalleryService {
     List<Gallery> getAllByFilm(Film film);
     List<Gallery> getAllByCinema(Cinema cinema);
     List<Gallery> getAllByHall(Hall hall);
+    List<Gallery> getAllByPage(Page page);
 }

@@ -23,5 +23,6 @@ public interface PageTranslationService {
     Optional<PageTranslation> getByHallAndLanguageCode(Hall hall, LanguageCode code);
     Optional<PageTranslation> getByNewAndLanguageCode(New newEntity, LanguageCode code);
     Optional<PageTranslation> getByShareAndLanguageCode(Share share, LanguageCode code);
+    Optional<PageTranslation> getByPageAndLanguageCode(Page page, LanguageCode code);
 
 }

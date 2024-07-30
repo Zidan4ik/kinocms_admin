@@ -26,6 +26,9 @@ public class Gallery {
     @ManyToOne
     @JoinColumn(name = "cinema_id")
     private Cinema cinema;
+    @ManyToOne
+    @JoinColumn(name = "page_id")
+    private Page page;
     public Gallery(String linkImage, GalleriesType type, Film film) {
         this.linkImage = linkImage;
         this.type = type;
@@ -44,9 +47,16 @@ public class Gallery {
         this.cinema = cinema;
     }
 
+    public Gallery(String linkImage, GalleriesType type, Page page) {
+        this.linkImage = linkImage;
+        this.type = type;
+        this.page = page;
+    }
+
     public Gallery(Long id, String linkImage, GalleriesType type) {
         this.id = id;
         this.linkImage = linkImage;
         this.type = type;
     }
+
 }

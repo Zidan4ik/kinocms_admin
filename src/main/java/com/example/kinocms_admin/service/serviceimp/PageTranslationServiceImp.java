@@ -5,7 +5,6 @@ import com.example.kinocms_admin.enums.LanguageCode;
 import com.example.kinocms_admin.repository.PageTranslationRepository;
 import com.example.kinocms_admin.service.PageTranslationService;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.query.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -86,4 +85,8 @@ public class PageTranslationServiceImp implements PageTranslationService {
         return pageTranslationRepository.findByShareAndLanguageCode(share,code);
     }
 
+    @Override
+    public Optional<PageTranslation> getByPageAndLanguageCode(Page page, LanguageCode code) {
+        return pageTranslationRepository.findByPageAndLanguageCode(page,code);
+    }
 }
