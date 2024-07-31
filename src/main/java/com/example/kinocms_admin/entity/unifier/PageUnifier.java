@@ -28,7 +28,17 @@ public class PageUnifier {
         this.pageTranslationUkr = pageTranslationUkr;
     }
 
-    public PageUnifier(List<Page> pages) {
-        this.pages = pages;
+    public PageUnifier(Page page, CeoBlock ceoBlockUkr, CeoBlock ceoBlockEng) {
+        this.page = page;
+        this.ceoBlockUkr = ceoBlockUkr;
+        this.ceoBlockEng = ceoBlockEng;
+    }
+
+    public PageUnifier(Page page, CeoBlock ceoBlockUkr, CeoBlock ceoBlockEng, PageTranslation pageTranslationUkr, PageTranslation pageTranslationEng) {
+        this.page = page;
+        this.ceoBlockUkr = ceoBlockUkr;
+        this.ceoBlockEng = ceoBlockEng;
+        this.pageTranslationUkr = pageTranslationUkr;
+        this.pageTranslationEng = pageTranslationEng;
     }
 }

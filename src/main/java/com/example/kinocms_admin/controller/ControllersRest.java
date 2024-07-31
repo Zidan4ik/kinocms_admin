@@ -7,6 +7,7 @@ import com.example.kinocms_admin.mapper.*;
 import com.example.kinocms_admin.model.*;
 
 import com.example.kinocms_admin.service.serviceimp.*;
+import com.example.kinocms_admin.util.ImageUtil;
 import com.example.kinocms_admin.util.JsonUtil;
 import lombok.RequiredArgsConstructor;
 
@@ -29,6 +30,7 @@ public class ControllersRest {
     private final HallServiceImp hallServiceImp;
     private final NewServiceImp newServiceImp;
     private final ShareServiceImp shareServiceImp;
+    private final PageServiceImp pageServiceImp;
     @PostMapping(value = "/film/add")
     public ResponseEntity<Object> addFilm(
             @ModelAttribute(name = "film") FilmDTOAdd filmDTO) {
@@ -162,6 +164,47 @@ public class ControllersRest {
         shareBD.ifPresent(c->ceoBlockServiceImp.saveShare(unifier.getCeoBlockEng(),c,LanguageCode.Eng));
         shareBD.ifPresent(c->pageTranslationServiceImp.saveShare(unifier.getPageTranslationUkr(),c,LanguageCode.Ukr));
         shareBD.ifPresent(c->pageTranslationServiceImp.saveShare(unifier.getPageTranslationEng(),c,LanguageCode.Eng));
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @PostMapping("/page-main/{id}/edit")
+    public ResponseEntity<Object> editPageMain(@ModelAttribute(name = "page") PageMainDTOAdd dtoAdd){
+        PageUnifier pageUnifier = PageMapper.toEntityAddMain(dtoAdd);
+        pageServiceImp.save(pageUnifier.getPage());
+
+        ceoBlockServiceImp.savePage(pageUnifier.getCeoBlockUkr(),pageUnifier.getPage(),LanguageCode.Ukr);
+        ceoBlockServiceImp.savePage(pageUnifier.getCeoBlockEng(),pageUnifier.getPage(),LanguageCode.Eng);
+
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @PostMapping("/page/{id}/edit")
+    public ResponseEntity<Object> editPage(@ModelAttribute(name = "page") PageDTOAdd dtoAdd){
+        PageUnifier pageUnifier = PageMapper.toEntityAdd(dtoAdd);
+        List<GalleriesDTO> galleriesJSON = JsonUtil.transformationJsonToObject(dtoAdd.getGalleriesDTO(), GalleriesDTO.class);
+        galleryServiceImp.handleDeletingImages(galleriesJSON,dtoAdd.getId());
+
+        pageServiceImp.saveImages(pageUnifier.getPage(),dtoAdd.getFileBanner(),
+                dtoAdd.getFileImage1(), dtoAdd.getFileImage2(), dtoAdd.getFileImage3(),dtoAdd.getFilesGalleries());
+
+        ceoBlockServiceImp.savePage(pageUnifier.getCeoBlockUkr(),pageUnifier.getPage(),LanguageCode.Ukr);
+        ceoBlockServiceImp.savePage(pageUnifier.getCeoBlockEng(),pageUnifier.getPage(),LanguageCode.Eng);
+        pageTranslationServiceImp.savePage(pageUnifier.getPageTranslationUkr(),pageUnifier.getPage(),LanguageCode.Ukr);
+        pageTranslationServiceImp.savePage(pageUnifier.getPageTranslationEng(),pageUnifier.getPage(),LanguageCode.Eng);
+
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+    @PostMapping("/page/add")
+    public ResponseEntity<Object> addPage(@ModelAttribute PageDTOAdd dtoAdd){
+        PageUnifier pageUnifier = PageMapper.toEntityAdd(dtoAdd);
+        pageServiceImp.saveImages(pageUnifier.getPage(),dtoAdd.getFileBanner(),
+                dtoAdd.getFileImage1(), dtoAdd.getFileImage2(), dtoAdd.getFileImage3(),dtoAdd.getFilesGalleries());
+
+        ceoBlockServiceImp.savePage(pageUnifier.getCeoBlockUkr(),pageUnifier.getPage(),LanguageCode.Ukr);
+        ceoBlockServiceImp.savePage(pageUnifier.getCeoBlockEng(),pageUnifier.getPage(),LanguageCode.Eng);
+        pageTranslationServiceImp.savePage(pageUnifier.getPageTranslationUkr(),pageUnifier.getPage(),LanguageCode.Ukr);
+        pageTranslationServiceImp.savePage(pageUnifier.getPageTranslationEng(),pageUnifier.getPage(),LanguageCode.Eng);
+
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }

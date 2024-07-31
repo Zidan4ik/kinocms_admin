@@ -52,6 +52,13 @@ public class PageTranslationServiceImp implements PageTranslationService {
     }
 
     @Override
+    public void savePage(PageTranslation page, Page pageEntity, LanguageCode code) {
+        Optional<PageTranslation> translator = getByPageAndLanguageCode(pageEntity, code);
+        translator.ifPresent(pageTranslation -> page.setId(pageTranslation.getId()));
+        pageTranslationRepository.save(page);
+    }
+
+    @Override
     public void deleteById(long id) {
         pageTranslationRepository.deleteById(id);
     }

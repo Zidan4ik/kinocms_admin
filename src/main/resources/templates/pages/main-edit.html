@@ -1,0 +1,359 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/core.css"/>
+    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/theme-default.css"/>
+    <link rel="stylesheet" href="/vuexy/assets/vendor/fonts/tabler-icons.css">
+    <link rel="stylesheet" href="/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+<!-- Layout wrapper -->
+<div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
+
+    <!-- Layout container -->
+    <div class="layout-container">
+
+        <!-- Navbar -->
+        <div th:insert="~{blocks/navbar::navbar}"></div>
+        <!--/ Navbar -->
+
+        <!-- Layout page -->
+        <div class="layout-page">
+
+            <!-- Menu -->
+            <aside th:insert="blocks/sidebar::sidebar"
+                   id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme sidebar"
+                   style="display: flex;flex-direction: column;height: 100%;">
+            </aside>
+            <!--/ Menu -->
+
+            <!-- Content wrapper -->
+            <div class="content-wrapper">
+                <!-- Content -->
+                <div class="container-xxl d-flex align-items-stretch flex-grow-1 p-0">
+                    <div class="flex-shrink-1 flex-grow-1 container-p-x container-p-y">
+                        <div style="margin-top: 50px">
+                            <ul class="nav nav-pills mb-3 justify-content-end" id="pills-tab" role="tablist">
+                                <div class="col-sm-2 d-flex align-items-center">
+                                    <label class="switch">
+                                        <span class="switch-label">Статус:</span>
+                                        <input type="checkbox" class="switch-input" id="statusSwitch"/>
+                                        <span class="switch-toggle-slider">
+                                            <span class="switch-on"></span>
+                                            <span class="switch-off"></span>
+                                                </span>
+                                    </label>
+                                </div>
+                                <div class="btn-group">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="pills-ukraine-tab" data-bs-toggle="pill"
+                                                data-bs-target="#pills-ukraine" type="button" role="tab"
+                                                aria-controls="pills-ukraine" aria-selected="true"
+                                                th:onclick="changeLanguage('ukr')">Українська
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="pills-england-tab" data-bs-toggle="pill"
+                                                data-bs-target="#pills-england" type="button" role="tab"
+                                                aria-controls="pills-england" aria-selected="false"
+                                                th:onclick="changeLanguage('eng')">Англійська
+                                        </button>
+                                    </li>
+                                </div>
+                            </ul>
+                        </div>
+                        <form method="post" class="submitForm" enctype="multipart/form-data">
+                            <div class="tab-content" id="pills-tabContent">
+                                <div class="tab-pane fade show active" id="pills-ukraine" role="tabpanel"
+                                     aria-labelledby="pills-ukraine-tab" tabindex="0">
+                                    <div class="row mb-3">
+                                        <!-- Phone 1 -->
+                                        <div class="col-12">
+                                            <label class="form-label" for="phone1-ukr">Номер телефону 1:</label>
+                                            <input class="form-control js-input" id="phone1-ukr"
+                                                   style="width: 100%" placeholder="093 23 70 190">
+                                        </div>
+                                        <!--/ Phone 1 -->
+
+                                        <!-- Phone 2 -->
+                                        <div class="col-12">
+                                            <label class="form-label" for="phone2-ukr">Номер телефону 2:</label>
+                                            <input class="form-control js-input" id="phone2-ukr"
+                                                   style="width: 100%" placeholder="093 23 70 190">
+                                        </div>
+                                        <!--/ Phone 2 -->
+                                    </div>
+
+                                    <!-- Seo text -->
+                                    <div class="mb-3">
+                                        <label class="form-label" for="seoText-ukr">Seo текст:</label>
+                                        <textarea class="form-control" rows="3" id="seoText-ukr"
+                                                  style="width:100%; height: 250px;"
+                                                  placeholder="введіть текст для Seo"></textarea>
+                                    </div>
+                                    <!--/ Seo text -->
+
+                                    <!-- Ceo Block -->
+                                    <div class="col-12 mt-5">
+                                        <div class="row">
+                                            <h5 class="col-12 d-flex justify-content-center">SEO Блок: </h5>
+                                            <div>
+                                                <!-- URL -->
+                                                <div class="col-12 d-flex justify-content-center mb-4">
+                                                    <div>
+                                                        <label class="form-label" for="urlCeo-ukr">Уніфікований локатор
+                                                            ресурсів:</label>
+                                                        <input type="text" id="urlCeo-ukr" class="form-control js-input"
+                                                               placeholder="введіть посилання" style="width: 500px">
+                                                    </div>
+                                                </div>
+                                                <!--/ URL -->
+
+                                                <!-- Title -->
+                                                <div class="col-12 d-flex justify-content-center mb-4">
+                                                    <div>
+                                                        <label class="form-label" for="titleCeo-ukr">Заголовок:</label>
+                                                        <input type="text" id="titleCeo-ukr"
+                                                               class="form-control js-input"
+                                                               placeholder="введіть заголовок" style="width: 500px">
+                                                    </div>
+                                                </div>
+                                                <!--/ Title -->
+
+                                                <!-- Keywords -->
+                                                <div class="col-12 d-flex justify-content-center mb-4">
+                                                    <div>
+                                                        <label class="form-label" for="keywordsCeo-ukr">Ключові
+                                                            слова:</label>
+                                                        <input type="text" id="keywordsCeo-ukr"
+                                                               class="form-control js-input"
+                                                               placeholder="введіть ключові слова" style="width: 500px">
+                                                    </div>
+                                                </div>
+                                                <!--/ Keywords -->
+
+                                                <!-- Description -->
+                                                <div class="col-12 d-flex justify-content-center mb-4">
+                                                    <div style="width: 500px">
+                                                        <label class="form-label"
+                                                               for="descriptionCeo-ukr">Опис:</label>
+                                                        <textarea class="form-control" rows="3"
+                                                                  id="descriptionCeo-ukr"
+                                                                  style="width:100%; height: 250px;"
+                                                                  placeholder="введіть опис"></textarea>
+                                                    </div>
+                                                </div>
+                                                <!--/ Description -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/ Ceo Block -->
+
+                                    <div class="d-flex justify-content-center">
+                                        <button class="btn btn-secondary" style="width: 200px"
+                                                type="submit"> Зберегти
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane fade" id="pills-england" role="tabpanel"
+                                     aria-labelledby="pills-england-tab" tabindex="0">
+                                    <div class="row mb-3">
+
+                                        <!-- Phone 1 -->
+                                        <div class="col-12">
+                                            <label class="form-label" for="phone1-eng">Phone 1 number:</label>
+                                            <input class="form-control js-input" id="phone1-eng"
+                                                   style="width: 100%" placeholder="093 23 70 190">
+                                        </div>
+                                        <!--/ Phone 1 -->
+
+                                        <!-- Phone 2 -->
+                                        <div class="col-12">
+                                            <label class="form-label" for="phone2-eng">Phone 2 number:</label>
+                                            <input class="form-control js-input" id="phone2-eng"
+                                                   style="width: 100%" placeholder="093 23 70 190">
+                                        </div>
+                                        <!--/ Phone 2 -->
+                                    </div>
+
+                                    <!-- Seo Text -->
+                                    <div class="mb-3">
+                                        <label class="form-label" for="seoText-eng">Seo text:</label>
+                                        <textarea class="form-control" rows="3" id="seoText-eng"
+                                                  style="width:100%; height: 250px;"
+                                                  placeholder="enter a text SEO"></textarea>
+                                    </div>
+                                    <!--/ Seo Text -->
+
+                                    <!-- Ceo Block -->
+                                    <div class="col-12 mt-5">
+                                        <div class="row">
+                                            <h5 class="col-12 d-flex justify-content-center">SEO Block: </h5>
+                                            <div>
+                                                <!-- URL -->
+                                                <div class="col-12 d-flex justify-content-center mb-4">
+                                                    <div>
+                                                        <label class="form-label" for="urlCeo-eng">URL:</label>
+                                                        <input type="text" id="urlCeo-eng" class="form-control js-input"
+                                                               placeholder="enter link" style="width: 500px">
+                                                    </div>
+                                                </div>
+                                                <!--/ URL -->
+
+                                                <!-- Title -->
+                                                <div class="col-12 d-flex justify-content-center mb-4">
+                                                    <div>
+                                                        <label class="form-label" for="titleCeo-eng">Title:</label>
+                                                        <input type="text" id="titleCeo-eng"
+                                                               class="form-control js-input"
+                                                               placeholder="enter title" style="width: 500px">
+                                                    </div>
+                                                </div>
+                                                <!--/ Title -->
+
+                                                <!-- Keywords -->
+                                                <div class="col-12 d-flex justify-content-center mb-4">
+                                                    <div>
+                                                        <label class="form-label"
+                                                               for="keywordsCeo-eng">Keywords:</label>
+                                                        <input type="text" id="keywordsCeo-eng"
+                                                               class="form-control js-input"
+                                                               placeholder="enter keywords" style="width: 500px">
+                                                    </div>
+                                                </div>
+                                                <!--/ Keywords -->
+
+                                                <!-- Description -->
+                                                <div class="col-12 d-flex justify-content-center mb-4">
+                                                    <div style="width: 500px">
+                                                        <label class="form-label"
+                                                               for="descriptionCeo-eng">Description:</label>
+                                                        <textarea class="form-control" rows="3"
+                                                                  id="descriptionCeo-eng"
+                                                                  style="width:100%; height: 250px;"
+                                                                  placeholder="enter description"></textarea>
+                                                    </div>
+                                                </div>
+                                                <!--/ Description -->
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+                                        <button class="btn btn-secondary" style="width: 200px"
+                                                type="submit"> Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" th:value="${pageId}" id="pageId">
+                        </form>
+                    </div>
+                </div>
+                <!--/ Content -->
+            </div>
+            <!--/ Content wrapper -->
+        </div>
+        <!--/ Layout page -->
+    </div>
+    <!--/ Layout container -->
+</div>
+<!--/ Layout wrapper -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/vuexy/assets/vendor/js/helpers.js"></script>
+<script src="/vuexy/assets/js/config.js"></script>
+<script src="/vuexy/dist/js/bootstrap.js"></script>
+<script src="/script-main.js"></script>
+
+<script>
+    const form = document.querySelector(".submitForm");
+    const inputForm = document.querySelectorAll(".js-input");
+    $(document).ready(function () {
+        function validateForm() {
+            let isValid = true;
+            inputForm.forEach(function (input) {
+                if (input.value === '') {
+                    input.classList.remove('successful');
+                    input.classList.add('error');
+                    console.log('input not filled');
+                    isValid = false;
+                } else {
+                    input.classList.remove('error');
+                    input.classList.add('successful');
+                }
+            });
+            return isValid;
+        }
+
+        form.onsubmit = function () {
+            event.preventDefault();
+            console.log(languageFlag);
+            if (languageFlag === 'ukr') {
+                getDataFromInputs('eng');
+                assignDataInputs('eng');
+            } else if (languageFlag === 'eng') {
+                getDataFromInputs('ukr');
+                assignDataInputs('ukr');
+            }
+            if (validateForm()) {
+                ajaxPost();
+            } else {
+                console.log('Form validation failed');
+            }
+        };
+
+
+        function ajaxPost() {
+            const id = document.getElementById("pageId").value;
+            let formObject = getFormObject(languageFlag);
+            $.ajax({
+                type: "post",
+                url: "/admin/page-main/"+id+"/edit",
+                data: formObject,
+                processData: false,
+                contentType: false,
+                success: function () {
+                    window.location.replace("/admin/pages");
+                },
+                error: function (error) {
+                    console.log("Error submitting form:", error);
+                }
+            });
+        }
+    });
+    window.addEventListener("DOMContentLoaded", () => {
+        const elementPageId = document.getElementById("pageId");
+        if (elementPageId && elementPageId.value) {
+            let id = elementPageId.value;
+            const request = new XMLHttpRequest();
+            request.open("GET", `/admin/page-main/${id}`);
+            request.setRequestHeader("Content-type", "application/json; charset=utf-8");
+            request.send();
+            request.addEventListener("load", function () {
+                if (request.status === 200) {
+                    let data = JSON.parse(request.response);
+                    urlCeo = data.urlCeo;
+                    phone1 = data.phone1;
+                    phone2 = data.phone2;
+                    status = data.status;
+
+                    document.getElementById(`seoText-ukr`).value = data.seoTextUkr;
+                    document.getElementById(`seoText-eng`).value = data.seoTextEng;
+                    document.getElementById(`titleCeo-eng`).value = data.titleCeoEng;
+                    document.getElementById(`titleCeo-ukr`).value = data.titleCeoUkr;
+                    document.getElementById(`keywordsCeo-ukr`).value = data.keywordsCeoUkr;
+                    document.getElementById(`keywordsCeo-eng`).value = data.keywordsCeoEng;
+                    document.getElementById(`descriptionCeo-ukr`).value = data.descriptionCeoUkr;
+                    document.getElementById(`descriptionCeo-eng`).value = data.descriptionCeoEng;
+
+                    assignDataInputs(languageFlag);
+                }
+            })
+        }
+    });
+</script>
+</body>
+</html>

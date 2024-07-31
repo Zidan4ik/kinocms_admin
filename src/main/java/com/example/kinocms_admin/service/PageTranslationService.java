@@ -11,6 +11,7 @@ public interface PageTranslationService {
     void saveHall(PageTranslation page, Hall hall, LanguageCode code);
     void saveNew(PageTranslation page, New newEntity, LanguageCode code);
     void saveShare(PageTranslation page, Share share, LanguageCode code);
+    void savePage(PageTranslation page, Page pageEntity, LanguageCode code);
 
     void deleteById(long id);
 

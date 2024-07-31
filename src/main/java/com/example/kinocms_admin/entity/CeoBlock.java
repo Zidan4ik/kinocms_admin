@@ -23,6 +23,9 @@ public class CeoBlock {
     @Lob
     @Column(columnDefinition = "text")
     private String descriptions;
+    @Lob
+    @Column(columnDefinition = "text")
+    private String seoText;
     @ManyToOne
     private Film film;
     @ManyToOne
@@ -86,6 +89,16 @@ public class CeoBlock {
         this.title = title;
         this.keywords = keywords;
         this.descriptions = descriptions;
+        this.page = page;
+    }
+
+    public CeoBlock(LanguageCode languageCode, PageType pageType, String title, String keywords, String descriptions, String seoText, Page page) {
+        this.languageCode = languageCode;
+        this.pageType = pageType;
+        this.title = title;
+        this.keywords = keywords;
+        this.descriptions = descriptions;
+        this.seoText = seoText;
         this.page = page;
     }
 }

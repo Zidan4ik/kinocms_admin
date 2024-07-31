@@ -14,4 +14,5 @@ public interface CeoBlockRepository extends JpaRepository<CeoBlock,Long> {
     Optional<CeoBlock> getByHallAndLanguageCode(Hall hall, LanguageCode code);
     Optional<CeoBlock> getByNewEntityAndLanguageCode(New newEntity, LanguageCode code);
     Optional<CeoBlock> getByShareAndLanguageCode(Share share, LanguageCode code);
+    Optional<CeoBlock> getByPageAndLanguageCode(Page page, LanguageCode code);
 }

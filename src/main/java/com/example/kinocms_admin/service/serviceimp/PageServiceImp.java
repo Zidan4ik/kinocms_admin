@@ -42,10 +42,12 @@ public class PageServiceImp implements PageService {
             pageById.ifPresent(p -> page.setNameImage1(p.getNameImage1()));
             pageById.ifPresent(p -> page.setNameImage2(p.getNameImage2()));
             pageById.ifPresent(p -> page.setNameImage3(p.getNameImage3()));
-            pageById.ifPresent(p ->
-                    page.setGalleries(galleryServiceImp.getAllByPage(p)));
+            pageById.ifPresent(p -> page.setGalleries(galleryServiceImp.getAllByPage(p)));
+            pageById.ifPresent(p->page.setType(p.getType()));
             page.setPageTranslations(null);
             page.setCeoBlocks(null);
+        }else{
+            page.setType(PageType.additional);
         }
         if (fileBanner != null) {
             nameBanner = UUID.randomUUID() + "." + StringUtils.cleanPath(Objects.requireNonNull(fileBanner.getOriginalFilename()));
@@ -74,7 +76,7 @@ public class PageServiceImp implements PageService {
             }
         }
         page.setGalleries(galleriesRes);
-        pageRepository.save(page);
+        save(page);
 
         try {
             if (fileBanner != null && !fileBanner.getOriginalFilename().isEmpty()) {
