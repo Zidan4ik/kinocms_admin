@@ -1,6 +1,7 @@
 package com.example.kinocms_admin.service;
 
 import com.example.kinocms_admin.entity.Contact;
+import com.example.kinocms_admin.entity.Page;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -12,4 +13,6 @@ public interface ContactService {
     Optional<Contact> getById(Long id);
     void delete(Long id);
     List<Contact> getAll();
+    List<Contact> getAllByPage(Page page);
+    void deleteAll(Page page);
 }

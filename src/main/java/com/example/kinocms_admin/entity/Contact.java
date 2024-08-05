@@ -25,8 +25,6 @@ public class Contact {
     @Column(length = 50)
     private String coordinates;
     private String nameLogo;
-    private boolean status;
-    private LocalDate dateOfCreation;
     @ManyToOne
     private Page page;
 }

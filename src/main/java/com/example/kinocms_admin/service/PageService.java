@@ -18,4 +18,5 @@ public interface PageService {
 
     List<Page> getAll();
     List<Page> getAllByPageType(PageType type);
+    void updatePageAttributes(Page page, Optional<Page> pageById1);
 }

@@ -1,12 +1,10 @@
 package com.example.kinocms_admin.entity.unifier;
 
-import com.example.kinocms_admin.entity.CeoBlock;
-import com.example.kinocms_admin.entity.Gallery;
-import com.example.kinocms_admin.entity.Page;
-import com.example.kinocms_admin.entity.PageTranslation;
+import com.example.kinocms_admin.entity.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -21,7 +19,8 @@ public class PageUnifier {
     private PageTranslation pageTranslationUkr;
     private PageTranslation pageTranslationEng;
     private List<Gallery> galleries;
-
+    private List<Contact> contacts;
+    private List<MultipartFile> filesLogo;
 
     public PageUnifier(Page page, PageTranslation pageTranslationUkr) {
         this.page = page;
@@ -32,6 +31,13 @@ public class PageUnifier {
         this.page = page;
         this.ceoBlockUkr = ceoBlockUkr;
         this.ceoBlockEng = ceoBlockEng;
+    }
+
+    public PageUnifier(Page page, CeoBlock ceoBlockUkr, List<Contact> contacts,List<MultipartFile> filesLogo) {
+        this.page = page;
+        this.ceoBlockUkr = ceoBlockUkr;
+        this.contacts = contacts;
+        this.filesLogo = filesLogo;
     }
 
     public PageUnifier(Page page, CeoBlock ceoBlockUkr, CeoBlock ceoBlockEng, PageTranslation pageTranslationUkr, PageTranslation pageTranslationEng) {

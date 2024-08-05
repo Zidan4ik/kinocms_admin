@@ -1,6 +1,7 @@
 package com.example.kinocms_admin.entity;
 
 import com.example.kinocms_admin.enums.PageType;
+import com.example.kinocms_admin.service.GalleryOwner;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Page {
+public class Page implements GalleryOwner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

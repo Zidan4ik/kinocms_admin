@@ -1,20 +1,12 @@
 package com.example.kinocms_admin.util;
 
-
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.util.*;
 
 public class ImageUtil {
 
@@ -55,24 +47,41 @@ public class ImageUtil {
         }
     }
 
-    public static void fullDelete(String uploadDir) {
-        Path uploadPath = Paths.get(uploadDir);
-
-        if (Files.exists(uploadPath)) {
-            try {
-                Files.walk(uploadPath)
-                        .sorted(Comparator.reverseOrder())
-                        .map(Path::toFile)
-                        .forEach(File::delete);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+    public static void deleteFoldersByName(Path basePath, String folderNameToDelete) throws IOException {
+        Files.walkFileTree(basePath, new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
+                return FileVisitResult.CONTINUE;
             }
-        }
+
+            @Override
+            public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                if (dir.getFileName() != null && Objects.equals(dir.getFileName().toString(), folderNameToDelete)) {
+                    deleteDirectory(dir);
+                }
+                return FileVisitResult.CONTINUE;
+            }
+        });
+    }
+
+    private static void deleteDirectory(Path dir) throws IOException {
+        Files.walkFileTree(dir, new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                Files.delete(file);
+                return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                Files.delete(dir);
+                return FileVisitResult.CONTINUE;
+            }
+        });
     }
 
     public static void deleteFiles(String uploadDir, List<String> namesDelete) {
         Path uploadPath = Paths.get(uploadDir);
-
         if (Files.exists(uploadPath)) {
             try {
                 Files.walk(uploadPath)

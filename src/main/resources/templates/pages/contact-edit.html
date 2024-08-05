@@ -1,0 +1,185 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/core.css"/>
+    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/theme-default.css"/>
+    <link rel="stylesheet" href="/vuexy/assets/vendor/fonts/tabler-icons.css">
+    <link rel="stylesheet" href="/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+<!-- Layout wrapper -->
+<div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
+
+    <!-- Layout container -->
+    <div class="layout-container">
+
+        <!-- Navbar -->
+        <div th:insert="~{blocks/navbar::navbar}"></div>
+        <!--/ Navbar -->
+
+        <!-- Layout page -->
+        <div class="layout-page">
+
+            <!-- Menu -->
+            <aside th:insert="blocks/sidebar::sidebar"
+                   id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme sidebar"
+                   style="display: flex;flex-direction: column;height: 100%;">
+            </aside>
+            <!--/ Menu -->
+
+            <!-- Content wrapper -->
+            <div class="content-wrapper">
+                <!-- Content -->
+                <div class="container-xxl d-flex align-items-stretch flex-grow-1 p-0">
+                    <div class="flex-shrink-1 flex-grow-1 container-p-x container-p-y">
+                        <div style="margin-top: 50px"></div>
+                        <form method="post" class="pageForm" enctype="multipart/form-data">
+                            <div class="contactBlocks" id="contactBlocksId"></div>
+                            <a class="btn btn-label-google-plus" id="btnContact">Добавити контакт</a>
+                            <!-- Ceo Block -->
+                            <div class="col-12 mt-5">
+                                <div class="row">
+                                    <h5 class="col-12 d-flex justify-content-center">SEO Блок: </h5>
+                                    <div>
+                                        <!-- URL -->
+                                        <div class="col-12 d-flex justify-content-center mb-4">
+                                            <div>
+                                                <label class="form-label" for="urlCeo-ukr">Уніфікований локатор
+                                                    ресурсів:</label>
+                                                <input type="text" id="urlCeo-ukr" class="form-control js-input"
+                                                       placeholder="введіть посилання" style="width: 500px">
+                                            </div>
+                                        </div>
+                                        <!--/ URL -->
+
+                                        <!-- Title -->
+                                        <div class="col-12 d-flex justify-content-center mb-4">
+                                            <div>
+                                                <label class="form-label" for="titleCeo-ukr">Заголовок:</label>
+                                                <input type="text" id="titleCeo-ukr"
+                                                       class="form-control js-input"
+                                                       placeholder="введіть заголовок" style="width: 500px">
+                                            </div>
+                                        </div>
+                                        <!--/ Title -->
+
+                                        <!-- Keywords -->
+                                        <div class="col-12 d-flex justify-content-center mb-4">
+                                            <div>
+                                                <label class="form-label" for="keywordsCeo-ukr">Ключові
+                                                    слова:</label>
+                                                <input type="text" id="keywordsCeo-ukr"
+                                                       class="form-control js-input"
+                                                       placeholder="введіть ключові слова" style="width: 500px">
+                                            </div>
+                                        </div>
+                                        <!--/ Keywords -->
+
+                                        <!-- Description -->
+                                        <div class="col-12 d-flex justify-content-center mb-4">
+                                            <div style="width: 500px">
+                                                <label class="form-label"
+                                                       for="descriptionCeo-ukr">Опис:</label>
+                                                <textarea class="form-control" rows="3"
+                                                          id="descriptionCeo-ukr"
+                                                          style="width:100%; height: 250px;"
+                                                          placeholder="введіть опис"></textarea>
+                                            </div>
+                                        </div>
+                                        <!--/ Description -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <button class="btn btn-secondary" style="width: 200px"
+                                        type="submit"> Зберегти
+                                </button>
+                            </div>
+                            <input type="hidden" th:value="${pageId}" id="pageId">
+                        </form>
+                    </div>
+                </div>
+                <!--/ Content -->
+            </div>
+            <!--/ Content wrapper -->
+        </div>
+        <!--/ Layout page -->
+    </div>
+    <!--/ Layout container -->
+</div>
+<!--/ Layout wrapper -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/vuexy/assets/vendor/js/helpers.js"></script>
+<script src="/vuexy/assets/js/config.js"></script>
+<script src="/vuexy/dist/js/bootstrap.js"></script>
+<script src="/script-contact.js"></script>
+
+<script>
+    const form = document.querySelector(".pageForm");
+    $(document).ready(function () {
+        form.onsubmit = function () {
+            event.preventDefault();
+            ajaxPost();
+        };
+        function ajaxPost() {
+            let id = document.getElementById("pageId").value;
+            let formObject = getFormObject();
+            console.log("Form Object:", formObject);
+            $.ajax({
+                type: "post",
+                url: "/admin/page-contact/" + id + "/edit",
+                data: formObject,
+                processData: false,
+                contentType: false,
+                success: function () {
+                    // window.location.replace("/admin/pages");
+                },
+                error: function (error) {
+                    console.log("Error submitting form:", error);
+                }
+            });
+        }
+    });
+    window.addEventListener("DOMContentLoaded", () => {
+        const elementId = document.getElementById("pageId");
+        if (elementId && elementId.value) {
+            let id = elementId.value;
+            const request = new XMLHttpRequest();
+            request.open("GET", `/admin/contact/${id}`);
+            request.setRequestHeader("Content-type", "application/json; charset=utf-8");
+            request.send();
+            request.addEventListener("load", function () {
+                    if (request.status === 200) {
+                        let data = JSON.parse(request.response);
+                        console.log("Before data: ",data)
+                        if(Array.isArray(data.contactDTO)){
+                            let arrayContacts = [];
+                            for (let i = 0; i < data.contactDTO.length; i++) {
+                                let object = data.contactDTO[i];
+                                arrayContacts[i] = {
+                                    idContact: object.idContact,
+                                    titleUkr: object.titleUkr,
+                                    addressUkr: object.addressUkr,
+                                    coordinatesUkr: object.coordinatesUkr,
+                                    nameLogo: object.imageName,
+                                    pathLogo: "/uploads/contacts/logo/"+object.idContact+"/"+object.imageName
+                                }
+                            }
+                            array = arrayContacts;
+                            render(array);
+                        }
+
+                        document.getElementById(`titleCeo-ukr`).value = data.titleCeoUkr;
+                        document.getElementById(`urlCeo-ukr`).value = data.urlCeo;
+                        document.getElementById(`keywordsCeo-ukr`).value = data.keywordsCeoUkr;
+                        document.getElementById(`descriptionCeo-ukr`).value = data.descriptionCeoUkr;
+                    }
+                }
+            )
+        }
+    });
+</script>
+</body>
+</html>

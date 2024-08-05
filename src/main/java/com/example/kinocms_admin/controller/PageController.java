@@ -1,19 +1,15 @@
 package com.example.kinocms_admin.controller;
 
-import com.example.kinocms_admin.entity.CeoBlock;
-import com.example.kinocms_admin.entity.Gallery;
-import com.example.kinocms_admin.entity.Page;
-import com.example.kinocms_admin.entity.PageTranslation;
+import com.example.kinocms_admin.entity.*;
 import com.example.kinocms_admin.entity.unifier.PageUnifier;
+import com.example.kinocms_admin.enums.GalleriesType;
 import com.example.kinocms_admin.enums.LanguageCode;
 import com.example.kinocms_admin.enums.PageType;
 import com.example.kinocms_admin.mapper.PageMapper;
+import com.example.kinocms_admin.model.ContactDTOAdd;
 import com.example.kinocms_admin.model.PageDTOAdd;
 import com.example.kinocms_admin.model.PageMainDTOAdd;
-import com.example.kinocms_admin.service.serviceimp.CeoBlockServiceImp;
-import com.example.kinocms_admin.service.serviceimp.GalleryServiceImp;
-import com.example.kinocms_admin.service.serviceimp.PageServiceImp;
-import com.example.kinocms_admin.service.serviceimp.PageTranslationServiceImp;
+import com.example.kinocms_admin.service.serviceimp.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +30,8 @@ public class PageController {
     private final PageTranslationServiceImp pageTranslationServiceImp;
     private final CeoBlockServiceImp ceoBlockServiceImp;
     private final GalleryServiceImp galleryServiceImp;
+    private final ImageServiceImp imageServiceImp;
+    private final ContactServiceImp contactServiceImp;
 
     @GetMapping("/pages")
     public ModelAndView viewPages() {
@@ -56,10 +54,12 @@ public class PageController {
         model.addObject("pagesAdditional", PageMapper.toListPageDTOView(allAdditional));
         return model;
     }
+
     @GetMapping("/page/add")
-    public String addPage(){
+    public String addPage() {
         return "pages/page-add";
     }
+
     @GetMapping("/page/{id}/edit")
     public ModelAndView editPage(@PathVariable Long id) {
         ModelAndView model = new ModelAndView();
@@ -121,10 +121,31 @@ public class PageController {
         }
         return PageMapper.toDTOAdd(unifier);
     }
+
     @GetMapping("/page/{id}/delete")
-    public ModelAndView deletePage(@PathVariable Long id){
+    public ModelAndView deletePage(@PathVariable Long id) {
         ModelAndView model = new ModelAndView("redirect:/admin/pages");
         pageServiceImp.deleteById(id);
+        imageServiceImp.deleteFiles(GalleriesType.pages, id);
         return model;
+    }
+
+    @GetMapping("/contact/{id}")
+    @ResponseBody
+    public ContactDTOAdd getContact(@PathVariable Long id) {
+        Optional<Page> pageById = pageServiceImp.getById(id);
+        PageUnifier unifier = new PageUnifier();
+        if (pageById.isPresent()) {
+            Page page = pageById.get();
+            List<Contact> contacts = contactServiceImp.getAllByPage(page);
+            Optional<CeoBlock> ceoBlockUkr = ceoBlockServiceImp.getByPageAndLanguageCode(page, LanguageCode.Ukr);
+
+            unifier.setPage(page);
+            unifier.setContacts(contacts);
+            ceoBlockUkr.ifPresent(unifier::setCeoBlockUkr);
+        }
+
+        ContactDTOAdd dtoAdd = PageMapper.toDTOAddContact(unifier);
+        return dtoAdd;
     }
 }
