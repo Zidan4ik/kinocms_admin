@@ -1,6 +1,7 @@
 package com.example.kinocms_admin.entity;
 
 import com.example.kinocms_admin.enums.GalleriesType;
+import com.example.kinocms_admin.service.GalleryOwner;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -47,12 +48,11 @@ public class Gallery {
         this.cinema = cinema;
     }
 
-    public Gallery(String linkImage, GalleriesType type, Page page) {
+    public Gallery(String linkImage, GalleriesType type, GalleryOwner page) {
         this.linkImage = linkImage;
         this.type = type;
-        this.page = page;
+        this.page = (Page) page;
     }
-
     public Gallery(Long id, String linkImage, GalleriesType type) {
         this.id = id;
         this.linkImage = linkImage;

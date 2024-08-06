@@ -38,13 +38,14 @@ public class ContactServiceImp implements ContactService {
             updatePageAttributes(contact, pageById);
         }
 
-        if (fileLogo != null) {
+        if (fileLogo != null && !Objects.equals(fileLogo.getOriginalFilename(), "exist")) {
             nameLogo = imageServiceImp.generateFileName(fileLogo);
             contact.setNameLogo(nameLogo);
         }
         save(contact);
         try {
-            if (fileLogo != null && !Objects.requireNonNull(fileLogo.getOriginalFilename()).isEmpty()) {
+            if (fileLogo != null && !Objects.requireNonNull(fileLogo.getOriginalFilename()).isEmpty()
+                    && !Objects.equals(fileLogo.getOriginalFilename(), "exist")) {
                 imageServiceImp.saveFile(fileLogo, nameLogo, GalleriesType.contacts, ImageType.logo, contact.getId());
             }
         } catch (IOException e) {

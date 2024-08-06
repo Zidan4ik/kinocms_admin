@@ -118,15 +118,63 @@
 
 <script>
     const form = document.querySelector(".pageForm");
+
     $(document).ready(function () {
+        function validateForm() {
+            const inputForm = document.querySelectorAll(".js-input");
+            let isValid = true;
+            inputForm.forEach(function (input) {
+                if (input.value === '') {
+                    input.classList.remove('successful');
+                    input.classList.add('error');
+                    console.log('input not filled');
+                    isValid = false;
+                } else {
+                    input.classList.remove('error');
+                    input.classList.add('successful');
+                }
+            });
+            let indexValidate = 0;
+            $("#contactBlocksId > div").each(function () {
+                let fileImage, imageName;
+                $(this).find("input[type='file']").each(function () {
+                    if ($(this).attr("id") === 'btn-download-logo-ukr-' + indexValidate) {
+                        fileImage = document.getElementById("btn-download-logo-ukr-" + indexValidate).files[0];
+                    }
+                });
+                $(this).find("img").each(function () {
+                    if ($(this).attr("id") === "logo-download-ukr-" + indexValidate) {
+                        imageName = document.getElementById("logo-download-ukr-" + indexValidate).src;
+                    }
+                });
+
+                let elementError = document.getElementById("isValid-image-" + indexValidate);
+                elementError.innerHTML = '';
+                if (fileImage === undefined && imageName === "https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg") {
+                    let paragraph = document.createElement("p");
+                    paragraph.textContent = "The file was not downloaded";
+                    paragraph.style.color = "red";
+                    elementError.appendChild(paragraph);
+                    console.log('the file was not downloaded');
+                    isValid = false;
+                }
+                indexValidate++;
+            });
+            return isValid;
+        }
+
         form.onsubmit = function () {
             event.preventDefault();
-            ajaxPost();
+            if (validateForm()) {
+                ajaxPost();
+            } else {
+                console.log('Form validation failed');
+            }
         };
+
         function ajaxPost() {
             let id = document.getElementById("pageId").value;
             let formObject = getFormObject();
-            console.log("Form Object:", formObject);
             $.ajax({
                 type: "post",
                 url: "/admin/page-contact/" + id + "/edit",
@@ -134,7 +182,7 @@
                 processData: false,
                 contentType: false,
                 success: function () {
-                    // window.location.replace("/admin/pages");
+                    window.location.replace("/admin/pages");
                 },
                 error: function (error) {
                     console.log("Error submitting form:", error);
@@ -153,8 +201,8 @@
             request.addEventListener("load", function () {
                     if (request.status === 200) {
                         let data = JSON.parse(request.response);
-                        console.log("Before data: ",data)
-                        if(Array.isArray(data.contactDTO)){
+                        // console.log("Before data: ", data)
+                        if (Array.isArray(data.contactDTO)) {
                             let arrayContacts = [];
                             for (let i = 0; i < data.contactDTO.length; i++) {
                                 let object = data.contactDTO[i];
@@ -164,7 +212,7 @@
                                     addressUkr: object.addressUkr,
                                     coordinatesUkr: object.coordinatesUkr,
                                     nameLogo: object.imageName,
-                                    pathLogo: "/uploads/contacts/logo/"+object.idContact+"/"+object.imageName
+                                    pathLogo: "/uploads/contacts/logo/" + object.idContact + "/" + object.imageName
                                 }
                             }
                             array = arrayContacts;
