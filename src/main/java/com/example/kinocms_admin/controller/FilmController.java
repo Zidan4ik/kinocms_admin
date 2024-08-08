@@ -32,8 +32,6 @@ public class FilmController {
         List<Film> filmsUnActive = filmServiceImp.findFilmsIsActive(false);
         List<FilmInfoDTO> filmsActiveDTO = new ArrayList<>();
         List<FilmInfoDTO> filmsUnActiveDTO = new ArrayList<>();
-
-
         for (Film film : filmsActive) {
             Optional<PageTranslation> pageTranslation = pageTranslationServiceImp.
                     getByFilmAndLanguageCode(film, LanguageCode.Ukr);

@@ -11,7 +11,6 @@ import com.example.kinocms_admin.service.serviceimp.*;
 import com.example.kinocms_admin.util.JsonUtil;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,13 +18,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/admin")
 @RequiredArgsConstructor
-public class ControllersRest {
+public class RestControllers {
     private final FilmServiceImp filmServiceImp;
     private final CeoBlockServiceImp ceoBlockServiceImp;
     private final PageTranslationServiceImp pageTranslationServiceImp;
@@ -37,7 +34,7 @@ public class ControllersRest {
     private final PageServiceImp pageServiceImp;
     private final ContactServiceImp contactServiceImp;
     private final ImageServiceImp imageServiceImp;
-
+    private final UserServiceImp userServiceImp;
     @PostMapping(value = "/film/add")
     public ResponseEntity<Object> addFilm(
             @ModelAttribute(name = "film") FilmDTOAdd filmDTO) {
@@ -249,6 +246,17 @@ public class ControllersRest {
         }
 
         ceoBlockServiceImp.savePage(pageUnifier.getCeoBlockUkr(), pageUnifier.getPage(), LanguageCode.Ukr);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @PostMapping("/mailing/user-selected/save")
+    public ResponseEntity<Object> saveSelectedUser(@RequestParam Long id, @RequestParam Boolean isSelected){
+        Optional<User> userId = userServiceImp.getById(id);
+        if(userId.isPresent()){
+            User user = userId.get();
+            user.setSelected(isSelected);
+            userServiceImp.save(user);
+        }
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }

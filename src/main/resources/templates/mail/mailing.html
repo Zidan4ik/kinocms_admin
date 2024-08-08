@@ -1,0 +1,130 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/core.css"/>
+    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/theme-default.css"/>
+    <link rel="stylesheet" href="/vuexy/assets/vendor/fonts/tabler-icons.css">
+    <link rel="stylesheet" href="/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+<!-- Layout wrapper -->
+<div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
+
+    <!-- Layout container -->
+    <div class="layout-container">
+
+        <!-- Navbar -->
+        <div th:insert="~{blocks/navbar::navbar}"></div>
+        <!--/ Navbar -->
+
+        <!-- Layout page -->
+        <div class="layout-page">
+
+            <!-- Menu -->
+            <aside th:insert="blocks/sidebar::sidebar"
+                   id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme sidebar"
+                   style="display: flex;flex-direction: column;height: 100%;">
+            </aside>
+            <!--/ Menu -->
+
+            <!-- Content wrapper -->
+            <div class="content-wrapper">
+                <!-- Content -->
+                <div class="container-xxl d-flex align-items-stretch flex-grow-1 p-0">
+                    <div class="flex-shrink-1 flex-grow-1 container-p-x container-p-y">
+                        <div style="margin-top: 50px"></div>
+                        <form method="post" class="pageForm" enctype="multipart/form-data">
+
+                            <div class="row" style="border: solid 1px black; border-radius: 1%;">
+                                <h3 class="d-flex justify-content-center">E-mail</h3>
+                                <div class="mb-3" style="display: inline-flex;">
+                                    <p style="margin-right: 20px">Вибрати користувача кому надсилати:</p>
+                                    <div class="col-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="selectAllId"/>
+                                            <label class="form-check-label" for="selectAllId" id="labelForCheckBoxAll">
+                                                Всі користувачі
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="selectSomeId"/>
+                                            <label class="form-check-label" for="selectSomeId"
+                                                   id="labelForCheckBoxSome">
+                                                Вибірково
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <a  th:href="@{/admin/mailing/users}"
+                                            class="col btn btn-github disabled" id="btn-selectUsers"
+                                            style="text-align: center;color: floralwhite">Вибрати
+                                        користувачів</a>
+                                </div>
+                                <div class="mb-3" style="display: inline-flex;">
+                                    <div class="col-6">
+                                        <label class="form-label" for="text-sms">Текст SMS:</label>
+                                        <textarea class="form-control" rows="3" id="text-sms"
+                                                  style="width:85%; height: 200px;"
+                                                  placeholder="Введіть текст"></textarea>
+                                    </div>
+                                    <!--                                    <div class="col-6 d-flex align-items-center">-->
+                                    <!--                                        <div style="width: 100%;">-->
+                                    <!--                                            <p th:text="${selectedUsers!=null?'Будуть отримувати: '+selectedUsers.size():'Будуть отримувати: всі'}"></p>-->
+                                    <!--                                        </div>-->
+                                    <!--                                    </div>-->
+                                </div>
+                                <div class="d-flex justify-content-center mb-5">
+                                    <button class="btn btn-secondary" style="width: 200px"
+                                            type="submit"> Розпочати розсилку
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!--/ Content -->
+            </div>
+            <!--/ Content wrapper -->
+        </div>
+        <!--/ Layout page -->
+    </div>
+    <!--/ Layout container -->
+</div>
+<!--/ Layout wrapper -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/vuexy/assets/vendor/js/helpers.js"></script>
+<script src="/vuexy/assets/js/config.js"></script>
+<script src="/vuexy/dist/js/bootstrap.js"></script>
+
+<script>
+    const elementCheckBoxAllId = document.getElementById("selectAllId");
+    const elementCheckBoxSomeId = document.getElementById("selectSomeId");
+    $('#selectAllId').click(function () {
+        if (elementCheckBoxAllId.checked) {
+            elementCheckBoxSomeId.checked = false;
+            elementCheckBoxSomeId.disabled = true;
+        } else {
+            elementCheckBoxSomeId.disabled = false;
+        }
+    });
+
+    $('#selectSomeId').click(function () {
+        const btnSelectedUsers = document.getElementById("btn-selectUsers");
+        if (elementCheckBoxSomeId.checked) {
+            elementCheckBoxAllId.checked = false;
+            elementCheckBoxAllId.disabled = true;
+            btnSelectedUsers.classList.remove('disabled');
+        } else {
+            elementCheckBoxAllId.disabled = false;
+            btnSelectedUsers.classList.add('disabled');
+        }
+    });
+
+
+</script>
+
+</body>
+</html>

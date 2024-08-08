@@ -510,7 +510,7 @@
 
             isValidLogo.forEach(function (input) {
                 input.innerHTML = "";
-                if (fileLogo === null && imageLogo === null) {
+                if (fileLogo === null) {
                     let paragraph = document.createElement("p");
                     paragraph.textContent = "The file was not downloaded";
                     paragraph.style.color = "red";
@@ -521,7 +521,7 @@
             });
             isValidBanner.forEach(function (input) {
                 input.innerHTML = "";
-                if (fileBanner === null && imageBanner === null) {
+                if (fileBanner === null) {
                     let paragraph = document.createElement("p");
                     paragraph.textContent = "The file was not downloaded";
                     paragraph.style.color = "red";
