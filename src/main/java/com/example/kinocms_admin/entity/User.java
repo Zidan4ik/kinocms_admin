@@ -21,17 +21,35 @@ public class User {
     private Long id;
     private String name;
     private String lastName;
-    private String nickName;
+    private String nickname;
     private String phone;
     private String email;
     private String city;
     private String password;
     private String numberCard;
     private LanguageCode code;
-    private boolean gender;
+    private boolean isMan;
     private LocalDate dateOfBirthday;
     private LocalDate dateOfRegistration;
     private boolean isSelected;
+
+    public User(String name, String lastName, String nickname, String phone, String email, String city, String password, String numberCard, LanguageCode code, boolean isMan, LocalDate dateOfBirthday, LocalDate dateOfRegistration, boolean isSelected, String address) {
+        this.name = name;
+        this.lastName = lastName;
+        this.nickname = nickname;
+        this.phone = phone;
+        this.email = email;
+        this.city = city;
+        this.password = password;
+        this.numberCard = numberCard;
+        this.code = code;
+        this.isMan = isMan;
+        this.dateOfBirthday = dateOfBirthday;
+        this.dateOfRegistration = dateOfRegistration;
+        this.isSelected = isSelected;
+        this.address = address;
+    }
+
     @Lob
     @Column(columnDefinition = "text")
     private String address;

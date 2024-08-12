@@ -35,6 +35,14 @@
                     <div class="flex-shrink-1 flex-grow-1 container-p-x container-p-y">
                         <div style="margin-top: 50px"></div>
                         <form action="/admin/mailing/users">
+                            <div class="row d-flex justify-content-end">
+                                <input class="form-control" type="text" name="searchValue"
+                                       placeholder="Пошук" style="width:20%;margin-right: 20px;">
+                                <button class="btn btn-secondary" type="submit"
+                                        th:action="@{/admin/mailing/users (page=${currentPage})}"
+                                        style="width: 20%;">Пошук
+                                </button>
+                            </div>
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
@@ -72,34 +80,40 @@
 
                             <nav aria-label="Page navigation">
                                 <ul class="pagination">
-                                    <li class="page-item first">
-                                        <a class="page-link" href="javascript:void(0);"><i
+                                    <li class="page-item first" th:classappend="${currentPage == 0 ? 'disabled': ''}">
+                                        <a class="page-link"
+                                           th:href="@{/admin/mailing/users (page=${0},searchValue=${searchValue})}"><i
                                                 class="ti ti-chevrons-left ti-sm"></i></a>
                                     </li>
-                                    <li class="page-item prev">
-                                        <a class="page-link" href="javascript:void(0);"><i
+                                    <li class="page-item prev" th:classappend="${currentPage == 0 ? 'disabled': ''}">
+                                        <a class="page-link"
+                                           th:href="@{/admin/mailing/users (page=${users.getMetadata().getPage()-1},searchValue=${searchValue})}"><i
                                                 class="ti ti-chevron-left ti-sm"></i></a>
                                     </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="javascript:void(0);">1</a>
+                                    <li class="page-item"
+                                        th:each="i : ${#numbers.sequence(currentPage > 2 ? currentPage - 2 : 0, currentPage + 2 < totalPages ? currentPage + 2 : totalPages - 1)}">
+                                        <a class="page-link"
+                                           th:href="@{/admin/mailing/users (page=${i},searchValue=${searchValue})}"
+                                           th:text="${i+1}"
+                                           th:classappend="${currentPage == i ? 'active' : ''}"></a>
                                     </li>
-                                    <li class="page-item next">
-                                        <a class="page-link" href="javascript:void(0);"><i
-                                                class="ti ti-chevron-right ti-sm"></i></a>
+                                    <li class="page-item next"
+                                        th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+                                        <a class="page-link"
+                                           th:href="@{/admin/mailing/users (page=${currentPage + 1},searchValue=${searchValue})}"><i
+                                                class="ti ti-chevron-right ti-xs"></i></a>
                                     </li>
-                                    <li class="page-item last">
-                                        <a class="page-link" href="javascript:void(0);"><i
-                                                class="ti ti-chevrons-right ti-sm"></i></a>
+
+                                    <li class="page-item last"
+                                        th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+                                        <a class="page-link"
+                                           th:href="@{/admin/mailing/users (page=${totalPages - 1},searchValue=${searchValue}) }"><i
+                                                class="ti ti-chevrons-right ti-xs"></i></a>
                                     </li>
                                 </ul>
                             </nav>
-
-                            <input class="form-control" placeholder="page" type="number" name="page"
-                                   th:href="${users.getMetadata().getPage()}">
-                            <input class="form-control" placeholder="size" type="number" name="size"
-                                   th:href="${users.getMetadata().getSize()}">
-                            <button type="submit" class="btn btn-pinterest">Submit</button>
                         </form>
+                        <button type="button" class="btn btn-pinterest" id="mailingBtn">Відправити вибрані</button>
                     </div>
                 </div>
                 <!--/ Content -->
@@ -149,6 +163,9 @@
     }
 
 
+    $('#mailingBtn').click(function () {
+       window.location.replace("/admin/mailing?isExistUsers="+true);
+    })
 </script>
 </body>
 </html>
