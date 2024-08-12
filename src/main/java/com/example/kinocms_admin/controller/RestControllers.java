@@ -249,14 +249,4 @@ public class RestControllers {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PostMapping("/mailing/user-selected/save")
-    public ResponseEntity<Object> saveSelectedUser(@RequestParam Long id, @RequestParam Boolean isSelected){
-        Optional<User> userId = userServiceImp.getById(id);
-        if(userId.isPresent()){
-            User user = userId.get();
-            user.setSelected(isSelected);
-            userServiceImp.save(user);
-        }
-        return ResponseEntity.ok(HttpStatus.OK);
-    }
 }

@@ -34,7 +34,7 @@
                 <div class="container-xxl d-flex align-items-stretch flex-grow-1 p-0">
                     <div class="flex-shrink-1 flex-grow-1 container-p-x container-p-y">
                         <div style="margin-top: 50px"></div>
-                        <form method="post" class="pageForm" enctype="multipart/form-data">
+                        <form method="post" class="pageForm">
 
                             <div class="row" style="border: solid 1px black; border-radius: 1%;">
                                 <h3 class="d-flex justify-content-center">E-mail</h3>
@@ -57,30 +57,74 @@
                                             </label>
                                         </div>
                                     </div>
-                                    <a  th:href="@{/admin/mailing/users}"
-                                            class="col btn btn-github disabled" id="btn-selectUsers"
-                                            style="text-align: center;color: floralwhite">Вибрати
+                                    <a th:href="@{/admin/mailing/users (page=0,searchValue='')}"
+                                       class="col btn btn-github disabled" id="btn-selectUsers"
+                                       style="text-align: center;color: floralwhite">Вибрати
                                         користувачів</a>
                                 </div>
                                 <div class="mb-3" style="display: inline-flex;">
-                                    <div class="col-6">
-                                        <label class="form-label" for="text-sms">Текст SMS:</label>
-                                        <textarea class="form-control" rows="3" id="text-sms"
-                                                  style="width:85%; height: 200px;"
-                                                  placeholder="Введіть текст"></textarea>
+                                    <div class="row col-6">
+                                        <div class="row">
+                                            <div class="col-auto" style="align-items: center;display: flex;">
+                                                <label class="form-label" style="font-size: medium;">Загрузити
+                                                    HTML-лист:</label>
+                                            </div>
+                                            <div class="col-6">
+                                                <label class="buttonMy" for="inputFileId">Загрузити</label>
+                                                <input id="inputFileId" type="file" accept=".txt,text/plain,.html"
+                                                       style="display: none;">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-auto" style="align-items: center;display: flex;">
+                                                <label class="form-label" style="font-size: medium;">Загружений
+                                                    файл:</label>
+                                            </div>
+                                            <div class="col-6">
+                                                <label class="form-label" id="displayNewFileId"
+                                                       style="color: cornflowerblue;font-size: medium;">Пусто</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-auto" style="align-items: center;display: flex;">
+                                                <label class="form-label" style="font-size: medium;">Шаблон
+                                                    використовується в поточній розсилці:</label>
+                                            </div>
+                                            <div class="col-auto">
+                                                <label class="form-label" id="displayCurrentFileId"
+                                                       style="color: cornflowerblue;font-size: medium;">Пусто</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-auto" style="align-items: center;display: flex;">
+                                                <label class="form-label" style="font-size: medium;">Кількість листів: 8
+                                                    321</label>
+                                            </div>
+                                            <div class="col-auto">
+                                                <label class="form-label" style="font-size: medium;">Розсилка виконана
+                                                    на:</label>
+                                                <label class="form-label"
+                                                       style="color: cornflowerblue;font-size: medium;">45%</label>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <!--                                    <div class="col-6 d-flex align-items-center">-->
-                                    <!--                                        <div style="width: 100%;">-->
-                                    <!--                                            <p th:text="${selectedUsers!=null?'Будуть отримувати: '+selectedUsers.size():'Будуть отримувати: всі'}"></p>-->
-                                    <!--                                        </div>-->
-                                    <!--                                    </div>-->
+                                    <div class="col-6" style="border: solid 1px darkblue; border-radius: 4%;">
+                                        <p style="text-align: center">Список останніх завантажених шаблонів</p>
+                                        <div class="table-responsive">
+                                            <table class="table table-borderless">
+                                                <tbody id="tableDataId">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="d-flex justify-content-center mb-5">
-                                    <button class="btn btn-secondary" style="width: 200px"
-                                            type="submit"> Розпочати розсилку
+                                    <button class="btn btn-secondary disabled" style="width: 200px"
+                                            type="button" id="mailingBtn"> Розпочати розсилку
                                     </button>
                                 </div>
                             </div>
+                            <input type="hidden" th:value="${isExistUsers}" id="inputIsExistUsers">
                         </form>
                     </div>
                 </div>
@@ -102,12 +146,32 @@
 <script>
     const elementCheckBoxAllId = document.getElementById("selectAllId");
     const elementCheckBoxSomeId = document.getElementById("selectSomeId");
+    const mailingBtn = document.getElementById("mailingBtn");
+    const displayCurrentFileId = document.getElementById("displayCurrentFileId");
+    let arrayTemplates = [];
+    let resTemplate = {
+        id: 0,
+        fileName: null,
+        file: null
+    };
+
+    $("#inputFileId").change(function () {
+        let elementFile = document.getElementById("inputFileId").files[0];
+        if (elementFile) {
+            resTemplate.file = elementFile;
+            resTemplate.id = 0;
+            resTemplate.fileName = null;
+            document.getElementById("displayNewFileId").textContent = elementFile.name;
+        }
+    });
     $('#selectAllId').click(function () {
         if (elementCheckBoxAllId.checked) {
             elementCheckBoxSomeId.checked = false;
             elementCheckBoxSomeId.disabled = true;
+            mailingBtn.classList.remove('disabled');
         } else {
             elementCheckBoxSomeId.disabled = false;
+            mailingBtn.classList.add('disabled');
         }
     });
 
@@ -117,14 +181,119 @@
             elementCheckBoxAllId.checked = false;
             elementCheckBoxAllId.disabled = true;
             btnSelectedUsers.classList.remove('disabled');
+
+            if (inputIsExistUsers.value === 'true') {
+                mailingBtn.classList.remove('disabled');
+            }
         } else {
             elementCheckBoxAllId.disabled = false;
             btnSelectedUsers.classList.add('disabled');
+            if (inputIsExistUsers.value === 'true') {
+                mailingBtn.classList.add('disabled');
+            }
         }
     });
 
+    $('#mailingBtn').click(function () {
+        ajaxPost();
+    });
 
+    function ajaxPost() {
+        const formData = new FormData();
+        const selectedAll = document.getElementById("selectAllId").checked;
+        formData.append("isAll", selectedAll);
+        formData.append("id", resTemplate.id);
+        formData.append("nameFile", resTemplate.fileName);
+        if (resTemplate.file) {
+            formData.append("fileHtml", resTemplate.file);
+        }
+        $.ajax({
+            type: "post",
+            url: "/admin/mail/sendHTML",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function () {
+                window.location.replace("/admin/mailing");
+            },
+            error: function (error) {
+                console.log("Error submitting form:", error);
+            }
+        });
+    }
+
+    function getTemplates() {
+        const request = new XMLHttpRequest();
+        request.open("GET", `/admin/templates`);
+        request.setRequestHeader("Content-type", "application/json; charset=utf-8");
+        request.send();
+        request.addEventListener("load", function () {
+                if (request.status === 200) {
+                    let data = JSON.parse(request.response);
+                    console.log(data);
+                    arrayTemplates = data;
+                    render(arrayTemplates);
+                }
+            }
+        );
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+        getTemplates();
+    });
+
+    function render(array) {
+        let elementData = document.getElementById("tableDataId");
+        elementData.innerHTML = '';
+        for (let i = 0; i < array.length; i++) {
+            elementData.innerHTML += getDataTable(array[i]);
+        }
+    }
+
+    function getDataTable(object) {
+        return `<tr class="d-flex justify-content-between" id="myCheckboxContainer">
+        <td>
+            <div class="form-check d-flex align-items-center">
+                <input id="checkbox-${object.id}" onclick="handlerChatBoxTemplate('${object.nameFile}',${object.id})" class="form-check-input" type="checkbox" value=""/>
+            </div>
+        </td>
+        <td>
+            <p style="margin-bottom: 0px">${object.nameFile}</p>
+        </td>
+        <td>
+            <a id="templateDelete-${object.id}" style="color: red;margin-bottom: 0px">Видалити</a>
+        </td>
+    </tr>`;
+    }
+
+    function handlerChatBoxTemplate(fileName, id) {
+        let currentCheckbox = document.getElementById('checkbox-' + id);
+        if (!currentCheckbox.checked) {
+            displayCurrentFileId.textContent = 'Пусто';
+            resTemplate.id = null;
+            resTemplate.fileName = null;
+        } else {
+            const checkboxes = document.querySelectorAll('#myCheckboxContainer .form-check-input');
+            checkboxes.forEach((checkbox) => {
+                if (checkbox.id !== 'checkbox-' + id) {
+                    checkbox.checked = false;
+                } else {
+                    displayCurrentFileId.textContent = fileName;
+                    getElement(arrayTemplates, id);
+                }
+            });
+        }
+    }
+
+    function getElement(array, id) {
+        array.forEach((input) => {
+            if (input.id === id) {
+                resTemplate.id = input.id;
+                resTemplate.fileName = input.nameFile;
+                resTemplate.file = null;
+            }
+        })
+    }
 </script>
-
 </body>
 </html>

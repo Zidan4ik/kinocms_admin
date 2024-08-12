@@ -1,5 +1,7 @@
 package com.example.kinocms_admin.util;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -98,6 +100,14 @@ public class ImageUtil {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+        }
+    }
+    public static String toReadHTMLFile(MultipartFile htmlFile){
+        try {
+            Document doc = Jsoup.parse(htmlFile.getInputStream(),"UTF-8","");
+            return doc.html();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
