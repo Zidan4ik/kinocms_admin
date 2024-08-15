@@ -8,5 +8,4 @@ public class KinocmsAdminApplication {
     public static void main(String[] args) {
         SpringApplication.run(KinocmsAdminApplication.class, args);
     }
-
 }

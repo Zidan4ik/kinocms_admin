@@ -57,7 +57,7 @@
                                             </label>
                                         </div>
                                     </div>
-                                    <a th:href="@{/admin/mailing/users (page=0,searchValue='')}"
+                                    <a th:href="@{/admin/mailing/users}"
                                        class="col btn btn-github disabled" id="btn-selectUsers"
                                        style="text-align: center;color: floralwhite">Вибрати
                                         користувачів</a>
@@ -71,7 +71,7 @@
                                             </div>
                                             <div class="col-6">
                                                 <label class="buttonMy" for="inputFileId">Загрузити</label>
-                                                <input id="inputFileId" type="file" accept=".txt,text/plain,.html"
+                                                <input id="inputFileId" type="file" accept=".html"
                                                        style="display: none;">
                                             </div>
                                         </div>
@@ -125,6 +125,27 @@
                                 </div>
                             </div>
                             <input type="hidden" th:value="${isExistUsers}" id="inputIsExistUsers">
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="displayModalId" tabindex="-1"
+                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header justify-content-center"
+                                             style="border-bottom: solid 1px #e1e1e1;">
+                                            <h5 class="modal-title" id="exampleModalLabel" style="color: red;">
+                                                Попередження</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close">
+                                            </button>
+                                        </div>
+                                        <div class="modal-body d-flex justify-content-center">
+                                            <p>Шаблон для розсилки не був завантажений.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/ Modal -->
                         </form>
                     </div>
                 </div>
@@ -176,7 +197,12 @@
     });
 
     $('#selectSomeId').click(function () {
+        switchCheckboxSelectedUsers();
+    });
+
+    function switchCheckboxSelectedUsers() {
         const btnSelectedUsers = document.getElementById("btn-selectUsers");
+        const inputIsExistUsers = document.getElementById("inputIsExistUsers");
         if (elementCheckBoxSomeId.checked) {
             elementCheckBoxAllId.checked = false;
             elementCheckBoxAllId.disabled = true;
@@ -192,10 +218,15 @@
                 mailingBtn.classList.add('disabled');
             }
         }
-    });
+    }
 
     $('#mailingBtn').click(function () {
-        ajaxPost();
+        if (resTemplate.file === null && resTemplate.id === 0 && resTemplate.fileName === null) {
+            let modal = new bootstrap.Modal(document.getElementById("displayModalId"));
+            modal.show();
+        } else {
+            ajaxPost();
+        }
     });
 
     function ajaxPost() {
@@ -229,9 +260,7 @@
         request.send();
         request.addEventListener("load", function () {
                 if (request.status === 200) {
-                    let data = JSON.parse(request.response);
-                    console.log(data);
-                    arrayTemplates = data;
+                    arrayTemplates = JSON.parse(request.response);
                     render(arrayTemplates);
                 }
             }
@@ -239,6 +268,12 @@
     }
 
     window.addEventListener("DOMContentLoaded", () => {
+        const inputExistUsers = document.getElementById("inputIsExistUsers");
+        const checkboxSome = document.getElementById("selectSomeId");
+        if (inputExistUsers.value === 'true') {
+            checkboxSome.checked = true;
+            switchCheckboxSelectedUsers();
+        }
         getTemplates();
     });
 
@@ -261,7 +296,8 @@
             <p style="margin-bottom: 0px">${object.nameFile}</p>
         </td>
         <td>
-            <a id="templateDelete-${object.id}" style="color: red;margin-bottom: 0px">Видалити</a>
+            <a class="checkbox-delete"
+            id="templateDelete-${object.id}" onclick="handlerDeleteTemplate(${object.id})" style="margin-bottom: 0px">Видалити</a>
         </td>
     </tr>`;
     }
@@ -283,6 +319,21 @@
                 }
             });
         }
+    }
+
+    function handlerDeleteTemplate(id) {
+
+        const request = new XMLHttpRequest();
+        request.open("GET", `/admin/template/` + id + `/delete`);
+        request.setRequestHeader("Content-type", "application/json; charset=utf-8");
+        request.send();
+        request.addEventListener("load", function () {
+                if (request.status === 200) {
+                    arrayTemplates = JSON.parse(request.response);
+                    render(arrayTemplates);
+                }
+            }
+        );
     }
 
     function getElement(array, id) {

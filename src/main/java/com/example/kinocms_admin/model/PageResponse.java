@@ -3,6 +3,8 @@ package com.example.kinocms_admin.model;
 import lombok.Value;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+
 import java.util.List;
 @Value
 public class PageResponse<T> {

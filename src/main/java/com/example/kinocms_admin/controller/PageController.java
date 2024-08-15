@@ -145,7 +145,6 @@ public class PageController {
             ceoBlockUkr.ifPresent(unifier::setCeoBlockUkr);
         }
 
-        ContactDTOAdd dtoAdd = PageMapper.toDTOAddContact(unifier);
-        return dtoAdd;
+        return PageMapper.toDTOAddContact(unifier);
     }
 }

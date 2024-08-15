@@ -52,7 +52,7 @@
                         <form>
                             <div class="row d-flex justify-content-end">
                                 <input class="form-control" type="text" id="inputSearch"
-                                       placeholder="Пошук" style="width:20%;margin-right: 20px;">
+                                       placeholder="Пошук" style="width:20%;margin-right: 20px;" autocomplete="off">
                                 <button class="btn btn-dark" type="button" id="btnSearchId"
                                         style="width: 20%;">Пошук
                                 </button>
@@ -61,11 +61,6 @@
                                 <table class="table">
                                     <thead>
                                     <tr>
-                                        <th>
-                                            <div class="sort-table" data-id="isSelected" data-type="asc"><i
-                                                    class="ti ti-caret-up" style="max-width: 50px"></i>
-                                            </div>
-                                        </th>
                                         <th>
                                             <div class="sort-table" data-id="id" data-type="asc">ID<i
                                                     class="ti ti-caret-up" style="max-width: 50px"></i>
@@ -85,7 +80,7 @@
                                         </th>
                                         <th>
                                             <div class="sort-table" data-id="email" data-type="asc"
-                                                 style="min-width: 180px">Email<i
+                                                 style="min-width: 115px">Email<i
                                                     class="ti ti-caret-up"></i>
                                             </div>
                                         </th>
@@ -95,8 +90,8 @@
                                         </th>
                                         <th>
                                             <div class="sort-table"
-                                                 style="min-width: 150px">ФІО<i
-                                                    class="ti ti-caret-up"></i>
+                                                 style="min-width: 90px" data-id="fio">ФІО
+                                                <i class="ti ti-caret-up"></i>
                                             </div>
                                         </th>
                                         <th>
@@ -108,6 +103,7 @@
                                                     class="ti ti-caret-up"></i>
                                             </div>
                                         </th>
+                                        <th></th>
                                     </tr>
                                     </thead>
                                     <tbody class="table-border-bottom-0" id="tableDataId">
@@ -119,12 +115,6 @@
                             <nav class="d-flex justify-content-center mt-3"
                                  aria-label="Page navigation" id="container-pagination">
                             </nav>
-
-                            <div style="text-align: center;">
-                                <button id="btnSubmit"
-                                        type="button" class="btn btn-dark" style="width: 35%">Відправити вибрані
-                                </button>
-                            </div>
                         </form>
                     </div>
                 </div>
@@ -146,23 +136,24 @@
 <script>
     document.querySelectorAll(".sort-table").forEach(function (element) {
         element.addEventListener('click', function () {
-            let type = element.dataset.type;
-            let icon = element.querySelector('i');
-            if (type === 'asc') {
-                element.dataset.type = 'desc';
-                currentSort.direction = 'desc';
-                icon.className = 'ti ti-caret-down';
-            } else {
-                element.dataset.type = 'asc';
-                currentSort.direction = 'asc';
-                icon.className = 'ti ti-caret-up';
+            if (element.dataset.id !== 'fio') {
+                let type = element.dataset.type;
+                let icon = element.querySelector('i');
+                if (type === 'asc') {
+                    element.dataset.type = 'desc';
+                    currentSort.direction = 'desc';
+                    icon.className = 'ti ti-caret-down';
+                } else {
+                    element.dataset.type = 'asc';
+                    currentSort.direction = 'asc';
+                    icon.className = 'ti ti-caret-up';
+                }
+                makeDirectionAttributes(element.dataset.id);
+                currentSort.value = element.dataset.id;
+                console.log('element: ', element);
+                requestByFilterAndSorting();
             }
-            makeDirectionAttributes(element.dataset.id);
-            currentSort.value = element.dataset.id;
-            console.log('element: ', element);
-            requestByFilterAndSorting();
         });
-        console.log(element);
     });
 </script>
 <script>
@@ -178,7 +169,6 @@
         totalElements: null,
         totalPages: null
     };
-
 
     function generatePageSequence(currentPage, totalPages) {
         const startPage = currentPage > 2 ? currentPage - 2 : 0;
@@ -292,11 +282,6 @@
 
     function getRowData(user) {
         return `<tr>
-                                        <td>
-                                            <input class="form-check-input" type="checkbox" value="${user.id}"
-                                                   ${user.isSelected ? 'checked' : ''}
-                                                   onclick="handleCheckboxClick(this)"/>
-                                        </td>
                                         <td>${user.id}</td>
                                          <td class="divided-text">${user.dateOfRegistration}</td>
                                          <td class="divided-text">${user.dateOfBirthday}</td>
@@ -305,6 +290,22 @@
                                          <td class="divided-text">${user.fio}</td>
                                          <td class="divided-text">${user.nickname}</td>
                                          <td class="divided-text">${user.city}</td>
+                                          <td>
+                                           <div class="d-flex justify-content-center">
+                                                        <div class="btn-group">
+                                                            <a onclick="requestUserEdit(${user.id})"
+                                                            class="btn btn-label-dark trash-icon" type="button">
+                                                                <i class="ti ti-pencil"></i>
+                                                            </a>
+
+
+                                                            <a onclick="requestUserDelete(${user.id})"
+                                                            class="btn btn-label-dark trash-icon" type="button">
+                                                                <i class="ti ti-trash"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+</td>
                                  </tr>`;
     }
 
@@ -314,40 +315,12 @@
     document.getElementById('inputSearch').addEventListener('input', function () {
         requestByFilterAndSorting();
     });
-    document.getElementById("btnSubmit").addEventListener('click', function () {
-        window.location.replace("/admin/mailing?isExistUsers=true");
+
+    $('#btn-user-delete').click(function () {
+        console.log(1);
     });
 </script>
 <script>
-    function handleCheckboxClick(checkbox) {
-        if (checkbox.checked) {
-            console.log("User " + checkbox.value + ": checked");
-            saveCheckbox(checkbox.value, true);
-        } else {
-            console.log("User " + checkbox.value + ": unchecked");
-            saveCheckbox(checkbox.value, false);
-        }
-    }
-
-    function saveCheckbox(id, isSelected) {
-        const formData = new FormData();
-        formData.append("id", id);
-        formData.append("isSelected", isSelected);
-        $.ajax({
-            type: "post",
-            url: "/admin/mailing/user-selected/save",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function () {
-                console.log("Selected user was successfully saved")
-            },
-            error: function (error) {
-                console.log("Error with save selected user:", error);
-            }
-        });
-    }
-
     function requestByPageAndFilter(pageNu, searchValue) {
         const request = new XMLHttpRequest();
         let line = '';
@@ -408,7 +381,33 @@
             }
         );
     }
-
+    function requestUserDelete(id) {
+        let value = document.getElementById("inputSearch").value;
+        let line = '';
+        if (currentSort.value !== '' && currentSort.direction !== '') {
+            line = '&sort=' + currentSort.value + ',' + currentSort.direction;
+        }
+        const request = new XMLHttpRequest();
+        request.open("GET", "/admin/user/" + id + "/delete?searchValue="+ value + line);
+        request.setRequestHeader("Content-type", "application/json; charset=utf-8");
+        request.send();
+        request.addEventListener("load", function () {
+            if (request.status === 200) {
+                let data = JSON.parse(request.response);
+                console.log(data);
+                currentUsers = data.pageResponse.content;
+                currentSearchValue = data.searchValue;
+                currentMetaData.size = data.pageResponse.metadata.size;
+                currentMetaData.page = data.pageResponse.metadata.page;
+                currentMetaData.totalPages = data.pageResponse.metadata.totalPages;
+                currentMetaData.totalElements = data.pageResponse.metadata.totalElements;
+                renderTable(currentUsers);
+            }
+        });
+    }
+    function requestUserEdit(id){
+        window.location.replace("/admin/user/"+id+"/edit");
+    }
     window.addEventListener("DOMContentLoaded", () => {
         requestByPageAndFilter(0, '');
         renderTable(currentUsers);

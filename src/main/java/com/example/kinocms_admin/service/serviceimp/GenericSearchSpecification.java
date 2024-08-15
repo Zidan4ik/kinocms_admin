@@ -32,8 +32,6 @@ public class GenericSearchSpecification<T> implements Specification<T> {
                     Expression<String> dateStringExpr = criteriaBuilder.function("DATE_FORMAT", String.class, path, criteriaBuilder.literal("%Y-%m-%d"));
                     Predicate predicate = criteriaBuilder.like(dateStringExpr, "%" + search + "%");
                     predicates.add(predicate);
-//                    Predicate dateOfBirthday = criteriaBuilder.like(criteriaBuilder.toString(root.get("dateOfBirthday")), "%" + search + "%");
-//                    predicates.add(dateOfBirthday);
                 } else if (type == Long.class) {
                     Predicate predicate = criteriaBuilder.like(criteriaBuilder.toString(root.get("id")), "%" + search + "%");
                     predicates.add(predicate);

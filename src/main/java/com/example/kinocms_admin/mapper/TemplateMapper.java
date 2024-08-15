@@ -12,6 +12,12 @@ public class TemplateMapper {
         dto.setNameFile(template.getNameFile());
         return dto;
     }
+    public static Template toEntity(TemplateDTO dto){
+        Template template = new Template();
+        template.setId(dto.getId());
+        template.setNameFile(dto.getNameFile());
+        return template;
+    }
     public static List<TemplateDTO> toListDTO(List<Template> templates){
         return templates.stream()
                 .map(TemplateMapper::toDTO)

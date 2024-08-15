@@ -3,6 +3,7 @@ package com.example.kinocms_admin.controller;
 import com.example.kinocms_admin.entity.MailStructure;
 import com.example.kinocms_admin.entity.Template;
 import com.example.kinocms_admin.entity.User;
+import com.example.kinocms_admin.mapper.TemplateMapper;
 import com.example.kinocms_admin.model.TemplateDTO;
 import com.example.kinocms_admin.service.TemplateService;
 import com.example.kinocms_admin.service.serviceimp.MailService;
@@ -25,6 +26,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -35,6 +37,7 @@ public class MailRestController {
     private final MailService mailService;
     private final TemplateServiceImp templateServiceImp;
     private final UserServiceImp userServiceImp;
+
     @PostMapping("/send")
     public String sendMail(@RequestParam(name = "isAll") String isAll,
                            @RequestParam(name = "message") String message) {
@@ -57,18 +60,12 @@ public class MailRestController {
     @PostMapping("/sendHTML")
     public String sendHTML(@RequestParam(name = "isAll") String isAll,
                            @ModelAttribute TemplateDTO dto) throws MessagingException {
-        List<User> users;
-        if (isAll.equals("true")) {
-            users = userServiceImp.getAll();
-        } else {
-            users = userServiceImp.getAllSelected();
-        }
-//        List<String> emails = users.stream().map(User::getEmail).toList();
-//        String readHTMLFile = ImageUtil.toReadHTMLFile(file);
-//        mailService.sendMailWidthHTML(emails.toArray(new String[0]), new MailStructure("subject-header", readHTMLFile));
-//
-//        templateServiceImp.save(new Template(),file);
-//        userServiceImp.saveAll(users);
+        List<User> users = isAll.equals("true") ? userServiceImp.getAll() : userServiceImp.getAllSelected();
+        List<String> emails = users.stream().map(User::getEmail).toList();
+        String pathToFile = templateServiceImp.getPathToFile(dto);
+        String readHTMLFile = ImageUtil.toReadHTMLFile(pathToFile);
+        mailService.sendMailWidthHTML(emails.toArray(new String[0]), new MailStructure("New Post", readHTMLFile));
+        userServiceImp.saveAll(users);
         return "Successfully sent the mail!!";
     }
 

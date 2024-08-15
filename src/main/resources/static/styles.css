@@ -73,4 +73,12 @@
 .buttonMy:hover {
     background-color: #207aee;
 }
+.checkbox-delete {
+    cursor: pointer;
+    color: red !important;
+    transition: color 0.3s ease;
+}
 
+.checkbox-delete:hover {
+    color: darkred !important;
+}

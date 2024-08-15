@@ -3,16 +3,22 @@ package com.example.kinocms_admin.service.serviceimp;
 import com.example.kinocms_admin.entity.Template;
 import com.example.kinocms_admin.enums.GalleriesType;
 import com.example.kinocms_admin.enums.ImageType;
+import com.example.kinocms_admin.model.TemplateDTO;
 import com.example.kinocms_admin.repository.TemplateRepository;
 import com.example.kinocms_admin.service.TemplateService;
+import com.example.kinocms_admin.util.ImageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.*;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 
 @Service
@@ -51,5 +57,37 @@ public class TemplateServiceImp implements TemplateService {
     @Override
     public List<Template> getFiveTemplates() {
         return templateRepository.getTop5Templates();
+    }
+
+    @Override
+    public Optional<Template> getById(Long id) {
+        return templateRepository.findById(id);
+    }
+
+    public String getPathToFile(TemplateDTO dto){
+        if(dto.getId()!=0){
+            Optional<Template> templateById = getById(dto.getId());
+            if(templateById.isPresent()){
+                Template template = templateById.get();
+                return "./uploads/templates/file/"+template.getId()+"/"+template.getNameFile();
+            }
+        }else{
+            Template entity = new Template();
+            save(entity,dto.getFileHtml());
+            Optional<Template> templateById = getById(entity.getId());
+            if(templateById.isPresent()){
+                Template template = templateById.get();
+                return "./uploads/templates/file/"+template.getId()+"/"+template.getNameFile();
+            };
+        }
+        return null;
+    }
+    public void deleteFile(GalleriesType type, Long id){
+        Path path = Paths.get("./uploads/"+type.toString());
+        try {
+            ImageUtil.deleteFoldersByName(path,String.valueOf(id));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

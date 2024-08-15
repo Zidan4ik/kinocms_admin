@@ -4,6 +4,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.*;
@@ -102,9 +103,10 @@ public class ImageUtil {
             }
         }
     }
-    public static String toReadHTMLFile(MultipartFile htmlFile){
+    public static String toReadHTMLFile(String path){
         try {
-            Document doc = Jsoup.parse(htmlFile.getInputStream(),"UTF-8","");
+            File file = new File(path);
+            Document doc = Jsoup.parse(file,"UTF-8","");
             return doc.html();
         } catch (IOException e) {
             throw new RuntimeException(e);
