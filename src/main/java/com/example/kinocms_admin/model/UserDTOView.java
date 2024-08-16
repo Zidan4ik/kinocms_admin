@@ -14,8 +14,13 @@ public class UserDTOView {
     private String dateOfBirthday;
     private String email;
     private String phone;
+    private String name;
+    private String lastname;
     private String fio;
     private String nickname;
     private String city;
+    private String address;
+    private String card;
     private Boolean isSelected;
+    private Boolean isMan;
 }

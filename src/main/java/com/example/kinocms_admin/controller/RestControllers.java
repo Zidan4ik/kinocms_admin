@@ -248,5 +248,4 @@ public class RestControllers {
         ceoBlockServiceImp.savePage(pageUnifier.getCeoBlockUkr(), pageUnifier.getPage(), LanguageCode.Ukr);
         return ResponseEntity.ok(HttpStatus.OK);
     }
-
 }

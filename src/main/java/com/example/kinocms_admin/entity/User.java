@@ -33,6 +33,10 @@ public class User {
     private LocalDate dateOfRegistration;
     private boolean isSelected;
 
+    @Lob
+    @Column(columnDefinition = "text")
+    private String address;
+
     public User(String name, String lastName, String nickname, String phone, String email, String city, String password, String numberCard, LanguageCode code, boolean isMan, LocalDate dateOfBirthday, LocalDate dateOfRegistration, boolean isSelected, String address) {
         this.name = name;
         this.lastName = lastName;
@@ -49,9 +53,5 @@ public class User {
         this.isSelected = isSelected;
         this.address = address;
     }
-
-    @Lob
-    @Column(columnDefinition = "text")
-    private String address;
 }
 
