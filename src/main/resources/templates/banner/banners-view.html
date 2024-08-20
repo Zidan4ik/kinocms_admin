@@ -1,0 +1,203 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/core.css"/>
+    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/theme-default.css"/>
+    <link rel="stylesheet" href="/vuexy/assets/vendor/fonts/tabler-icons.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/vuexy/assets/vendor/libs/select2/select2.css"/>
+</head>
+
+<body>
+<!-- Layout wrapper -->
+<div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
+
+    <!-- Layout container -->
+    <div class="layout-container">
+
+        <!-- Navbar -->
+        <div th:insert="~{blocks/navbar::navbar}"></div>
+        <!--/ Navbar -->
+
+        <!-- Layout page -->
+        <div class="layout-page">
+
+            <!-- Menu -->
+            <aside th:insert="blocks/sidebar::sidebar"
+                   id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme sidebar"
+                   style="display: flex;flex-direction: column;height: 100%;">
+            </aside>
+            <!--/ Menu -->
+
+            <!-- Content wrapper -->
+            <div class="content-wrapper">
+                <!-- Content -->
+                <div class="container-xxl d-flex align-items-stretch flex-grow-1 p-0">
+                    <div class="flex-shrink-1 flex-grow-1 container-p-x container-p-y">
+                        <div style="margin-top: 50px"></div>
+                        <div style="border: solid 1px black; border-radius: 1%;">
+                            <div class="d-flex justify-content-between">
+                                <p class="d-flex align-items-end"
+                                   style="margin-bottom: 0;margin-left: 5px;">Розмір фото: 1000x190</p>
+                                <label class="switch" style="margin-right: 45px;margin-top: 5px;">
+                                    <span class="switch-label"></span>
+                                    <input type="checkbox" class="switch-input" id="remove_row1" data-index="1"
+                                           checked="">
+                                    <span class="switch-toggle-slider">
+                                                                <span class="switch-on"></span>
+                                                                <span class="switch-off"></span>
+                                                            </span>
+                                </label>
+                            </div>
+                            <div class="gap-4 row" id="galleryMainId"
+                                 style="margin-left: 10px;">
+                                <div class="col-2">
+                                    <button class="btn btn-secondary" id="btnCreateBlock_" style="margin-left: 25px">
+                                        Добавити фото
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="form-label col-2 d-flex justify-content-end align-items-center"
+                                       for="selectSpeedRotation_">Швидкість оберту:</label>
+                                <div class="col-2">
+                                    <select class="form-select" id="selectSpeedRotation_"
+                                            aria-label="123">
+                                        <option value="2">2с</option>
+                                        <option value="5">5с</option>
+                                        <option value="7">7с</option>
+                                    </select>
+                                </div>
+                                <button class="btn btn-secondary col-2">Зберегти</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/ Content -->
+            </div>
+            <!--/ Content wrapper -->
+        </div>
+        <!--/ Layout page -->
+    </div>
+    <!--/ Layout container -->
+</div>
+<!--/ Layout wrapper -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/vuexy/assets/vendor/js/helpers.js"></script>
+<script src="/vuexy/assets/js/config.js"></script>
+<script src="/vuexy/assets/vendor/libs/select2/select2.js"></script>
+
+
+<script>
+    let bannersMain = [];
+    let index = 0;
+
+    function requestDataBanners() {
+        const request = new XMLHttpRequest();
+        request.open("GET", `/admin/info-banners`);
+        request.setRequestHeader("Content-type", "application/json; charset=utf-8");
+        request.send();
+        request.addEventListener("load", () => {
+            if (request.status === 200) {
+                let data = JSON.parse(request.response);
+                console.log(data);
+                bannersMain = data.bannersDTOS;
+            }
+        });
+    }
+
+    function render() {
+        const elementBannerMain = document.getElementById("galleryMainId");
+        bannersMain.forEach(function (element) {
+            elementBannerMain.innerHTML += getBlockImage(element);
+        });
+    }
+
+    document.getElementById("galleryMainId").addEventListener("click", function () {
+        if (event.target && event.target.classList.contains("input-add")) {
+            const index = event.target.dataset.index;
+            const type = event.target.dataset.type;
+            console.log(type + ' : ' + index);
+            if (type === "download-main") {
+                const inputElement = document.getElementById("inputDownload-" + index);
+                console.log(inputElement);
+                inputElement.value = '';
+                inputElement.onchange = function () {
+                    const imgElement = document.getElementById("srcImage_" + index);
+                    imgElement.src = URL.createObjectURL(inputElement.files[0]);
+                };
+            }
+        }
+    });
+
+    document.getElementById("galleryMainId").addEventListener("change", function () {
+        if (event.target && event.target.classList.contains("btn-delete-banner")) {
+            const checkbox = event.target;
+            const dataIndex = checkbox.getAttribute("data-index");
+            console.log(dataIndex);
+
+            if (dataIndex) {
+                // const block = document.getElementById("row" + dataIndex);
+                // block.remove();
+            }
+        }
+    });
+
+    $("#btnCreateBlock_").click(function () {
+        let elementBanners = document.getElementById("galleryMainId");
+        elementBanners.insertAdjacentHTML('afterbegin', getBlockImage());
+    });
+
+    function getBlockImage(idBanner = null, object = null) {
+        let res = `<div class="card mb-4 col-3" style="width: 14rem;margin-left: 10px" id="blockBanner-`+index+`">
+                                    <img src="https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg"
+                                         class="card-img-top" alt="error" id="srcImage_` + index + `" style="margin-top: 8px;width=200px;height:150px;">
+                                    <button class="circleMy btn-delete-banner"
+                                     data-type="delete-main" type="button">
+                                        <span style="color: white; font-weight: bold;">×</span>
+                                    </button>
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                        <label class="btn btn-secondary input-add" for="inputDownload-` + index + `"
+                                         data-type="download-main" data-index="${index}" style="width: 100%;">Добавити</label>
+                                         <input type="file" id="inputDownload-` + index + `" style="display:none;"
+                                         accept="image/png,image/jpeg">
+                                        </h5>
+                                        <div>
+                                            <label class="text-muted">URL:</label>
+                                            <input class="form-control" placeholder="URL" data-type="">
+                                        </div>
+                                        <div>
+                                            <label class="text-muted">Текст:</label>
+                                            <input class="form-control" placeholder="текст">
+                                        </div>
+                                    </div>
+                                </div>`;
+        index++;
+        return res;
+    }
+
+    function requestSave() {
+        let formData = getUserDate();
+        $.ajax({
+            type: "post",
+            url: "/admin/user/edit",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function () {
+                console.log("Form hall submitted successfully");
+                window.location.replace("/admin/users")
+            },
+            error: function (error) {
+                console.log("Error submitting form:", error);
+            }
+        });
+    }
+
+    window.addEventListener('DOMContentLoaded', function () {
+        requestDataBanners();
+    })
+</script>
+</body>
+</html>

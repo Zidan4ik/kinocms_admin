@@ -43,13 +43,14 @@
     font-size: smaller;
 }
 
-.image-container{
+.image-container {
     text-align: center;
     overflow: hidden;
     display: flex;
-    align-items:center;
-    justify-content:center;
+    align-items: center;
+    justify-content: center;
 }
+
 .image-container img {
     width: 70%;
     height: 100%;
@@ -73,6 +74,7 @@
 .buttonMy:hover {
     background-color: #207aee;
 }
+
 .checkbox-delete {
     cursor: pointer;
     color: red !important;
@@ -81,4 +83,17 @@
 
 .checkbox-delete:hover {
     color: darkred !important;
+}
+
+.circleMy {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 20px;
+    height: 20px;
+    background-color: #000000;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
