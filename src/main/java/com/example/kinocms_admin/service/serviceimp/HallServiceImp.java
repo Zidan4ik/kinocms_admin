@@ -98,11 +98,12 @@ public class HallServiceImp implements HallService {
     public List<Hall> getAllByCinema(Cinema cinema) {
         return hallRepository.getAllByCinema(cinema);
     }
-
-
     @Transactional
     @Override
     public void deleteAllByCinema(Cinema cinema) {
         hallRepository.deleteAllByCinema(cinema);
+    }
+    public Integer getAmountHalls(){
+        return hallRepository.findAll().size();
     }
 }

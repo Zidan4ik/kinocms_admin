@@ -98,4 +98,7 @@ public class CinemaServiceImp implements CinemaService {
     public Optional<Cinema> getById(Long id) {
         return cinemaRepository.findById(id);
     }
+    public Integer getAmountCinemas(){
+        return cinemaRepository.findAll().size();
+    }
 }

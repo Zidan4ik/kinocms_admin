@@ -1,5 +1,7 @@
 <div th:fragment="sidebar">
-    <ul class="menu-inner py-1 ps ps--active-y" style="position: fixed">
+    <ul class="menu-inner py-1 ps ps--active-y"
+        style="position: fixed;margin-top:63px;background-color: rgba(255, 255, 255, 0.9);
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);">
         <li  th:class="'menu-item '+${isActiveStatistics!=null?'active':''}">
             <a href="/admin/statistics" class="menu-link">
                 <i class="menu-icon ti ti-chart-pie"></i>

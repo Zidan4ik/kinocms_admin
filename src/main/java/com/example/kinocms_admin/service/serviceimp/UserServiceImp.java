@@ -2,6 +2,7 @@ package com.example.kinocms_admin.service.serviceimp;
 
 import com.example.kinocms_admin.entity.User;
 import com.example.kinocms_admin.mapper.UserMapper;
+import com.example.kinocms_admin.model.CityCountDTO;
 import com.example.kinocms_admin.model.UserDTOView;
 import com.example.kinocms_admin.repository.UserRepository;
 import com.example.kinocms_admin.service.UserService;
@@ -49,10 +50,11 @@ public class UserServiceImp implements UserService {
                                                                String searchValue) {
         List<String> userColumns = Arrays.asList("id", "dateOfRegistration", "dateOfBirthday", "phone", "email", "name", "lastName", "nickname", "city");
         GenericSearchSpecification<User> searchSpecification = new GenericSearchSpecification<>(userColumns, searchValue);
-        PageRequest modifyPageable = PageRequest.of(pageable.getPageNumber(), defaultPageSize,pageable.getSort());
+        PageRequest modifyPageable = PageRequest.of(pageable.getPageNumber(), defaultPageSize, pageable.getSort());
         Page<User> page = userRepository.findAll(searchSpecification, modifyPageable);
         return page.map(UserMapper::toDTOView);
     }
+
     public Page<UserDTOView> getAll(Pageable pageable) {
         Pageable modifyPageable = PageRequest.of(pageable.getPageNumber(), defaultPageSize);
         Page<User> page = userRepository.findAll(modifyPageable);
@@ -69,5 +71,16 @@ public class UserServiceImp implements UserService {
 
     public void saveAll(List<User> users) {
         userRepository.saveAll(users);
+    }
+
+    public List<CityCountDTO> findCityWithCounts() {
+        List<Object[]> results = userRepository.findAllCitiesWithCountNative();
+        return results.stream()
+                .map(result -> new CityCountDTO((String) result[0], ((Number) result[1]).longValue()))
+                .toList();
+    }
+
+    public Integer getCountGenders(boolean isMan) {
+        return userRepository.getAllByIsMan(isMan).size();
     }
 }

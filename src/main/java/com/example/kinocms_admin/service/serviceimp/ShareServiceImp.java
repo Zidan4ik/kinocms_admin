@@ -79,4 +79,7 @@ public class ShareServiceImp implements ShareService {
     public Optional<Share> getById(Long id) {
         return shareRepository.findById(id);
     }
+    public Integer getAmountShares(){
+        return shareRepository.findAll().size();
+    }
 }

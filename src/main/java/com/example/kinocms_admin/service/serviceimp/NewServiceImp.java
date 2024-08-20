@@ -22,7 +22,6 @@ import java.util.*;
 public class NewServiceImp implements NewService{
     private final NewRepository newRepository;
     private final MarkServiceImp markServiceImp;
-
     @Override
     public void save(New newEntity) {
         newRepository.save(newEntity);
@@ -54,19 +53,19 @@ public class NewServiceImp implements NewService{
             e.printStackTrace();
         }
     }
-
     @Override
     public void deleteById(Long id) {
         newRepository.deleteById(id);
     }
-
     @Override
     public List<New> getAll() {
         return newRepository.findAll();
     }
-
     @Override
     public Optional<New> getById(Long id) {
         return newRepository.findById(id);
+    }
+    public Integer getAmountNews(){
+        return newRepository.findAll().size();
     }
 }
