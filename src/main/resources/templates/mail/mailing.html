@@ -80,7 +80,7 @@
                                                 <label class="form-label" style="font-size: medium;">Загружений
                                                     файл:</label>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-6" style="align-items: center;display: flex;">
                                                 <label class="form-label" id="displayNewFileId"
                                                        style="color: cornflowerblue;font-size: medium;">Пусто</label>
                                             </div>
@@ -90,7 +90,7 @@
                                                 <label class="form-label" style="font-size: medium;">Шаблон
                                                     використовується в поточній розсилці:</label>
                                             </div>
-                                            <div class="col-auto">
+                                            <div class="col-auto" style="align-items: center;display: flex;">
                                                 <label class="form-label" id="displayCurrentFileId"
                                                        style="color: cornflowerblue;font-size: medium;">Пусто</label>
                                             </div>
@@ -100,12 +100,12 @@
                                                 <label class="form-label" style="font-size: medium;">Кількість листів: 8
                                                     321</label>
                                             </div>
-                                            <div class="col-auto">
-                                                <label class="form-label" style="font-size: medium;">Розсилка виконана
-                                                    на:</label>
-                                                <label class="form-label"
-                                                       style="color: cornflowerblue;font-size: medium;">45%</label>
-                                            </div>
+                                                <div class="col-auto" style="align-items: center;display: flex;">
+                                                    <label class="form-label" style="font-size: medium;margin-right: 25px;">Розсилка виконана
+                                                        на:</label>
+                                                    <label class="form-label" id="progress-label"
+                                                           style="color: cornflowerblue;font-size: medium;">0%</label>
+                                                </div>
                                         </div>
                                     </div>
                                     <div class="col-6" style="border: solid 1px darkblue; border-radius: 4%;">
@@ -195,7 +195,6 @@
             mailingBtn.classList.add('disabled');
         }
     });
-
     $('#selectSomeId').click(function () {
         switchCheckboxSelectedUsers();
     });
@@ -219,64 +218,6 @@
             }
         }
     }
-
-    $('#mailingBtn').click(function () {
-        if (resTemplate.file === null && resTemplate.id === 0 && resTemplate.fileName === null) {
-            let modal = new bootstrap.Modal(document.getElementById("displayModalId"));
-            modal.show();
-        } else {
-            ajaxPost();
-        }
-    });
-
-    function ajaxPost() {
-        const formData = new FormData();
-        const selectedAll = document.getElementById("selectAllId").checked;
-        formData.append("isAll", selectedAll);
-        formData.append("id", resTemplate.id);
-        formData.append("nameFile", resTemplate.fileName);
-        if (resTemplate.file) {
-            formData.append("fileHtml", resTemplate.file);
-        }
-        $.ajax({
-            type: "post",
-            url: "/admin/mail/sendHTML",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function () {
-                window.location.replace("/admin/mailing");
-            },
-            error: function (error) {
-                console.log("Error submitting form:", error);
-            }
-        });
-    }
-
-    function getTemplates() {
-        const request = new XMLHttpRequest();
-        request.open("GET", `/admin/templates`);
-        request.setRequestHeader("Content-type", "application/json; charset=utf-8");
-        request.send();
-        request.addEventListener("load", function () {
-                if (request.status === 200) {
-                    arrayTemplates = JSON.parse(request.response);
-                    render(arrayTemplates);
-                }
-            }
-        );
-    }
-
-    window.addEventListener("DOMContentLoaded", () => {
-        const inputExistUsers = document.getElementById("inputIsExistUsers");
-        const checkboxSome = document.getElementById("selectSomeId");
-        if (inputExistUsers.value === 'true') {
-            checkboxSome.checked = true;
-            switchCheckboxSelectedUsers();
-        }
-        getTemplates();
-    });
-
     function render(array) {
         let elementData = document.getElementById("tableDataId");
         elementData.innerHTML = '';
@@ -284,7 +225,6 @@
             elementData.innerHTML += getDataTable(array[i]);
         }
     }
-
     function getDataTable(object) {
         return `<tr class="d-flex justify-content-between" id="myCheckboxContainer">
         <td>
@@ -301,7 +241,6 @@
         </td>
     </tr>`;
     }
-
     function handlerChatBoxTemplate(fileName, id) {
         let currentCheckbox = document.getElementById('checkbox-' + id);
         if (!currentCheckbox.checked) {
@@ -320,7 +259,6 @@
             });
         }
     }
-
     function handlerDeleteTemplate(id) {
 
         const request = new XMLHttpRequest();
@@ -335,7 +273,6 @@
             }
         );
     }
-
     function getElement(array, id) {
         array.forEach((input) => {
             if (input.id === id) {
@@ -345,6 +282,79 @@
             }
         })
     }
+    function animateProgress(start, end, duration) {
+        let startTime = null;
+        function updateProgress(timestamp) {
+            if (!startTime) startTime = timestamp;
+            const elapsed = timestamp - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+
+            const currentPercentage = Math.floor(start + progress * (end - start));
+            document.getElementById('progress-label').textContent = currentPercentage + '%';
+
+            if (progress < 1) {
+                requestAnimationFrame(updateProgress);
+            }else{
+                window.location.replace("/admin/mailing");
+            }
+        }
+        requestAnimationFrame(updateProgress);
+    }
+</script>
+<script>
+    $('#mailingBtn').click(function () {
+        if (resTemplate.file === null && resTemplate.id === 0 && resTemplate.fileName === null) {
+            let modal = new bootstrap.Modal(document.getElementById("displayModalId"));
+            modal.show();
+        } else {
+            ajaxPost();
+        }
+    });
+    function ajaxPost() {
+        const formData = new FormData();
+        const selectedAll = document.getElementById("selectAllId").checked;
+        formData.append("isAll", selectedAll);
+        formData.append("id", resTemplate.id);
+        formData.append("nameFile", resTemplate.fileName);
+        if (resTemplate.file) {
+            formData.append("fileHtml", resTemplate.file);
+        }
+        $.ajax({
+            type: "post",
+            url: "/admin/mail/sendHTML",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function () {
+                animateProgress(0, 100, 3000);
+            },
+            error: function (error) {
+                console.log("Error submitting form:", error);
+            }
+        });
+    }
+    function getTemplates() {
+        const request = new XMLHttpRequest();
+        request.open("GET", `/admin/templates`);
+        request.setRequestHeader("Content-type", "application/json; charset=utf-8");
+        request.send();
+        request.addEventListener("load", function () {
+                if (request.status === 200) {
+                    arrayTemplates = JSON.parse(request.response);
+                    render(arrayTemplates);
+                }
+            }
+        );
+    }
+    window.addEventListener("DOMContentLoaded", () => {
+        const inputExistUsers = document.getElementById("inputIsExistUsers");
+        const checkboxSome = document.getElementById("selectSomeId");
+        if (inputExistUsers.value === 'true') {
+            checkboxSome.checked = true;
+            switchCheckboxSelectedUsers();
+        }
+        getTemplates();
+    });
 </script>
 </body>
 </html>
