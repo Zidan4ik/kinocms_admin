@@ -5,6 +5,14 @@
     <link rel="stylesheet" href="/vuexy/assets/vendor/fonts/tabler-icons.css">
     <link rel="stylesheet" href="/styles.css">
     <link rel="stylesheet" href="/vuexy/assets/vendor/libs/select2/select2.css"/>
+
+    <style>
+        .disabledMy {
+            pointer-events: none;
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
 </head>
 
 <body>
@@ -34,13 +42,14 @@
                 <div class="container-xxl d-flex align-items-stretch flex-grow-1 p-0">
                     <div class="flex-shrink-1 flex-grow-1 container-p-x container-p-y">
                         <div style="margin-top: 50px"></div>
+                        <h3 class="d-flex justify-content-center">На головні зверху</h3>
                         <div style="border: solid 1px black; border-radius: 1%;">
                             <div class="d-flex justify-content-between">
                                 <p class="d-flex align-items-end"
                                    style="margin-bottom: 0;margin-left: 5px;">Розмір фото: 1000x190</p>
                                 <label class="switch" style="margin-right: 45px;margin-top: 5px;">
                                     <span class="switch-label"></span>
-                                    <input type="checkbox" class="switch-input" id="remove_row1" data-index="1"
+                                    <input type="checkbox" class="switch-input" id="inputChecked_" data-index="1"
                                            checked="">
                                     <span class="switch-toggle-slider">
                                                                 <span class="switch-on"></span>
@@ -48,15 +57,19 @@
                                                             </span>
                                 </label>
                             </div>
-                            <div class="gap-4 row" id="galleryMainId"
-                                 style="margin-left: 10px;">
-                                <div class="col-2">
-                                    <button class="btn btn-secondary" id="btnCreateBlock_" style="margin-left: 25px">
-                                        Добавити фото
-                                    </button>
+                            <div>
+                                <div class="gap-4 row" id="galleryMainId"
+                                     style="margin-left: 10px;">
+
+                                    <div class="col-2">
+                                        <button class="btn btn-secondary" id="btnCreateBlock_"
+                                                style="margin-left: 25px">
+                                            Добавити фото
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row mb-3">
                                 <label class="form-label col-2 d-flex justify-content-end align-items-center"
                                        for="selectSpeedRotation_">Швидкість оберту:</label>
                                 <div class="col-2">
@@ -67,7 +80,88 @@
                                         <option value="7">7с</option>
                                     </select>
                                 </div>
-                                <button class="btn btn-secondary col-2">Зберегти</button>
+                                <button class="btn btn-secondary col-2" id="btnSaveBanners_">Зберегти</button>
+                            </div>
+                        </div>
+
+                        <h3 class="d-flex justify-content-center">На головні зверху</h3>
+                        <div style="border: solid 1px black; border-radius: 1%;">
+                            <div class="d-flex justify-content-between">
+                                <p class="d-flex align-items-end"
+                                   style="margin-bottom: 0;margin-left: 5px;">Розмір фото: 1000x190</p>
+                            </div>
+                            <div style="display: flex">
+                                <div class="col-3 form-check mt-4 d-flex align-items-center justify-content-evenly">
+                                    <input name="backgroundRadio" class="form-check-input" type="radio"
+                                           value="imageBackground"
+                                           id="radio1Id_"/>
+                                    <label class="form-check-label" for="radio1Id_">
+                                        Фото на фон
+                                    </label>
+                                </div>
+                                <div class="col-3 d-flex align-items-center">
+                                    <img id="background_"
+                                         src="https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg"
+                                         style="width: 200px;height:200px" alt="error">
+                                </div>
+                                <div class="col-3 d-flex align-items-center justify-content-between">
+                                    <label class="btn btn-secondary" for="btnAddBackground_">Добавити</label>
+                                    <input type="file" id="btnAddBackground_" style="display: none;">
+                                    <button class="btn btn-secondary" id="btnRemoveBackground">Видалити</button>
+                                </div>
+                            </div>
+                            <div class="mb-5">
+                                <div class="col-3 form-check mt-4 d-flex align-items-center justify-content-evenly">
+                                    <input name="backgroundRadio" class="form-check-input" type="radio"
+                                           value="defaultBackground"
+                                           id="radio2Id_"/>
+                                    <label class="form-check-label" for="radio2Id_">
+                                        Просто фон
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3 class="d-flex justify-content-center">На головному Новини Акції</h3>
+                        <div style="border: solid 1px black; border-radius: 1%;">
+                            <div class="d-flex justify-content-between">
+                                <p class="d-flex align-items-end"
+                                   style="margin-bottom: 0;margin-left: 5px;">Розмір фото: 1000x190</p>
+                                <label class="switch" style="margin-right: 45px;margin-top: 5px;">
+                                    <span class="switch-label"></span>
+                                    <input type="checkbox" class="switch-input" id="inputChecked_ShareNew"
+                                           data-index="1"
+                                           checked="">
+                                    <span class="switch-toggle-slider">
+                                                                <span class="switch-on"></span>
+                                                                <span class="switch-off"></span>
+                                                            </span>
+                                </label>
+                            </div>
+                            <div>
+                                <div class="gap-4 row" id="galleryShareNewId"
+                                     style="margin-left: 10px;">
+
+                                    <div class="col-2">
+                                        <button class="btn btn-secondary" id="btnCreateBlock_ShareNew"
+                                                style="margin-left: 25px">
+                                            Добавити фото
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label class="form-label col-2 d-flex justify-content-end align-items-center"
+                                       for="selectSpeedRotation_ShareNew">Швидкість оберту:</label>
+                                <div class="col-2">
+                                    <select class="form-select" id="selectSpeedRotation_ShareNew"
+                                            aria-label="123">
+                                        <option value="2">2с</option>
+                                        <option value="5">5с</option>
+                                        <option value="7">7с</option>
+                                    </select>
+                                </div>
+                                <button class="btn btn-secondary col-2" id="btnSaveBanners_ShareNew">Зберегти</button>
                             </div>
                         </div>
                     </div>
@@ -90,9 +184,282 @@
 
 <script>
     let bannersMain = [];
-    let index = 0;
+    let bannersShareNew = [];
+    let filesMain = [];
+    let filesShareNew = [];
+    let indexMain = 0;
+    let indexShareAndNew = 0;
+    document.getElementById("galleryMainId").addEventListener("click", function () {
+        handleFile();
+    });
+    document.getElementById("galleryShareNewId").addEventListener("click", function () {
+        handleFile();
+    });
+
+    function handleFile() {
+        let targetElement = event.target;
+        // console.log(targetElement);
+        if (targetElement.tagName === 'SPAN' && targetElement.closest('div.input-add')) {
+            targetElement = targetElement.closest('div.input-add');
+        }
+        if (targetElement && targetElement.classList.contains("input-add")) {
+            const index = targetElement.dataset.index;
+            const type = targetElement.dataset.type;
+            console.log(type + ' : ' + index);
+            if (type === "download-main") {
+                const inputElement = document.getElementById("inputDownloadMain_" + index);
+                inputElement.value = '';
+                inputElement.onchange = function () {
+                    const imgElement = document.getElementById("srcImageMain_" + index);
+                    imgElement.src = URL.createObjectURL(inputElement.files[0]);
+                };
+            } else if (type === "delete-main") {
+                const block = document.getElementById("blockBannerMain_" + index);
+                block.remove();
+            }
+            if (type === "download-shareAndNew") {
+                const inputElement = document.getElementById("inputDownloadShareAndNew_" + index);
+                inputElement.value = '';
+                inputElement.onchange = function () {
+                    const imgElement = document.getElementById("srcImageShareAndNew_" + index);
+                    imgElement.src = URL.createObjectURL(inputElement.files[0]);
+                };
+            } else if (type === "delete-shareAndNew") {
+                const block = document.getElementById("blockBannerShareAndNew_" + index);
+                block.remove();
+            }
+        }
+    }
+
+    $("#btnCreateBlock_").click(function () {
+        let elementBanners = document.getElementById("galleryMainId");
+        let button = document.getElementById("btnCreateBlock_").parentElement;
+        elementBanners.insertBefore(getBlockElement(indexMain), button);
+        indexMain++;
+    });
+    $("#btnCreateBlock_ShareNew").click(function () {
+        let elementBanners = document.getElementById("galleryShareNewId");
+        let button = document.getElementById("btnCreateBlock_ShareNew").parentElement;
+        elementBanners.insertBefore(getBlockElementShareNew(indexShareAndNew), button);
+        indexShareAndNew++;
+    });
+
+    function getBlockElement(index, object = null) {
+        let div = document.createElement('div');
+        div.className = "card mb-4 col-3";
+        div.style.cssText = "width: 14rem;margin-left: 10px";
+        div.id = "blockBannerMain_" + index;
+        div.dataset.id = object ? object.id : null;
+        div.dataset.index = index;
+        div.innerHTML = `<img src="${object ? object.pathToBanner :
+            'https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg'}"
+                             class="card-img-top" alt="error" id="srcImageMain_${index}" style="margin-top: 8px;width=200px;height:150px;">
+                    <div class="circleMy input-add" data-index="${index}"
+                         data-type="delete-main" type="button" style="padding-left: 0px">
+                        <span style="color: white;font-weight: bold;">×</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <label class="btn btn-secondary input-add" for="inputDownloadMain_${index}"
+                             data-type="download-main" data-index="${index}" style="width: 100%;">Добавити</label>
+                            <input type="file" id="inputDownloadMain_${index}" style="display:none;"
+                             accept="image/png,image/jpeg">
+                        </h5>
+                        <div>
+                            <label class="text-muted">URL:</label>
+                            <input class="form-control" placeholder="URL" id="urlId_"
+                            value="${object ? object.url : ''}">
+                        </div>
+                        <div>
+                            <label class="text-muted">Текст:</label>
+                            <input class="form-control" placeholder="текст" id="textId_"
+                            value="${object ? object.text : ''}">
+                        </div>
+                    </div>`;
+        return div;
+    }
+
+    function getBlockElementShareNew(index, object = null) {
+        let div = document.createElement('div');
+        div.className = "card mb-4 col-3";
+        div.style.cssText = "width: 14rem;margin-left: 10px";
+        div.id = "blockBannerShareAndNew_" + index;
+        div.dataset.id = object ? object.id : null;
+        div.dataset.index = index;
+        div.innerHTML = `<img src="${object ? object.pathToBanner :
+            'https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg'}"
+                             class="card-img-top" alt="error" id="srcImageShareAndNew_${index}" style="margin-top: 8px;width=200px;height:150px;">
+                    <div class="circleMy input-add" data-index="${index}"
+                         data-type="delete-shareAndNew" type="button" style="padding-left: 0px">
+                        <span style="color: white;font-weight: bold;">×</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <label class="btn btn-secondary input-add" for="inputDownloadShareAndNew_${index}"
+                             data-type="download-shareAndNew" data-index="${index}" style="width: 100%;">Добавити</label>
+                            <input type="file" id="inputDownloadShareAndNew_${index}" style="display:none;"
+                             accept="image/png,image/jpeg">
+                        </h5>
+                        <div>
+                            <label class="text-muted">URL:</label>
+                            <input class="form-control" placeholder="URL" id="urlId_"
+                            value="${object ? object.url : ''}">
+                        </div>
+                        <div>
+                            <label class="text-muted">Текст:</label>
+                            <input class="form-control" placeholder="текст" id="textId_"
+                            value="${object ? object.text : ''}">
+                        </div>
+                    </div>`;
+        return div;
+    }
+
+    function getFormDataMain() {
+        let formData = new FormData();
+        filesMain.forEach(function (element) {
+            formData.append("bannersMainF", element.file);
+        })
+        let fakeObject = {
+            id: null,
+            rotationSpeed: null,
+            status: null,
+            type: null,
+            banners: null
+        }
+        formData.append("jsonBannersImageMain", JSON.stringify(fakeObject));
+        let noFakeObject = {
+            id: 1,
+            rotationSpeed: document.getElementById("selectSpeedRotation_").value,
+            status: document.getElementById("inputChecked_").checked,
+            type: 'main',
+            banners: bannersMain
+        }
+        formData.append("jsonBannersImageMain", JSON.stringify(noFakeObject));
+        return formData;
+    }
+
+    function getFormDataShareNew() {
+        let formData = new FormData();
+        filesShareNew.forEach(function (element) {
+            formData.append("bannersShareNewF", element.file);
+        });
+        let fakeObject = {
+            id: null,
+            rotationSpeed: null,
+            status: null,
+            type: null,
+            banners: null
+        }
+        formData.append("jsonBannersImageShareNew", JSON.stringify(fakeObject));
+        let noFakeObject = {
+            id: 2,
+            rotationSpeed: document.getElementById("selectSpeedRotation_ShareNew").value,
+            status: document.getElementById("inputChecked_ShareNew").checked,
+            type: 'shareAndNew',
+            banners: bannersShareNew
+        }
+        formData.append("jsonBannersImageShareNew", JSON.stringify(noFakeObject));
+        return formData;
+    }
+
+    function requestSaveBannersMain() {
+        let formData = getFormDataMain();
+        $.ajax({
+            type: "post",
+            url: "/admin/banner-main/save",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function () {
+                console.log("Banners for page main were submitted successfully");
+                window.location.replace("/admin/banners")
+            },
+            error: function (error) {
+                console.log("Error submitting form:", error);
+            }
+        });
+    }
+
+    function requestSaveBannersShareAndNew() {
+        let formData = getFormDataShareNew();
+        $.ajax({
+            type: "post",
+            url: "/admin/banner-share-new/save",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function () {
+                console.log("Banners for page shares and news were submitted successfully");
+                window.location.replace("/admin/banners");
+            },
+            error: function (error) {
+                console.log("Error submitting form:", error);
+            }
+        });
+    }
+
+    function getBannersData(blockId, type) {
+        let indexM = 0;
+        filesMain = [];
+        filesShareNew = [];
+        bannersMain = [];
+        bannersShareNew = [];
+
+        $("#" + blockId + " > div.card").each(function () {
+            let text, url, fileImage, nameImage;
+            // console.log($(this).attr("id"))
+            let blockBanner = document.getElementById($(this).attr("id"));
+            if (blockBanner) {
+                url = blockBanner.querySelector("#urlId_").value;
+                text = blockBanner.querySelector("#textId_").value;
+                fileImage = blockBanner.querySelector("#inputDownload" + type + "_" + blockBanner.dataset.index).files[0];
+                nameImage = blockBanner.querySelector("#srcImage" + type + "_" + blockBanner.dataset.index).src;
+            }
+
+            let id = $(this).attr("data-id");
+            let object = {
+                id: id,
+                text: text,
+                url: url,
+                nameImage: nameImage
+            }
+            if (type === "Main") {
+                bannersMain.push(object);
+            } else if (type === "ShareAndNew") {
+                bannersShareNew.push(object);
+            }
+
+            if (nameImage !== null) {
+                let image = {
+                    file: new File([], "exist", {
+                        type: "text/plain",
+                    })
+                };
+                if (fileImage !== undefined && fileImage !== null) {
+                    image.file = fileImage;
+                }
+                if (type === "Main") {
+                    filesMain.push(image);
+                } else if (type === "ShareAndNew") {
+                    filesShareNew.push(image);
+                }
+            }
+            indexM++;
+        });
+    }
+</script>
+<script>
+    $("#btnSaveBanners_").click(function () {
+        getBannersData("galleryMainId", "Main");
+        requestSaveBannersMain();
+    })
+    $("#btnSaveBanners_ShareNew").click(function () {
+        getBannersData("galleryShareNewId", "ShareAndNew");
+        requestSaveBannersShareAndNew();
+    })
 
     function requestDataBanners() {
+        console.log(1);
         const request = new XMLHttpRequest();
         request.open("GET", `/admin/info-banners`);
         request.setRequestHeader("Content-type", "application/json; charset=utf-8");
@@ -101,93 +468,98 @@
             if (request.status === 200) {
                 let data = JSON.parse(request.response);
                 console.log(data);
-                bannersMain = data.bannersDTOS;
+                let banners = data.bannersDTOS;
+                let resBannersMain = [];
+                let resBannersShareAndNew = [];
+                console.log(banners);
+                banners.forEach(function (element) {
+                    if (element.type === 'main') {
+                        document.getElementById("selectSpeedRotation_").value = element.rotationSpeed;
+                        document.getElementById("inputChecked_").checked = element.status;
+                        element.banners.forEach(function (element2) {
+                            resBannersMain.push(element2);
+                        })
+                    } else if (element.type === 'shareAndNew') {
+                        console.log(element.type);
+                        document.getElementById("selectSpeedRotation_ShareNew").value = element.rotationSpeed;
+                        document.getElementById("inputChecked_ShareNew").checked = element.status;
+                        element.banners.forEach(function (element2) {
+                            resBannersShareAndNew.push(element2);
+                        })
+                    }
+                });
+                document.getElementById("background_").src = data.pathToBackgroundImage;
+                if (data.pathToBackgroundImage.includes("/background/banner/2/")) {
+                    document.getElementById("radio2Id_").checked = true;
+                } else if (data.pathToBackgroundImage.includes("/background/banner/1/")) {
+                    document.getElementById("radio1Id_").checked = true;
+                }
+                render(resBannersMain, resBannersShareAndNew);
             }
         });
     }
 
-    function render() {
-        const elementBannerMain = document.getElementById("galleryMainId");
+    function render(bannersMain, bannersShareNew) {
         bannersMain.forEach(function (element) {
-            elementBannerMain.innerHTML += getBlockImage(element);
+            let elementBanners = document.getElementById("galleryMainId");
+            let button = document.getElementById("btnCreateBlock_").parentElement;
+            elementBanners.insertBefore(getBlockElement(indexMain, element), button);
+            indexMain++;
+        });
+        bannersShareNew.forEach(function (element) {
+            let elementBanners = document.getElementById("galleryShareNewId");
+            let button = document.getElementById("btnCreateBlock_ShareNew").parentElement;
+            elementBanners.insertBefore(getBlockElementShareNew(indexShareAndNew, element), button);
+            indexShareAndNew++;
         });
     }
 
-    document.getElementById("galleryMainId").addEventListener("click", function () {
-        if (event.target && event.target.classList.contains("input-add")) {
-            const index = event.target.dataset.index;
-            const type = event.target.dataset.type;
-            console.log(type + ' : ' + index);
-            if (type === "download-main") {
-                const inputElement = document.getElementById("inputDownload-" + index);
-                console.log(inputElement);
-                inputElement.value = '';
-                inputElement.onchange = function () {
-                    const imgElement = document.getElementById("srcImage_" + index);
-                    imgElement.src = URL.createObjectURL(inputElement.files[0]);
-                };
+    window.addEventListener('DOMContentLoaded', function () {
+        requestDataBanners();
+    });
+</script>
+<script>
+
+    document.getElementById("btnRemoveBackground").addEventListener("click", function () {
+        let imageElement = document.getElementById("background_");
+        imageElement.src = 'https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg';
+        const input = document.getElementById("btnAddBackground_");
+        input.value = '';
+        requestDeleteImageBackground();
+    });
+
+    document.querySelectorAll('input[name="backgroundRadio"]').forEach(function (radio) {
+        radio.addEventListener('change', function () {
+            if (this.checked) {
+                handleRadioChange(this.value)
+                if (this.value === 'defaultBackground') {
+                    requestDeleteImageBackground();
+                }
             }
+        });
+    });
+    document.getElementById("btnAddBackground_").addEventListener("click", function () {
+        this.value = '';
+        this.onchange = function () {
+            let imageElement = document.getElementById("background_");
+            imageElement.src = URL.createObjectURL(this.files[0]);
+
+            let formData = new FormData();
+            formData.append("file", document.getElementById("btnAddBackground_").files[0]);
+            requestSaveImageBackground(formData);
         }
     });
 
-    document.getElementById("galleryMainId").addEventListener("change", function () {
-        if (event.target && event.target.classList.contains("btn-delete-banner")) {
-            const checkbox = event.target;
-            const dataIndex = checkbox.getAttribute("data-index");
-            console.log(dataIndex);
-
-            if (dataIndex) {
-                // const block = document.getElementById("row" + dataIndex);
-                // block.remove();
-            }
-        }
-    });
-
-    $("#btnCreateBlock_").click(function () {
-        let elementBanners = document.getElementById("galleryMainId");
-        elementBanners.insertAdjacentHTML('afterbegin', getBlockImage());
-    });
-
-    function getBlockImage(idBanner = null, object = null) {
-        let res = `<div class="card mb-4 col-3" style="width: 14rem;margin-left: 10px" id="blockBanner-`+index+`">
-                                    <img src="https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg"
-                                         class="card-img-top" alt="error" id="srcImage_` + index + `" style="margin-top: 8px;width=200px;height:150px;">
-                                    <button class="circleMy btn-delete-banner"
-                                     data-type="delete-main" type="button">
-                                        <span style="color: white; font-weight: bold;">×</span>
-                                    </button>
-                                    <div class="card-body">
-                                        <h5 class="card-title">
-                                        <label class="btn btn-secondary input-add" for="inputDownload-` + index + `"
-                                         data-type="download-main" data-index="${index}" style="width: 100%;">Добавити</label>
-                                         <input type="file" id="inputDownload-` + index + `" style="display:none;"
-                                         accept="image/png,image/jpeg">
-                                        </h5>
-                                        <div>
-                                            <label class="text-muted">URL:</label>
-                                            <input class="form-control" placeholder="URL" data-type="">
-                                        </div>
-                                        <div>
-                                            <label class="text-muted">Текст:</label>
-                                            <input class="form-control" placeholder="текст">
-                                        </div>
-                                    </div>
-                                </div>`;
-        index++;
-        return res;
-    }
-
-    function requestSave() {
-        let formData = getUserDate();
+    function requestSaveImageBackground(formData) {
         $.ajax({
             type: "post",
-            url: "/admin/user/edit",
+            url: "/admin/image-background/save",
             data: formData,
             processData: false,
             contentType: false,
             success: function () {
-                console.log("Form hall submitted successfully");
-                window.location.replace("/admin/users")
+                console.log("Image was sent successfully");
+                // window.location.replace("/admin/banners")
             },
             error: function (error) {
                 console.log("Error submitting form:", error);
@@ -195,9 +567,33 @@
         });
     }
 
-    window.addEventListener('DOMContentLoaded', function () {
-        requestDataBanners();
-    })
+    function requestDeleteImageBackground() {
+        const request = new XMLHttpRequest();
+        request.open("GET", `/admin/image-background/delete`);
+        request.send();
+        request.addEventListener("load",()=>{
+            if(request.status === 200){
+                console.log("Image for background was deleted successfully")
+            }
+        });
+    }
+
+    function handleRadioChange(selectedValue) {
+        const imageElement = document.getElementById('background_');
+        let btnAdd = document.querySelector('label[for="btnAddBackground_"]');
+        let btnDelete = document.getElementById("btnRemoveBackground");
+        if (selectedValue === 'imageBackground') {
+            imageElement.style.opacity = '1';
+            btnAdd.classList.remove("disabledMy");
+            btnDelete.classList.remove("disabledMy");
+        } else if (selectedValue === 'defaultBackground') {
+            btnAdd.classList.add('disabledMy');
+            btnDelete.classList.add('disabledMy');
+            imageElement.style.opacity = '0.5';
+            imageElement.src = "/uploads/background/banner/2/default-image.jpg";
+        }
+    }
+
 </script>
 </body>
 </html>

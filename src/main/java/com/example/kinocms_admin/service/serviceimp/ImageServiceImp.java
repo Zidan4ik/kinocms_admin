@@ -11,6 +11,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -55,13 +56,41 @@ public class ImageServiceImp implements ImageService {
 
     @Override
     public void deleteFiles(GalleriesType type, Long id) {
-        Path path = Paths.get("./uploads/"+type.toString());
+        Path path = Paths.get("./uploads/" + type.toString());
         try {
-            ImageUtil.deleteFoldersByName(path,String.valueOf(id));
+            ImageUtil.deleteFoldersByName(path, String.valueOf(id));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
+    public String getFileByPath() {
+        String directoryPath1 = "./uploads/background/banner/1";
+        String directoryPath2 = "./uploads/background/banner/2";
 
+        File directory1 = new File(directoryPath1);
+        File directory2 = new File(directoryPath2);
+
+        if (directory1.isDirectory()) {
+            File[] files = directory1.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isFile()) {
+                        return "/uploads/background/banner/1/"+file.getName();
+                    }
+                }
+            }
+        }
+        if (directory2.isDirectory()) {
+            File[] files = directory2.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isFile()) {
+                        return "/uploads/background/banner/2/"+file.getName();
+                    }
+                }
+            }
+        }
+        return null;
+    }
 }

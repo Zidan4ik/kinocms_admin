@@ -38,7 +38,7 @@ public class ContactServiceImp implements ContactService {
             updatePageAttributes(contact, pageById);
         }
 
-        if (fileLogo != null && !Objects.equals(fileLogo.getOriginalFilename(), "exist")) {
+        if (fileLogo != null && !Objects.equals(fileLogo.getOriginalFilename(), "exist")) { //не генеруємо нову назву, якщо 'exist'
             nameLogo = imageServiceImp.generateFileName(fileLogo);
             contact.setNameLogo(nameLogo);
         }

@@ -1,6 +1,7 @@
 package com.example.kinocms_admin.service.serviceimp;
 
 
+import com.example.kinocms_admin.entity.Banner;
 import com.example.kinocms_admin.entity.BannerImage;
 import com.example.kinocms_admin.repository.BannerImageRepository;
 import com.example.kinocms_admin.service.BannerImageService;
@@ -20,6 +21,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class BannerImageServiceImp implements BannerImageService {
     private final BannerImageRepository bannerImageRepository;
+    private final ImageServiceImp imageServiceImp;
+
     @Override
     public void save(BannerImage bannerImage) {
         bannerImageRepository.save(bannerImage);
@@ -34,18 +37,29 @@ public class BannerImageServiceImp implements BannerImageService {
             Optional<BannerImage> banner = getById(bannerImage.getId());
             banner.ifPresent((object) -> bannerImage.setNameImage(object.getNameImage()));
         }
-        if (file != null) {
-            fileName = UUID.randomUUID() + "." + StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
+        if (file != null && !Objects.equals(file.getOriginalFilename(), "exist")) { //не генеруємо нову назву, якщо 'exist'
+            fileName = imageServiceImp.generateFileName(file);
             bannerImage.setNameImage(fileName);
         }
         save(bannerImage);
         try {
-            if (file != null && !file.getOriginalFilename().isEmpty()) {
+            if (file != null && !Objects.requireNonNull(file.getOriginalFilename()).isEmpty()
+                    && !Objects.equals(file.getOriginalFilename(), "exist")) {
                 uploadDir = "./uploads/banner/" + bannerImage.getId();
                 ImageUtil.saveAfterDelete(uploadDir, file, fileName);
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void saveFiles(List<BannerImage> bannersImages, List<MultipartFile> files) {
+        if (files != null) {
+            int length = (bannersImages.size() == files.size()) ? bannersImages.size() : -1;
+            for (int i = 0; i < length; i++) {
+                saveFile(bannersImages.get(i), files.get(i));
+            }
         }
     }
 
@@ -57,6 +71,11 @@ public class BannerImageServiceImp implements BannerImageService {
     @Override
     public List<BannerImage> getAll() {
         return bannerImageRepository.findAll();
+    }
+
+    @Override
+    public List<BannerImage> getAllByBanner(Banner banner) {
+        return bannerImageRepository.getAllByBanner(banner);
     }
 
     @Override

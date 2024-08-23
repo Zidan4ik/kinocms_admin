@@ -12,4 +12,7 @@ public class BannerImageDTO {
     private String nameImage;
     private String text;
     private String url;
+    public String getPathToBanner(){
+        return "/uploads/banner/"+id+"/"+nameImage;
+    }
 }

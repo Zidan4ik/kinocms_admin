@@ -1,6 +1,6 @@
 package com.example.kinocms_admin.service;
 
-
+import com.example.kinocms_admin.entity.Banner;
 import com.example.kinocms_admin.entity.BannerImage;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,9 +12,12 @@ public interface BannerImageService {
 
     void saveFile(BannerImage bannerImage, MultipartFile file);
 
+    void saveFiles(List<BannerImage> bannersImages, List<MultipartFile> files);
+
     void delete(Long id);
 
     List<BannerImage> getAll();
+    List<BannerImage> getAllByBanner(Banner banner);
 
     Optional<BannerImage> getById(Long id);
 }
