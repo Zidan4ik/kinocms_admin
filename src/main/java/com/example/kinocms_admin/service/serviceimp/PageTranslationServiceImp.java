@@ -4,6 +4,7 @@ import com.example.kinocms_admin.entity.*;
 import com.example.kinocms_admin.enums.LanguageCode;
 import com.example.kinocms_admin.repository.PageTranslationRepository;
 import com.example.kinocms_admin.service.PageTranslationService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -61,6 +62,12 @@ public class PageTranslationServiceImp implements PageTranslationService {
     @Override
     public void deleteById(long id) {
         pageTranslationRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteAllByFilm(Film film) {
+        pageTranslationRepository.deleteAllByFilm(film);
     }
 
     @Override

@@ -37,7 +37,6 @@ public class PageController {
     public ModelAndView viewPages() {
         ModelAndView model = new ModelAndView("pages/view-pages");
         List<PageUnifier> allAdditional = new ArrayList<>();
-
         for (Page page : pageServiceImp.getAll()) {
             if (page.getType() != PageType.additional) {
                 Optional<PageTranslation> translatorUkr = pageTranslationServiceImp.getByPageAndLanguageCode(page, LanguageCode.Ukr);
@@ -68,7 +67,7 @@ public class PageController {
             Page page = pageById.get();
             if (page.getType() == PageType.main) {
                 model.setViewName("pages/main-edit");
-            } else if (page.getType() == PageType.contact) {
+            } else if (page.getType() == PageType.contacts) {
                 model.setViewName("pages/contact-edit");
             } else {
                 model.setViewName("pages/page-edit");

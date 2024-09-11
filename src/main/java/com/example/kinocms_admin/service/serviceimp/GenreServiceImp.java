@@ -5,6 +5,7 @@ import com.example.kinocms_admin.entity.Genre;
 import com.example.kinocms_admin.entity.Mark;
 import com.example.kinocms_admin.repository.GenreRepository;
 import com.example.kinocms_admin.service.GenreService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,12 @@ public class GenreServiceImp implements GenreService {
     @Override
     public void deleteById(long id) {
         genreRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteAllByFilms(List<Film> films) {
+        genreRepository.deleteAllByFilms(films);
     }
 
     @Override

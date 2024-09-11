@@ -11,15 +11,22 @@ public interface MarkService {
 
     void deleteById(long id);
 
+    void deleteAllByFilms(List<Film> films);
+
     Set<Mark> getAllByCinema(Cinema cinema);
 
     Set<Mark> getAllByFilm(Film film);
+
     Set<Mark> getAllByNew(New newEntity);
+
     Set<Mark> getAllByNew(Share share);
 
     Set<Mark> getAllByFilms(List<Film> films);
+
     Set<Mark> getAllByNews(List<New> news);
+
     Set<Mark> getAllByShares(List<Share> news);
+
     Optional<Mark> getByName(String name);
 
 }

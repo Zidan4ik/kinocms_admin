@@ -53,7 +53,6 @@ public class CinemaController {
                 cinemaDtoAdd = CinemaMapper.toDTOAdd(unifier);
             }
         }
-
         model.addObject("cinema", cinemaDtoAdd);
         return model;
     }
@@ -95,8 +94,9 @@ public class CinemaController {
         model.addObject("cinema", dtoAdd);
         return model;
     }
+
     @GetMapping("/cinema/{id}/delete")
-    public ModelAndView deleteCinema(@PathVariable Long id){
+    public ModelAndView deleteCinema(@PathVariable Long id) {
         ModelAndView model = new ModelAndView("redirect:/admin/cinemas");
         Optional<Cinema> cinemaById = cinemaServiceImp.getById(id);
         cinemaById.ifPresent(hallServiceImp::deleteAllByCinema);

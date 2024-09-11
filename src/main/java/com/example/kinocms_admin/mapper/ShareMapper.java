@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 public class ShareMapper {
 
-    public static ShareDTOAdd toDtoAdd(ShareUnifier unifier) {
+    public static ShareDTOAdd toDTOAdd(ShareUnifier unifier) {
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -50,7 +50,7 @@ public class ShareMapper {
         }
         if (unifier.getPageTranslationUkr() != null) {
             dto.setTitleUkr(unifier.getPageTranslationUkr().getTitle());
-            dto.setDescriptionUkr(unifier.getPageTranslationEng().getDescription());
+            dto.setDescriptionUkr(unifier.getPageTranslationUkr().getDescription());
         }
         if (unifier.getPageTranslationEng() != null) {
             dto.setTitleEng(unifier.getPageTranslationEng().getTitle());
@@ -92,16 +92,16 @@ public class ShareMapper {
                 LanguageCode.Ukr,
                 PageType.share,
                 dto.getTitleCeoUkr(),
-                dto.getDescriptionCeoUkr(),
                 dto.getKeywordsCeoUkr(),
+                dto.getDescriptionCeoUkr(),
                 entity
         );
         CeoBlock ceoBlockEng = new CeoBlock(
                 LanguageCode.Eng,
                 PageType.share,
                 dto.getTitleCeoEng(),
-                dto.getDescriptionCeoEng(),
                 dto.getKeywordsCeoEng(),
+                dto.getDescriptionCeoEng(),
                 entity
         );
         List<CeoBlock> ceoBlocks = new ArrayList<>(){{

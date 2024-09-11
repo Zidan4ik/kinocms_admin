@@ -89,7 +89,25 @@ public class FilmController {
         unifier.setMarks(marks);
         unifier.setGenres(genres);
         unifier.setGalleries(galleries);
-        FilmDTOAdd dto = FilmMapper.toDTOAdd(unifier);
-        return dto;
+        return FilmMapper.toDTOAdd(unifier);
+    }
+
+    @GetMapping("/film/{id}/delete")
+    public String deleteFilm(@PathVariable Long id) {
+        Optional<Film> filmId = filmServiceImp.getById(id);
+        if (filmId.isPresent()) {
+            Film film = filmId.get();
+            galleryServiceImp.deleteAllByFilm(film);
+            pageTranslationServiceImp.deleteAllByFilm(film);
+            ceoBlockServiceImp.deleteAllByFilm(film);
+            for (Mark m:film.getMarksList()){
+                markServiceImp.deleteById(m.getId());
+            }
+            for (Genre g:film.getGenresList()){
+                genreServiceImp.deleteById(g.getId());
+            }
+            filmServiceImp.deleteById(id);
+        }
+        return "redirect:/admin/films";
     }
 }

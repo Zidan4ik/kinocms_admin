@@ -41,7 +41,6 @@ public class CinemaDTOAdd {
     public String getPathToBanner() {
         return "/uploads/cinemas/banner/" + id + "/" + nameBanner;
     }
-
     public String getPathToLogo() {
         return "/uploads/cinemas/logo/" + id + "/" + nameLogo;
     }

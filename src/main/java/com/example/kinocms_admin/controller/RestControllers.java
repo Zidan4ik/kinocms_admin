@@ -35,6 +35,7 @@ public class RestControllers {
     private final ContactServiceImp contactServiceImp;
     private final ImageServiceImp imageServiceImp;
     private final UserServiceImp userServiceImp;
+
     @PostMapping(value = "/film/add")
     public ResponseEntity<Object> addFilm(
             @ModelAttribute(name = "film") FilmDTOAdd filmDTO) {
@@ -187,15 +188,12 @@ public class RestControllers {
         PageUnifier pageUnifier = PageMapper.toEntityAdd(dtoAdd);
         List<GalleriesDTO> galleriesJSON = JsonUtil.transformationJsonToObject(dtoAdd.getGalleriesDTO(), GalleriesDTO.class);
         galleryServiceImp.handleDeletingImages(galleriesJSON, dtoAdd.getId());
-
         pageServiceImp.saveImages(pageUnifier.getPage(), dtoAdd.getFileBanner(),
                 dtoAdd.getFileImage1(), dtoAdd.getFileImage2(), dtoAdd.getFileImage3(), dtoAdd.getFilesGalleries());
-
         ceoBlockServiceImp.savePage(pageUnifier.getCeoBlockUkr(), pageUnifier.getPage(), LanguageCode.Ukr);
         ceoBlockServiceImp.savePage(pageUnifier.getCeoBlockEng(), pageUnifier.getPage(), LanguageCode.Eng);
         pageTranslationServiceImp.savePage(pageUnifier.getPageTranslationUkr(), pageUnifier.getPage(), LanguageCode.Ukr);
         pageTranslationServiceImp.savePage(pageUnifier.getPageTranslationEng(), pageUnifier.getPage(), LanguageCode.Eng);
-
         return ResponseEntity.ok(HttpStatus.OK);
     }
 

@@ -5,6 +5,7 @@ import com.example.kinocms_admin.model.GalleriesDTO;
 import com.example.kinocms_admin.repository.GalleryRepository;
 import com.example.kinocms_admin.service.GalleryService;
 import com.example.kinocms_admin.util.ImageUtil;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,6 +27,12 @@ public class GalleryServiceImp implements GalleryService {
     @Override
     public void delete(Long id) {
         galleryRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteAllByFilm(Film film) {
+        galleryRepository.deleteAllByFilm(film);
     }
 
     @Override

@@ -12,4 +12,5 @@ public interface GalleryRepository extends JpaRepository<Gallery,Long> {
     List<Gallery> getAllByCinema(Cinema film);
     List<Gallery> getAllByHall(Hall hall);
     List<Gallery> getAllByPage(Page page);
+    void deleteAllByFilm(Film film);
 }

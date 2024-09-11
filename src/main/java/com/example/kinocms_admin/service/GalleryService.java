@@ -7,9 +7,16 @@ import java.util.List;
 
 public interface GalleryService {
     void save(Gallery galleries, MultipartFile file);
+
     void delete(Long id);
+
+    void deleteAllByFilm(Film film);
+
     List<Gallery> getAllByFilm(Film film);
+
     List<Gallery> getAllByCinema(Cinema cinema);
+
     List<Gallery> getAllByHall(Hall hall);
+
     List<Gallery> getAllByPage(Page page);
 }

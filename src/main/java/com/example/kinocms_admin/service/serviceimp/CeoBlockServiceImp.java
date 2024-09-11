@@ -4,6 +4,7 @@ import com.example.kinocms_admin.entity.*;
 import com.example.kinocms_admin.enums.LanguageCode;
 import com.example.kinocms_admin.repository.CeoBlockRepository;
 import com.example.kinocms_admin.service.CeoBlockService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -62,6 +63,12 @@ public class CeoBlockServiceImp implements CeoBlockService {
     }
 
     @Override
+    @Transactional
+    public void deleteAllByFilm(Film film) {
+        ceoBlockRepository.deleteAllByFilm(film);
+    }
+
+    @Override
     public Optional<CeoBlock> getById(long id) {
         return ceoBlockRepository.findById(id);
     }
@@ -93,6 +100,6 @@ public class CeoBlockServiceImp implements CeoBlockService {
 
     @Override
     public Optional<CeoBlock> getByPageAndLanguageCode(Page page, LanguageCode code) {
-        return ceoBlockRepository.getByPageAndLanguageCode(page,code);
+        return ceoBlockRepository.getByPageAndLanguageCode(page, code);
     }
 }

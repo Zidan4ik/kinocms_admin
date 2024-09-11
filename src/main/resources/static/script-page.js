@@ -196,6 +196,7 @@ function fileHandle(event) {
             nameBanner = null;
             imageElement.src = "https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg";
         } else if (type === 'bannerDownload-' + languageFlag) {
+            console.log(1);
             const inputElement = document.getElementById("btn-download-banner-" + languageFlag);
             inputElement.onchange = function () {
                 const imageElement = document.getElementById("image-banner-download-" + languageFlag);

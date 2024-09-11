@@ -18,5 +18,5 @@ public interface MarkRepository extends JpaRepository<Mark,Long> {
     Set<Mark> getAllByCinemas(List<Cinema> cinemas);
     Set<Mark> getAllByNews(List<New> news);
     Set<Mark> getAllByShares(List<Share> shares);
-
+    void deleteAllByFilms(List<Film> films);
 }

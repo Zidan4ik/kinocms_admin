@@ -3,6 +3,7 @@ package com.example.kinocms_admin.service.serviceimp;
 import com.example.kinocms_admin.entity.*;
 import com.example.kinocms_admin.repository.MarkRepository;
 import com.example.kinocms_admin.service.MarkService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,12 @@ public class MarkServiceImp implements MarkService {
     @Override
     public void deleteById(long id) {
         markRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteAllByFilms(List<Film> films) {
+        markRepository.deleteAllByFilms(films);
     }
 
     @Override

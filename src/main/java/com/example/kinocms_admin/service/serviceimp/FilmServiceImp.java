@@ -10,6 +10,7 @@ import com.example.kinocms_admin.repository.MarkRepository;
 import com.example.kinocms_admin.service.FilmService;
 import com.example.kinocms_admin.util.HandleDataUtil;
 import com.example.kinocms_admin.util.ImageUtil;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -77,6 +78,7 @@ public class FilmServiceImp implements FilmService {
     }
 
     @Override
+    @Transactional
     public void deleteById(long id) {
         filmRepository.deleteById(id);
     }

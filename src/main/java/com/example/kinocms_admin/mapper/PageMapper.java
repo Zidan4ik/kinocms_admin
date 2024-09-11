@@ -177,7 +177,7 @@ public class PageMapper {
                                                      List<MultipartFile> filesLogo) {
         Page page = new Page();
         page.setId(dto.getId());
-        page.setType(PageType.contact);
+        page.setType(PageType.contacts);
         page.setDateOfCreation(LocalDate.now());
         page.setUrlCeo(dto.getUrlCeo());
         page.setStatus(false);

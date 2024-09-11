@@ -16,4 +16,5 @@ public interface GenreRepository extends JpaRepository<Genre,Long> {
     @Query("SELECT e FROM Genre e WHERE e.name = :genreName")
     Optional<Genre> findByName(@Param("genreName") String name);
     Set<Genre> getAllByFilms(List<Film> films);
+    void deleteAllByFilms(List<Film> films);
 }

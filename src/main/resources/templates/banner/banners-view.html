@@ -198,7 +198,6 @@
 
     function handleFile() {
         let targetElement = event.target;
-        // console.log(targetElement);
         if (targetElement.tagName === 'SPAN' && targetElement.closest('div.input-add')) {
             targetElement = targetElement.closest('div.input-add');
         }
@@ -407,7 +406,6 @@
 
         $("#" + blockId + " > div.card").each(function () {
             let text, url, fileImage, nameImage;
-            // console.log($(this).attr("id"))
             let blockBanner = document.getElementById($(this).attr("id"));
             if (blockBanner) {
                 url = blockBanner.querySelector("#urlId_").value;
@@ -459,7 +457,6 @@
     })
 
     function requestDataBanners() {
-        console.log(1);
         const request = new XMLHttpRequest();
         request.open("GET", `/admin/info-banners`);
         request.setRequestHeader("Content-type", "application/json; charset=utf-8");
@@ -471,7 +468,6 @@
                 let banners = data.bannersDTOS;
                 let resBannersMain = [];
                 let resBannersShareAndNew = [];
-                console.log(banners);
                 banners.forEach(function (element) {
                     if (element.type === 'main') {
                         document.getElementById("selectSpeedRotation_").value = element.rotationSpeed;
@@ -480,7 +476,6 @@
                             resBannersMain.push(element2);
                         })
                     } else if (element.type === 'shareAndNew') {
-                        console.log(element.type);
                         document.getElementById("selectSpeedRotation_ShareNew").value = element.rotationSpeed;
                         document.getElementById("inputChecked_ShareNew").checked = element.status;
                         element.banners.forEach(function (element2) {

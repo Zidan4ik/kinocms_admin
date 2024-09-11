@@ -8,8 +8,9 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface GenreService {
-
     void deleteById(long id);
+
+    void deleteAllByFilms(List<Film> films);
 
     Set<Genre> getAllByFilms(List<Film> films);
 

@@ -118,14 +118,14 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr th:object="${ad}">
-                                    <td th:text="${ad.getTitle()}"></td>
-                                    <td th:text="${ad.getDateOfCreation()}"></td>
-                                    <td th:text="${ad.getStatus().equals(true)?'вкл':'викл'}"></td>
+                                <tr th:object="${advertisement}">
+                                    <td th:text="${advertisement.getTitle()}"></td>
+                                    <td th:text="${advertisement.getDateOfCreation()}"></td>
+                                    <td th:text="${advertisement.getStatus().equals(true)?'вкл':'викл'}"></td>
                                     <td>
                                         <div class="d-flex justify-content-center">
                                             <div class="btn-group">
-                                                <a th:href="@{/admin/page/{id}/edit (id=${ad.getId()})}"
+                                                <a th:href="@{/admin/page/{id}/edit (id=${advertisement.getId()})}"
                                                    class="btn btn-label-dark trash-icon">
                                                     <i class="ti ti-edit-circle"></i>
                                                 </a>
@@ -148,14 +148,14 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr th:object="${contact}">
-                                    <td th:text="${contact.getTitle()}"></td>
-                                    <td th:text="${contact.getDateOfCreation()}"></td>
-                                    <td th:text="${contact.getStatus().equals(true)?'вкл':'викл'}"></td>
+                                <tr th:object="${contacts}">
+                                    <td th:text="${contacts.getTitle()}"></td>
+                                    <td th:text="${contacts.getDateOfCreation()}"></td>
+                                    <td th:text="${contacts.getStatus().equals(true)?'вкл':'викл'}"></td>
                                     <td>
                                         <div class="d-flex justify-content-center">
                                             <div class="btn-group">
-                                                <a th:href="@{/admin/page/{id}/edit (id=${contact.getId()})}"
+                                                <a th:href="@{/admin/page/{id}/edit (id=${contacts.getId()})}"
                                                    class="btn btn-label-dark trash-icon">
                                                     <i class="ti ti-edit-circle"></i>
                                                 </a>

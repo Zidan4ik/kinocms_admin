@@ -81,7 +81,7 @@ public class CinemaMapper {
                 PageType.cinema,
                 dto.getTitleUkr(),
                 dto.getDescriptionUkr(),
-                dto.getDescriptionUkr(),
+                dto.getConditionUkr(),
                 entity
         );
         PageTranslation pageTranslationEng = new PageTranslation(
@@ -96,16 +96,16 @@ public class CinemaMapper {
                 LanguageCode.Ukr,
                 PageType.cinema,
                 dto.getTitleCeoUkr(),
-                dto.getDescriptionUkr(),
                 dto.getKeywordsCeoUkr(),
+                dto.getDescriptionCeoUkr(),
                 entity
         );
         CeoBlock ceoBlockEng = new CeoBlock(
                 LanguageCode.Eng,
                 PageType.cinema,
                 dto.getTitleCeoEng(),
-                dto.getDescriptionEng(),
                 dto.getKeywordsCeoEng(),
+                dto.getDescriptionCeoEng(),
                 entity
         );
         List<PageTranslation> pagesTranslators = new ArrayList<>();

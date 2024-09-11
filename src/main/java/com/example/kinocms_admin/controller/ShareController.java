@@ -71,7 +71,7 @@ public class ShareController {
             pageTranslationEng.ifPresent(unifier::setPageTranslationEng);
 
         }
-        return ShareMapper.toDtoAdd(unifier);
+        return ShareMapper.toDTOAdd(unifier);
     }
     @GetMapping("/share/{id}/delete")
     public ModelAndView deleteNew(@PathVariable Long id){
