@@ -10,6 +10,7 @@ import com.example.kinocms_admin.model.UserDTOTable;
 import com.example.kinocms_admin.model.UserDTOView;
 import com.example.kinocms_admin.service.serviceimp.TemplateServiceImp;
 import com.example.kinocms_admin.service.serviceimp.UserServiceImp;
+import com.example.kinocms_admin.util.ImageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -73,8 +74,7 @@ public class MailController {
     @ResponseBody
     public List<TemplateDTO> deleteTemplate(@PathVariable Long id) {
         templateServiceImp.delete(id);
-        templateServiceImp.deleteFile(GalleriesType.templates, id);
-
+        ImageUtil.deleteFile(GalleriesType.templates, id);
         List<Template> fiveTemplates = templateServiceImp.getFiveTemplates();
         return TemplateMapper.toListDTO(fiveTemplates);
     }

@@ -1,5 +1,6 @@
 package com.example.kinocms_admin.model;
 
+import com.example.kinocms_admin.auth.UserDetailsImp;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -15,4 +16,5 @@ public class StatisticDTO {
     private Integer amountHalls;
     private Integer amountNews;
     private Integer amountShares;
+    private int onlineUsers;
 }

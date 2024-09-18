@@ -117,6 +117,62 @@
                             </div>
                         </div>
                         <!--/ Statistics -->
+
+                        <!-- Online users -->
+                        <div class="card mt-4" style="width: 96%;margin-left: 23px;">
+                            <div class="card-header d-flex justify-content-between">
+                                <h5 class="card-title mb-0">Активність</h5>
+                            </div>
+                            <div class="card-body d-flex align-items-end">
+                                <div class="w-100">
+                                    <div class="row gy-3">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                <tr>
+                                                    <th>Ролі</th>
+                                                    <th>Статус</th>
+                                                    <th>Кількість</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody class="table-border-bottom-0">
+                                                <tr>
+                                                    <td>
+                                                        <i class="ti ti-user ti-md text-danger"></i>
+                                                        <i class="ti ti-shield-lock ti-md text-danger me-4"></i>
+                                                        <span class="fw-medium">Адміни</span>
+                                                    </td>
+                                                    <td>Активний</td>
+                                                    <td id="onlineAdmins_"
+                                                        style="padding-left: 35px;"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <i class="ti ti-user ti-md text-danger"></i>
+                                                        <i class="me-4"></i>
+                                                        <span class="fw-medium" style="padding-left: 30px;">Користувачі</span>
+                                                    </td>
+                                                    <td>Активний</td>
+                                                    <td id="onlineUsers_"
+                                                        style="padding-left: 35px;"></td>
+                                                </tr>
+<!--                                                <tr>-->
+<!--                                                    <td>-->
+<!--                                                        <i class="ti ti-user ti-md text-danger me-4"></i>-->
+<!--                                                        <i class="ti ti-shield-lock ti-md text-danger me-4"></i>-->
+<!--                                                        <span class="fw-medium">Admins</span>-->
+<!--                                                    </td>-->
+<!--                                                    <td>UnActive</td>-->
+<!--                                                    <td id="noOnlineAdmins_"></td>-->
+<!--                                                </tr>-->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/ Online users -->
                     </div>
                 </div>
                 <!--/ Content -->
@@ -227,6 +283,7 @@
                     document.getElementById("halls_").textContent = data.amountHalls;
                     document.getElementById("news_").textContent = data.amountNews;
                     document.getElementById("shares_").textContent = data.amountShares;
+                    document.getElementById("onlineAdmins_").textContent = data.onlineUsers;
                 }
             }
         );

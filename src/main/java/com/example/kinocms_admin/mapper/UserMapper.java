@@ -22,17 +22,20 @@ public class UserMapper {
         dto.setLastname(user.getLastName());
         dto.setAddress(user.getAddress());
         dto.setCard(user.getNumberCard());
-
         DateTimeFormatter input = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         DateTimeFormatter output = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate birthdayParse = LocalDate.parse(String.valueOf(user.getDateOfBirthday()), input);
-        LocalDate registrationParse = LocalDate.parse(String.valueOf(user.getDateOfRegistration()), input);
-
-        dto.setDateOfBirthday(birthdayParse.format(output));
-        dto.setDateOfRegistration(registrationParse.format(output));
+        if (user.getDateOfBirthday() != null) {
+            LocalDate birthdayParse = LocalDate.parse(String.valueOf(user.getDateOfBirthday()), input);
+            dto.setDateOfBirthday(birthdayParse.format(output));
+        }
+        if (user.getDateOfRegistration() != null) {
+            LocalDate registrationParse = LocalDate.parse(String.valueOf(user.getDateOfRegistration()), input);
+            dto.setDateOfRegistration(registrationParse.format(output));
+        }
         return dto;
     }
-    public static User toEntity(UserDTOView dto){
+
+    public static User toEntity(UserDTOView dto) {
         User user = new User();
         user.setId(dto.getId());
         user.setName(dto.getName());

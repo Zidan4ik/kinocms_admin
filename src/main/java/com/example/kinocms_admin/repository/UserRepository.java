@@ -8,12 +8,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
     List<User> getAllByIsSelected(boolean isSelected);
+
     @Query(value = "SELECT city, COUNT(city) FROM users GROUP BY city", nativeQuery = true)
     List<Object[]> findAllCitiesWithCountNative();
 
     List<User> getAllByIsMan(boolean isMan);
+
+    Optional<User> getByEmail(String email);
 }

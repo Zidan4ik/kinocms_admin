@@ -1,5 +1,6 @@
 package com.example.kinocms_admin.util;
 
+import com.example.kinocms_admin.enums.GalleriesType;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.web.multipart.MultipartFile;
@@ -103,11 +104,21 @@ public class ImageUtil {
             }
         }
     }
-    public static String toReadHTMLFile(String path){
+
+    public static String toReadHTMLFile(String path) {
         try {
             File file = new File(path);
-            Document doc = Jsoup.parse(file,"UTF-8","");
+            Document doc = Jsoup.parse(file, "UTF-8", "");
             return doc.html();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void deleteFile(GalleriesType type, Long id) {
+        Path path = Paths.get("./uploads/" + type.toString());
+        try {
+            ImageUtil.deleteFoldersByName(path, String.valueOf(id));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

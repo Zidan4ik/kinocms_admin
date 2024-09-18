@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -32,6 +33,7 @@ public class User {
     private LocalDate dateOfBirthday;
     private LocalDate dateOfRegistration;
     private boolean isSelected;
+    private String roles;
 
     @Lob
     @Column(columnDefinition = "text")
@@ -52,6 +54,19 @@ public class User {
         this.dateOfRegistration = dateOfRegistration;
         this.isSelected = isSelected;
         this.address = address;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return isMan == user.isMan && isSelected == user.isSelected && Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(lastName, user.lastName) && Objects.equals(nickname, user.nickname) && Objects.equals(phone, user.phone) && Objects.equals(email, user.email) && Objects.equals(city, user.city) && Objects.equals(password, user.password) && Objects.equals(numberCard, user.numberCard) && code == user.code && Objects.equals(dateOfBirthday, user.dateOfBirthday) && Objects.equals(dateOfRegistration, user.dateOfRegistration) && Objects.equals(roles, user.roles) && Objects.equals(address, user.address);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, lastName, nickname, phone, email, city, password, numberCard, code, isMan, dateOfBirthday, dateOfRegistration, isSelected, roles, address);
     }
 }
 
