@@ -16,7 +16,6 @@ public class ImageUtil {
 
     public static void saveAfterDelete(String uploadDir, MultipartFile multipartFile, String fileName) throws IOException {
         Path uploadPath = Paths.get(uploadDir);
-
         if (Files.exists(uploadPath)) {
             List<Path> paths = Files.list(uploadPath).toList();
             for (Path p : paths) {
@@ -30,7 +29,7 @@ public class ImageUtil {
             Path filePath = uploadPath.resolve(fileName);
             Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new IOException("Could not save file: " + fileName, e);
         }
     }
 
@@ -46,7 +45,7 @@ public class ImageUtil {
                 Path filePath = uploadPath.resolve(f.getKey());
                 Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
             } catch (Exception e) {
-                e.printStackTrace();
+                throw new IOException("Could not save file: " + f.getKey(), e);
             }
         }
     }

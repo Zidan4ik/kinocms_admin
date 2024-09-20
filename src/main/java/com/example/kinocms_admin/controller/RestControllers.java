@@ -41,7 +41,7 @@ public class RestControllers {
             @ModelAttribute(name = "film") FilmDTOAdd filmDTO) {
         FilmUnifier entityAdd = FilmMapper.toEntityAdd(filmDTO);
 
-        filmServiceImp.save(entityAdd.getFilm(), filmDTO.getFileImage(), filmDTO.getImagesMultipart());
+        filmServiceImp.saveFilm(entityAdd.getFilm(), filmDTO.getFileImage(), filmDTO.getImagesMultipart());
         ceoBlockServiceImp.saveFilm(entityAdd.getCeoBlockEng(), entityAdd.getFilm(), LanguageCode.Eng);
         ceoBlockServiceImp.saveFilm(entityAdd.getCeoBlockUkr(), entityAdd.getFilm(), LanguageCode.Ukr);
         pageTranslationServiceImp.saveFilm(entityAdd.getPageTranslationEng(), entityAdd.getFilm(), LanguageCode.Eng);
@@ -56,7 +56,7 @@ public class RestControllers {
         List<GalleriesDTO> galleries = JsonUtil.transformationJsonToObject(filmDTO.getGalleryDTO(), GalleriesDTO.class);
         galleryServiceImp.handleDeletingImages(galleries, filmDTO.getId());
 
-        filmServiceImp.save(entityAdd.getFilm(), filmDTO.getFileImage(), filmDTO.getImagesMultipart());
+        filmServiceImp.saveFilm(entityAdd.getFilm(), filmDTO.getFileImage(), filmDTO.getImagesMultipart());
         ceoBlockServiceImp.saveFilm(entityAdd.getCeoBlockEng(), entityAdd.getFilm(), LanguageCode.Eng);
         ceoBlockServiceImp.saveFilm(entityAdd.getCeoBlockUkr(), entityAdd.getFilm(), LanguageCode.Ukr);
 
@@ -68,7 +68,7 @@ public class RestControllers {
     @PostMapping(value = "/cinema/add")
     public ResponseEntity<Object> addCinema(@ModelAttribute(name = "cinema") CinemaDTOAdd cinemaDTO) {
         CinemaUnifier unifier = CinemaMapper.toEntityAdd(cinemaDTO);
-        cinemaServiceImp.save(unifier.getCinema(), cinemaDTO.getFileLogo(), cinemaDTO.getFileBanner(), cinemaDTO.getImagesMultipart());
+        cinemaServiceImp.saveCinema(unifier.getCinema(), cinemaDTO.getFileLogo(), cinemaDTO.getFileBanner(), cinemaDTO.getImagesMultipart());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
@@ -78,7 +78,7 @@ public class RestControllers {
         List<GalleriesDTO> galleriesDTOS = JsonUtil.transformationJsonToObject(cinemaDTO.getGalleryDTO(), GalleriesDTO.class);
         galleryServiceImp.handleDeletingImages(galleriesDTOS, cinemaDTO.getId());
 
-        cinemaServiceImp.save(unifier.getCinema(), cinemaDTO.getFileLogo(), cinemaDTO.getFileBanner(), cinemaDTO.getImagesMultipart());
+        cinemaServiceImp.saveCinema(unifier.getCinema(), cinemaDTO.getFileLogo(), cinemaDTO.getFileBanner(), cinemaDTO.getImagesMultipart());
 
         Optional<Cinema> cinemaById = cinemaServiceImp.getById(cinemaDTO.getId());
         cinemaById.ifPresent(c -> ceoBlockServiceImp.saveCinema(unifier.getCeoBlockUkr(), c, LanguageCode.Ukr));
@@ -93,7 +93,7 @@ public class RestControllers {
     @PostMapping(value = "/cinema/temporary/add")
     public ResponseEntity<Object> addCinemaTemporary(@ModelAttribute(name = "cinema") CinemaDTOAdd cinemaDTO) {
         CinemaUnifier unifier = CinemaMapper.toEntityAdd(cinemaDTO);
-        cinemaServiceImp.save(unifier.getCinema(), cinemaDTO.getFileLogo(), cinemaDTO.getFileBanner(), cinemaDTO.getImagesMultipart());
+        cinemaServiceImp.saveCinema(unifier.getCinema(), cinemaDTO.getFileLogo(), cinemaDTO.getFileBanner(), cinemaDTO.getImagesMultipart());
         return ResponseEntity.ok(unifier.getCinema().getId());
     }
 
@@ -101,7 +101,7 @@ public class RestControllers {
     public ResponseEntity<Object> addHall(@ModelAttribute(name = "hall") HallDTOAdd hallDTO) {
         if (hallDTO.getCinemaId() == null) {
             Cinema cinema = new Cinema();
-            cinemaServiceImp.save(cinema, null, null, null);
+            cinemaServiceImp.saveCinema(cinema, null, null, null);
             hallDTO.setCinemaId(cinema.getId());
         }
         Cinema cinemaEntity = cinemaServiceImp.getById(hallDTO.getCinemaId()).get();

@@ -27,47 +27,39 @@ public class UserServiceImp implements UserService {
 
     @Override
     public void save(User user) {
-        log.info("Saving user!");
+        LogUtil.logSaveNotification("user", "id", user.getId());
         userRepository.save(user);
-        log.info("User saved with name: {}", user);
+        LogUtil.logSaveInfo("User", "id", user.getId());
     }
 
     @Override
     public void deleteById(Long id) {
-        log.info("Deleting user with id!");
+        LogUtil.logDeleteNotification("user", "id", id);
         userRepository.deleteById(id);
-        log.info("User with id: {} deleted", id);
+        LogUtil.logDeleteInfo("User", "id", id);
     }
 
     @Override
     public Optional<User> getById(Long id) {
-        log.info("Fetching user with id");
+        LogUtil.logGetNotification("user", "id", id);
         Optional<User> userId = userRepository.findById(id);
-        if (userId.isPresent()) {
-            log.info("User with id: {} was found", id);
-        } else {
-            log.warn("User with id: {} wasn't found", id);
-        }
+        LogUtil.logGetInfo("User", "id", id, userId.isPresent());
         return userId;
     }
 
     @Override
     public List<User> getAll() {
-        log.info("Fetching all users");
+        LogUtil.logGetAllNotification("users");
         List<User> users = userRepository.findAll();
-        log.info("Total users found: {}", users.size());
+        LogUtil.logSizeInfo("users", users.size());
         return users;
     }
 
     @Override
     public Optional<User> getByEmail(String email) {
-        log.info("Fetching user with email");
+        LogUtil.logGetNotification("user", "email", email);
         Optional<User> userByEmail = userRepository.getByEmail(email);
-        if (userByEmail.isPresent()) {
-            log.info("User with email: {} was found", email);
-        } else {
-            log.warn("User is not exist with email: {}", email);
-        }
+        LogUtil.logGetInfo("User", "email", email, userByEmail.isPresent());
         return userByEmail;
     }
 
@@ -85,7 +77,7 @@ public class UserServiceImp implements UserService {
     }
 
     public Page<UserDTOView> getAll(Pageable pageable) {
-        log.info("Fetching all users with pageable: {}", pageable);
+        LogUtil.logGetAllNotification("users", pageable);
         Pageable modifyPageable = PageRequest.of(pageable.getPageNumber(), defaultPageSize);
         Page<User> page = userRepository.findAll(modifyPageable);
         Page<UserDTOView> pageUserDTOView = page.map(UserMapper::toDTOView);
@@ -94,7 +86,7 @@ public class UserServiceImp implements UserService {
     }
 
     public List<User> getAllSelected() {
-        log.info("Fetch all users with selected state");
+        LogUtil.logGetAllNotification("users", "selected state", true);
         List<User> selectedUsers = userRepository.getAllByIsSelected(true);
         selectedUsers.forEach(user -> {
             user.setSelected(false);
@@ -104,9 +96,9 @@ public class UserServiceImp implements UserService {
     }
 
     public void saveAll(List<User> users) {
-        log.info("Saving all users");
+        LogUtil.logSaveAllNotifications("users");
         userRepository.saveAll(users);
-        log.info("All users were success saved");
+        LogUtil.logSaveAllInfo("users");
     }
 
     public List<CityCountDTO> findCityWithCounts() {
@@ -115,14 +107,14 @@ public class UserServiceImp implements UserService {
         List<CityCountDTO> citiesCount = results.stream()
                 .map(result -> new CityCountDTO((String) result[0], ((Number) result[1]).longValue()))
                 .toList();
-        log.info("Found cities: {}", citiesCount.size());
+        LogUtil.logSizeInfo("cities", citiesCount.size());
         return citiesCount;
     }
 
     public Integer getCountGenders(boolean isMan) {
         log.info("Fetching count genders with state: {}", isMan);
         int size = userRepository.getAllByIsMan(isMan).size();
-        log.info("Found genders: {}", size);
+        LogUtil.logSizeInfo("genders", size);
         return size;
     }
 }

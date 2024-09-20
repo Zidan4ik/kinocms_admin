@@ -4,11 +4,10 @@ import com.example.kinocms_admin.entity.Cinema;
 import com.example.kinocms_admin.entity.Gallery;
 import com.example.kinocms_admin.enums.GalleriesType;
 import com.example.kinocms_admin.repository.CinemaRepository;
-import com.example.kinocms_admin.repository.GalleryRepository;
-import com.example.kinocms_admin.repository.MarkRepository;
 import com.example.kinocms_admin.service.CinemaService;
 import com.example.kinocms_admin.util.HandleDataUtil;
 import com.example.kinocms_admin.util.ImageUtil;
+import com.example.kinocms_admin.util.LogUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -25,7 +24,14 @@ public class CinemaServiceImp implements CinemaService {
     private final MarkServiceImp markServiceImp;
 
     @Override
-    public void save(Cinema cinema, MultipartFile fileLogo, MultipartFile fileBanner, List<MultipartFile> galleriesMF) {
+    public void save(Cinema cinema) {
+        LogUtil.logSaveNotification("cinema", "id", cinema.getId());
+        cinemaRepository.save(cinema);
+        LogUtil.logSaveInfo("Cinema", "id", cinema.getId());
+    }
+
+    @Override
+    public void saveCinema(Cinema cinema, MultipartFile fileLogo, MultipartFile fileBanner, List<MultipartFile> galleriesMF) {
         String uploadDir;
         String fileNameSchema = null;
         String fileNameBanner = null;
@@ -63,9 +69,8 @@ public class CinemaServiceImp implements CinemaService {
             }
         }
         cinema.setGalleries(galleriesRes);
-        cinema.setMarksList(HandleDataUtil.findSimilarMark(cinema.getMarksList(),markServiceImp));
-        cinemaRepository.save(cinema);
-
+        cinema.setMarksList(HandleDataUtil.findSimilarMark(cinema.getMarksList(), markServiceImp));
+        save(cinema);
         try {
             if (fileLogo != null && !fileLogo.getOriginalFilename().isEmpty()) {
                 uploadDir = "./uploads/cinemas/logo/" + cinema.getId();
@@ -80,25 +85,30 @@ public class CinemaServiceImp implements CinemaService {
                 ImageUtil.savesAfterDelete(uploadDir, mapFile);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LogUtil.logErrorSavingFiles(e);
         }
     }
 
     @Override
     public void deleteById(Long id) {
+        LogUtil.logDeleteNotification("cinema", "id", id);
         cinemaRepository.deleteById(id);
+        LogUtil.logDeleteInfo("Cinema", "id", id);
     }
 
     @Override
     public List<Cinema> getAll() {
-        return cinemaRepository.findAll();
+        LogUtil.logGetAllNotification("cinemas");
+        List<Cinema> cinemas = cinemaRepository.findAll();
+        LogUtil.logSizeInfo("cinemas", cinemas.size());
+        return cinemas;
     }
 
     @Override
     public Optional<Cinema> getById(Long id) {
-        return cinemaRepository.findById(id);
-    }
-    public Integer getAmountCinemas(){
-        return cinemaRepository.findAll().size();
+        LogUtil.logGetNotification("cinema", "id", id);
+        Optional<Cinema> cinemaById = cinemaRepository.findById(id);
+        LogUtil.logGetInfo("Cinema", "id", id, cinemaById.isPresent());
+        return cinemaById;
     }
 }

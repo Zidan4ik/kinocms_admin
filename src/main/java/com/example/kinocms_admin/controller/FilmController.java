@@ -39,7 +39,6 @@ public class FilmController {
             Set<Genre> genres = genreServiceImp.getAllByFilm(film);
             pageTranslation.ifPresent(translation -> filmsActiveDTO.add(FilmMapper.toDtoFilmInfo(film, translation, genres, marks)));
         }
-
         for (Film film : filmsUnActive) {
             Optional<PageTranslation> pageTranslation = pageTranslationServiceImp.
                     getByFilmAndLanguageCode(film, LanguageCode.Ukr);
@@ -54,14 +53,12 @@ public class FilmController {
 
     @GetMapping("/film/add")
     public ModelAndView addFilm(@ModelAttribute(name = "film") FilmDTOAdd film) {
-        ModelAndView model = new ModelAndView("films/film-add");
-        return model;
+        return new ModelAndView("films/film-add");
     }
 
     @GetMapping("/film/{id}/edit")
     public ModelAndView editFilm(@PathVariable(name = "id") Long id) {
-        ModelAndView model = new ModelAndView("films/film-edit");
-        return model;
+        return new ModelAndView("films/film-edit");
     }
 
 
@@ -69,26 +66,23 @@ public class FilmController {
     @ResponseBody
     public FilmDTOAdd getFilmData(@PathVariable(name = "id") Long id) {
         List<Film> films = new ArrayList<>();
-        Optional<Film> byId = filmServiceImp.getById(id);
-        Optional<PageTranslation> pageUkr = pageTranslationServiceImp.getByFilmAndLanguageCode(byId.get(), LanguageCode.Ukr);
-        Optional<PageTranslation> pageEng = pageTranslationServiceImp.getByFilmAndLanguageCode(byId.get(), LanguageCode.Eng);
-        Optional<CeoBlock> ceoBlockUkr = ceoBlockServiceImp.getByFilmAndLanguageBlock(byId.get(), LanguageCode.Ukr);
-        Optional<CeoBlock> ceoBlockEng = ceoBlockServiceImp.getByFilmAndLanguageBlock(byId.get(), LanguageCode.Eng);
-
-        films.add(byId.get());
-        Set<Mark> marks = markServiceImp.getAllByFilms(films);
-        Set<Genre> genres = genreServiceImp.getAllByFilms(films);
-        List<Gallery> galleries = galleryServiceImp.getAllByFilm(byId.get());
-
         FilmUnifier unifier = new FilmUnifier();
-        unifier.setFilm(byId.get());
-        unifier.setPageTranslationUkr(pageUkr.get());
-        unifier.setPageTranslationEng(pageEng.get());
-        unifier.setCeoBlockUkr(ceoBlockUkr.get());
-        unifier.setCeoBlockEng(ceoBlockEng.get());
-        unifier.setMarks(marks);
-        unifier.setGenres(genres);
-        unifier.setGalleries(galleries);
+        Optional<Film> filmById = filmServiceImp.getById(id);
+        if (filmById.isPresent()) {
+            Optional<PageTranslation> pageUkr = pageTranslationServiceImp.getByFilmAndLanguageCode(filmById.get(), LanguageCode.Ukr);
+            Optional<PageTranslation> pageEng = pageTranslationServiceImp.getByFilmAndLanguageCode(filmById.get(), LanguageCode.Eng);
+            Optional<CeoBlock> ceoBlockUkr = ceoBlockServiceImp.getByFilmAndLanguageCode(filmById.get(), LanguageCode.Ukr);
+            Optional<CeoBlock> ceoBlockEng = ceoBlockServiceImp.getByFilmAndLanguageCode(filmById.get(), LanguageCode.Eng);
+            pageUkr.ifPresent(unifier::setPageTranslationUkr);
+            pageEng.ifPresent(unifier::setPageTranslationEng);
+            ceoBlockUkr.ifPresent(unifier::setCeoBlockUkr);
+            ceoBlockEng.ifPresent(unifier::setCeoBlockEng);
+        }
+        filmById.ifPresent(films::add);
+        filmById.ifPresent(unifier::setFilm);
+        filmById.ifPresent(f -> unifier.setGalleries(galleryServiceImp.getAllByFilm(f)));
+        unifier.setMarks(markServiceImp.getAllByFilms(films));
+        unifier.setGenres(genreServiceImp.getAllByFilms(films));
         return FilmMapper.toDTOAdd(unifier);
     }
 
@@ -100,10 +94,10 @@ public class FilmController {
             galleryServiceImp.deleteAllByFilm(film);
             pageTranslationServiceImp.deleteAllByFilm(film);
             ceoBlockServiceImp.deleteAllByFilm(film);
-            for (Mark m:film.getMarksList()){
+            for (Mark m : film.getMarksList()) {
                 markServiceImp.deleteById(m.getId());
             }
-            for (Genre g:film.getGenresList()){
+            for (Genre g : film.getGenresList()) {
                 genreServiceImp.deleteById(g.getId());
             }
             filmServiceImp.deleteById(id);

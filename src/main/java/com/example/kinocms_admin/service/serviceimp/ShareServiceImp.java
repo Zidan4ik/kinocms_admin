@@ -5,7 +5,9 @@ import com.example.kinocms_admin.repository.ShareRepository;
 import com.example.kinocms_admin.service.ShareService;
 import com.example.kinocms_admin.util.HandleDataUtil;
 import com.example.kinocms_admin.util.ImageUtil;
+import com.example.kinocms_admin.util.LogUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +18,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ShareServiceImp implements ShareService {
@@ -25,7 +28,9 @@ public class ShareServiceImp implements ShareService {
 
     @Override
     public void save(Share share) {
+        LogUtil.logSaveNotification("share", "id", share.getId());
         shareRepository.save(share);
+        LogUtil.logSaveInfo("Share", "id", share.getId());
     }
 
     @Override
@@ -33,7 +38,6 @@ public class ShareServiceImp implements ShareService {
         String uploadDir;
         String fileNameSchema = null;
         String fileNameBanner = null;
-
         if (share.getId() != null) {
             Optional<Share> newBD = getById(share.getId());
             newBD.ifPresent((object) -> share.setNameImage(object.getNameImage()));
@@ -61,25 +65,37 @@ public class ShareServiceImp implements ShareService {
                 ImageUtil.saveAfterDelete(uploadDir, fileBanner, fileNameBanner);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LogUtil.logErrorSavingFiles(e);
         }
     }
 
     @Override
     public void deleteById(Long id) {
+        LogUtil.logDeleteNotification("share", "id", id);
         shareRepository.deleteById(id);
+        LogUtil.logDeleteInfo("Share", "id", id);
     }
 
     @Override
     public List<Share> getAll() {
-        return shareRepository.findAll();
+        LogUtil.logGetAllNotification("shares");
+        List<Share> shares = shareRepository.findAll();
+        LogUtil.logSizeInfo("shares", shares.size());
+        return shares;
     }
 
     @Override
     public Optional<Share> getById(Long id) {
-        return shareRepository.findById(id);
+        LogUtil.logGetNotification("Share", "id", id);
+        Optional<Share> shareId = shareRepository.findById(id);
+        LogUtil.logGetInfo("Share", "id", id, shareId.isPresent());
+        return shareId;
     }
-    public Integer getAmountShares(){
-        return shareRepository.findAll().size();
+
+    public Integer getAmountShares() {
+        LogUtil.logGetAllNotification("shares");
+        int size = shareRepository.findAll().size();
+        LogUtil.logSizeInfo("shares", size);
+        return size;
     }
 }

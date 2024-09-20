@@ -6,16 +6,15 @@ import com.example.kinocms_admin.entity.BannerImage;
 import com.example.kinocms_admin.repository.BannerImageRepository;
 import com.example.kinocms_admin.service.BannerImageService;
 import com.example.kinocms_admin.util.ImageUtil;
+import com.example.kinocms_admin.util.LogUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +24,9 @@ public class BannerImageServiceImp implements BannerImageService {
 
     @Override
     public void save(BannerImage bannerImage) {
+        LogUtil.logSaveNotification("bannerImage", "id", bannerImage.getId());
         bannerImageRepository.save(bannerImage);
+        LogUtil.logSaveInfo("bannerImage", "id", bannerImage.getId());
     }
 
     @Override
@@ -49,37 +50,50 @@ public class BannerImageServiceImp implements BannerImageService {
                 ImageUtil.saveAfterDelete(uploadDir, file, fileName);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LogUtil.logErrorSavingFiles(e);
         }
     }
 
     @Override
     public void saveFiles(List<BannerImage> bannersImages, List<MultipartFile> files) {
+        LogUtil.logSaveAllInfo("bannersImages");
         if (files != null) {
             int length = (bannersImages.size() == files.size()) ? bannersImages.size() : -1;
             for (int i = 0; i < length; i++) {
                 saveFile(bannersImages.get(i), files.get(i));
             }
         }
+        LogUtil.logSaveAllInfo("bannersImages");
     }
 
     @Override
     public void delete(Long id) {
+        LogUtil.logDeleteNotification("bannerImage", "id", id);
         bannerImageRepository.deleteById(id);
+        LogUtil.logDeleteInfo("bannerImage", "id", id);
     }
 
     @Override
     public List<BannerImage> getAll() {
-        return bannerImageRepository.findAll();
+        LogUtil.logGetAllNotification("bannersImages");
+        List<BannerImage> bannersImages = bannerImageRepository.findAll();
+        LogUtil.logSizeInfo("bannersImages", bannersImages.size());
+        return bannersImages;
     }
 
     @Override
     public List<BannerImage> getAllByBanner(Banner banner) {
-        return bannerImageRepository.getAllByBanner(banner);
+        LogUtil.logGetAllNotification("bannersImages", "banner", banner);
+        List<BannerImage> bannerImageByBanner = bannerImageRepository.getAllByBanner(banner);
+        LogUtil.logSizeInfo("bannersImages by banner", bannerImageByBanner.size());
+        return bannerImageByBanner;
     }
 
     @Override
     public Optional<BannerImage> getById(Long id) {
-        return bannerImageRepository.findById(id);
+        LogUtil.logGetNotification("bannerImage", "id", id);
+        Optional<BannerImage> bannerImageById = bannerImageRepository.findById(id);
+        LogUtil.logGetInfo("bannerImage", "id", id, bannerImageById.isPresent());
+        return bannerImageById;
     }
 }

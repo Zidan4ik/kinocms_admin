@@ -5,6 +5,7 @@ import com.example.kinocms_admin.model.GalleriesDTO;
 import com.example.kinocms_admin.repository.GalleryRepository;
 import com.example.kinocms_admin.service.GalleryService;
 import com.example.kinocms_admin.util.ImageUtil;
+import com.example.kinocms_admin.util.LogUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,39 +21,56 @@ public class GalleryServiceImp implements GalleryService {
     private final GalleryRepository galleryRepository;
 
     @Override
-    public void save(Gallery galleries, MultipartFile file) {
-        galleryRepository.save(galleries);
+    public void save(Gallery gallery, MultipartFile file) {
+        LogUtil.logSaveNotification("gallery", "id", gallery.getId());
+        galleryRepository.save(gallery);
+        LogUtil.logSaveAllInfo("gallery");
     }
 
     @Override
     public void delete(Long id) {
+        LogUtil.logDeleteNotification("gallery", "id", id);
         galleryRepository.deleteById(id);
+        LogUtil.logDeleteInfo("Gallery", "id", id);
     }
 
     @Override
     @Transactional
     public void deleteAllByFilm(Film film) {
+        LogUtil.logDeleteAllNotification("gallery", "film", film);
         galleryRepository.deleteAllByFilm(film);
     }
 
     @Override
     public List<Gallery> getAllByFilm(Film film) {
-        return galleryRepository.getAllByFilm(film);
+        LogUtil.logGetAllNotification("gallery", "film", film);
+        List<Gallery> galleryByFilm = galleryRepository.getAllByFilm(film);
+        LogUtil.logSizeInfo("gallery by film", galleryByFilm.size());
+        return galleryByFilm;
     }
 
     @Override
     public List<Gallery> getAllByCinema(Cinema cinema) {
-        return galleryRepository.getAllByCinema(cinema);
+        LogUtil.logGetAllNotification("gallery", "cinema", cinema);
+        List<Gallery> galleryByCinema = galleryRepository.getAllByCinema(cinema);
+        LogUtil.logSizeInfo("gallery by cinema", galleryByCinema.size());
+        return galleryByCinema;
     }
 
     @Override
     public List<Gallery> getAllByHall(Hall hall) {
-        return galleryRepository.getAllByHall(hall);
+        LogUtil.logGetAllNotification("gallery", "hall", hall);
+        List<Gallery> galleryByHall = galleryRepository.getAllByHall(hall);
+        LogUtil.logSizeInfo("gallery by hall", galleryByHall.size());
+        return galleryByHall;
     }
 
     @Override
     public List<Gallery> getAllByPage(Page page) {
-        return galleryRepository.getAllByPage(page);
+        LogUtil.logGetAllNotification("gallery", "page", page);
+        List<Gallery> galleryByPage = galleryRepository.getAllByPage(page);
+        LogUtil.logSizeInfo("gallery by page", galleryByPage.size());
+        return galleryByPage;
     }
 
     public void handleDeletingImages(List<GalleriesDTO> galleries, long id) {

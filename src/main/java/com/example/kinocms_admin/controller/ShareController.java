@@ -57,7 +57,7 @@ public class ShareController {
         Optional<Share> shareBD = shareServiceImp.getById(id);
         if(shareBD.isPresent()){
             unifier.setShare(shareBD.get());
-            unifier.setMarks(markServiceImp.getAllByNew(shareBD.get()));
+            unifier.setMarks(markServiceImp.getAllByShare(shareBD.get()));
 
             Optional<CeoBlock> ceoBlockUkr = ceoBlockServiceImp.getByShareAndLanguageCode(shareBD.get(), LanguageCode.Ukr);
             Optional<CeoBlock> ceoBlockEng = ceoBlockServiceImp.getByShareAndLanguageCode(shareBD.get(), LanguageCode.Eng);

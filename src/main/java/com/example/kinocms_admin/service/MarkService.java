@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface MarkService {
-    void save(Set<Mark> mark);
+    void saveAll(Set<Mark> mark);
 
     void deleteById(long id);
 
@@ -19,7 +19,7 @@ public interface MarkService {
 
     Set<Mark> getAllByNew(New newEntity);
 
-    Set<Mark> getAllByNew(Share share);
+    Set<Mark> getAllByShare(Share share);
 
     Set<Mark> getAllByFilms(List<Film> films);
 

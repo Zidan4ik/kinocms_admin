@@ -6,7 +6,6 @@ import com.example.kinocms_admin.enums.ImageType;
 import com.example.kinocms_admin.model.TemplateDTO;
 import com.example.kinocms_admin.repository.TemplateRepository;
 import com.example.kinocms_admin.service.TemplateService;
-import com.example.kinocms_admin.util.ImageUtil;
 import com.example.kinocms_admin.util.LogUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,11 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.*;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -33,20 +28,17 @@ public class TemplateServiceImp implements TemplateService {
 
     @Override
     public void save(Template template, MultipartFile file) {
-        log.info("Saving template with id: {}", template.getId());
+        LogUtil.logSaveNotification("template", "id", template.getId());
         String fileNameHTML = null;
         if (file != null) {
             fileNameHTML = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
             template.setNameFile(fileNameHTML);
-            log.info("File received: {}", fileNameHTML);
         }
         templateRepository.save(template);
-        log.info("Template saved successfully with id: {}", template.getId());
+        LogUtil.logSaveInfo("Template", "id", template.getId());
         try {
             if (file != null && !file.getOriginalFilename().isEmpty()) {
-                log.info("Saving file: {} for template with id: {}", fileNameHTML, template.getId());
                 imageServiceImp.saveFile(file, fileNameHTML, GalleriesType.templates, ImageType.file, template.getId());
-                log.info("File {} saved successfully for template id: {}", fileNameHTML, template.getId());
             }
         } catch (IOException e) {
             log.error("Error saving file: {} for template with id: {}", fileNameHTML, template.getId(), e);
@@ -55,14 +47,14 @@ public class TemplateServiceImp implements TemplateService {
 
     @Override
     public void delete(Long id) {
-        log.info("Deleting template with id: {}", id);
+        LogUtil.logDeleteNotification("template", "id", id);
         templateRepository.deleteById(id);
-        log.info("Template with id: {} deleted", id);
+        LogUtil.logDeleteInfo("Template", "id", id);
     }
 
     @Override
     public List<Template> getAll() {
-        log.info("Fetch all templates");
+        LogUtil.logGetAllNotification("templates");
         List<Template> templates = templateRepository.findAll();
         LogUtil.logSizeInfo("templates", templates.size());
         return templates;
@@ -78,13 +70,9 @@ public class TemplateServiceImp implements TemplateService {
 
     @Override
     public Optional<Template> getById(Long id) {
-        log.info("Fetching template with id: {}", id);
+        LogUtil.logGetNotification("template", "id", id);
         Optional<Template> templateId = templateRepository.findById(id);
-        if (templateId.isPresent()) {
-            log.info("Template with id: {} was found", id);
-        } else {
-            log.info("Template with id: {} wasn't found", id);
-        }
+        LogUtil.logGetInfo("Template", "id", id, templateId.isPresent());
         return templateId;
 
     }

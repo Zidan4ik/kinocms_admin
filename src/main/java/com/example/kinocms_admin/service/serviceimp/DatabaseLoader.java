@@ -2,7 +2,6 @@ package com.example.kinocms_admin.service.serviceimp;
 
 import com.example.kinocms_admin.entity.Page;
 import com.example.kinocms_admin.entity.PageTranslation;
-import com.example.kinocms_admin.entity.User;
 import com.example.kinocms_admin.enums.LanguageCode;
 import com.example.kinocms_admin.enums.PageType;
 import org.springframework.boot.CommandLineRunner;

@@ -7,6 +7,7 @@ import com.example.kinocms_admin.enums.GalleriesType;
 import com.example.kinocms_admin.repository.HallRepository;
 import com.example.kinocms_admin.service.HallService;
 import com.example.kinocms_admin.util.ImageUtil;
+import com.example.kinocms_admin.util.LogUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +36,6 @@ public class HallServiceImp implements HallService {
             hallById.ifPresent(h -> hall.setNameBanner(h.getNameBanner()));
             hallById.ifPresent(h ->
                     hall.setGalleryList(galleryServiceImp.getAllByHall(h)));
-
             hall.setPageTranslations(null);
             hall.setCeoBlocks(null);
         }
@@ -74,9 +74,8 @@ public class HallServiceImp implements HallService {
                 ImageUtil.savesAfterDelete(uploadDir, mapFile);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LogUtil.logErrorSavingFiles(e);
         }
-
     }
 
     @Override

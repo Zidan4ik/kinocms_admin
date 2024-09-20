@@ -35,9 +35,9 @@ public class StatisticController {
         List<CityCountDTO> cityWithCounts = userServiceImpl.findCityWithCounts();
         Integer men = userServiceImpl.getCountGenders(true);
         Integer women = userServiceImpl.getCountGenders(false);
-        Integer cinemas = cinemaServiceImp.getAmountCinemas();
+        Integer cinemas = cinemaServiceImp.getAll().size();
         Integer halls  = hallServiceImp.getAmountHalls();
-        Integer news = newServiceImp.getAmountNews();
+        Integer news = newServiceImp.getAll().size();
         Integer shares = shareServiceImp.getAmountShares();
         int countActiveAdmins = activeUserService.getOnlineUsers("ROLE_ADMIN").size();
         return new StatisticDTO(cityWithCounts,men,women,cinemas,halls,news,shares,countActiveAdmins);

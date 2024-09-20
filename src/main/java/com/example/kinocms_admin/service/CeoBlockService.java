@@ -24,7 +24,7 @@ public interface CeoBlockService {
 
     Optional<CeoBlock> getById(long id);
 
-    Optional<CeoBlock> getByFilmAndLanguageBlock(Film film, LanguageCode code);
+    Optional<CeoBlock> getByFilmAndLanguageCode(Film film, LanguageCode code);
 
     Optional<CeoBlock> getByCinemaAndLanguageCode(Cinema cinema, LanguageCode code);
 
