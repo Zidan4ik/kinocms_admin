@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface HallService {
-    void save(Hall hall, MultipartFile schemaMF, MultipartFile bannerMF, List<MultipartFile> galleriesMF);
+    void saveHall(Hall hall, MultipartFile schemaMF, MultipartFile bannerMF, List<MultipartFile> galleriesMF);
+
+    void save(Hall hall);
 
     void deleteById(Long id);
 
@@ -17,5 +19,6 @@ public interface HallService {
     Optional<Hall> getById(Long id);
 
     List<Hall> getAllByCinema(Cinema cinema);
+
     void deleteAllByCinema(Cinema cinema);
 }

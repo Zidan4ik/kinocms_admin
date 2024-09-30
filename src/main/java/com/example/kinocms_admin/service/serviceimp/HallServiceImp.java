@@ -23,8 +23,16 @@ public class HallServiceImp implements HallService {
     private final HallRepository hallRepository;
     private final GalleryServiceImp galleryServiceImp;
 
+
     @Override
-    public void save(Hall hall, MultipartFile schemaMF, MultipartFile bannerMF, List<MultipartFile> galleriesMF) {
+    public void save(Hall hall) {
+        LogUtil.logSaveNotification("hall", "id", hall.getId());
+        hallRepository.save(hall);
+        LogUtil.logSaveInfo("hall", "id", hall.getId());
+    }
+
+    @Override
+    public void saveHall(Hall hall, MultipartFile schemaMF, MultipartFile bannerMF, List<MultipartFile> galleriesMF) {
         String uploadDir;
         String fileNameSchema = null;
         String fileNameBanner = null;
@@ -49,16 +57,16 @@ public class HallServiceImp implements HallService {
         }
 
         if (galleriesMF != null) {
-            for (MultipartFile fileGallery : galleriesMF) {
-                if (fileGallery != null) {
-                    String name = UUID.randomUUID() + "." + StringUtils.cleanPath(Objects.requireNonNull(fileGallery.getOriginalFilename()));
+            for (MultipartFile file : galleriesMF) {
+                if (file != null) {
+                    String name = UUID.randomUUID() + "." + StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
                     galleriesRes.add(new Gallery(name, GalleriesType.halls, hall));
-                    mapFile.put(name, fileGallery);
+                    mapFile.put(name, file);
                 }
             }
         }
         hall.setGalleryList(galleriesRes);
-        hallRepository.save(hall);
+        save(hall);
 
         try {
             if (schemaMF != null && !schemaMF.getOriginalFilename().isEmpty()) {
@@ -80,29 +88,40 @@ public class HallServiceImp implements HallService {
 
     @Override
     public void deleteById(Long id) {
+        LogUtil.logDeleteNotification("hall", "id", id);
         hallRepository.deleteById(id);
+        LogUtil.logDeleteInfo("Hall", "id", id);
     }
 
     @Override
     public List<Hall> getAll() {
-        return hallRepository.findAll();
+        LogUtil.logGetAllNotification("halls");
+        List<Hall> halls = hallRepository.findAll();
+        LogUtil.logSizeInfo("halls", halls.size());
+        return halls;
     }
 
     @Override
     public Optional<Hall> getById(Long id) {
-        return hallRepository.findById(id);
+        LogUtil.logGetNotification("hall", "id", id);
+        Optional<Hall> hallById = hallRepository.findById(id);
+        LogUtil.logGetInfo("Hall", "id", id, hallById.isPresent());
+        return hallById;
     }
 
     @Override
     public List<Hall> getAllByCinema(Cinema cinema) {
-        return hallRepository.getAllByCinema(cinema);
+        LogUtil.logGetAllNotification("halls", "cinema", cinema);
+        List<Hall> hallsByCinema = hallRepository.getAllByCinema(cinema);
+        LogUtil.logSizeInfo("halls", hallsByCinema.size());
+        return hallsByCinema;
     }
+
     @Transactional
     @Override
     public void deleteAllByCinema(Cinema cinema) {
+        LogUtil.logDeleteNotification("halls", "cinema", cinema);
         hallRepository.deleteAllByCinema(cinema);
-    }
-    public Integer getAmountHalls(){
-        return hallRepository.findAll().size();
+        LogUtil.logDeleteAllInfo("Halls","cinema");
     }
 }
