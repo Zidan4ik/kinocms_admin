@@ -1,17 +1,18 @@
-package com.example.kinocms_admin.service.serviceimp;
+package com.example.kinocms_admin.config;
 
 import com.example.kinocms_admin.entity.Page;
 import com.example.kinocms_admin.entity.PageTranslation;
 import com.example.kinocms_admin.enums.LanguageCode;
 import com.example.kinocms_admin.enums.PageType;
+import com.example.kinocms_admin.service.serviceimp.PageServiceImp;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Configuration
 public class DatabaseLoader implements CommandLineRunner {
     private final PageServiceImp pageServiceImp;
 

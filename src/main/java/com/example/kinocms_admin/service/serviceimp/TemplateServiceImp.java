@@ -46,7 +46,7 @@ public class TemplateServiceImp implements TemplateService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteById(Long id) {
         LogUtil.logDeleteNotification("template", "id", id);
         templateRepository.deleteById(id);
         LogUtil.logDeleteInfo("Template", "id", id);

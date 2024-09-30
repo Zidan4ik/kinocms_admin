@@ -9,7 +9,6 @@ import com.example.kinocms_admin.util.LogUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +20,14 @@ public class GalleryServiceImp implements GalleryService {
     private final GalleryRepository galleryRepository;
 
     @Override
-    public void save(Gallery gallery, MultipartFile file) {
+    public void save(Gallery gallery) {
         LogUtil.logSaveNotification("gallery", "id", gallery.getId());
         galleryRepository.save(gallery);
         LogUtil.logSaveAllInfo("gallery");
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteById(Long id) {
         LogUtil.logDeleteNotification("gallery", "id", id);
         galleryRepository.deleteById(id);
         LogUtil.logDeleteInfo("Gallery", "id", id);
@@ -39,6 +38,7 @@ public class GalleryServiceImp implements GalleryService {
     public void deleteAllByFilm(Film film) {
         LogUtil.logDeleteAllNotification("gallery", "film", film);
         galleryRepository.deleteAllByFilm(film);
+        LogUtil.logDeleteAllInfo("Gallery","film");
     }
 
     @Override
@@ -82,7 +82,7 @@ public class GalleryServiceImp implements GalleryService {
                 if (image.isPresent() && !image.get().getLinkImage().isEmpty()) {
                     noExistImages.add(image.get().getLinkImage());
                 }
-                delete(g.getId());
+                deleteById(g.getId());
             }
             if (g.getType() != null) {
                 typePage = g.getType().toString();

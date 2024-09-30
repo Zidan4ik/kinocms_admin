@@ -28,4 +28,9 @@ public class Mark {
     public Mark(String name) {
         this.name = name;
     }
+
+    public Mark(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

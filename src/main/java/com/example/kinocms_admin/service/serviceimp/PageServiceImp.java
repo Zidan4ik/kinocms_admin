@@ -26,10 +26,11 @@ public class PageServiceImp implements PageService {
     private final ImageServiceImp imageServiceImp;
 
     @Override
-    public void save(Page page) {
+    public Page save(Page page) {
         LogUtil.logSaveNotification("page", "id", page.getId());
         pageRepository.save(page);
         LogUtil.logSaveNotification("Page", "id", page.getId());
+        return page;
     }
 
     @Override
@@ -38,7 +39,7 @@ public class PageServiceImp implements PageService {
         String nameImage1 = null;
         String nameImage2 = null;
         String nameImage3 = null;
-        HashMap<String, MultipartFile> mapFile = new HashMap<>();
+        HashMap<String, MultipartFile> mapFile = imageServiceImp.generateFilesMap(filesGalleries);
         if (page.getId() != null) {
             Optional<Page> pageById = getById(page.getId());
             updatePageAttributes(page, pageById);
@@ -59,10 +60,11 @@ public class PageServiceImp implements PageService {
             nameImage3 = imageServiceImp.generateFileName(fileImage3);
             page.setNameImage3(nameImage3);
         }
-        List<Gallery> galleriesRes = imageServiceImp.createGallery(filesGalleries, page, GalleriesType.pages, mapFile);
-        page.setGalleries(galleriesRes);
-        save(page);
+
         try {
+            page.setGalleries(imageServiceImp.createGallery(mapFile, page, GalleriesType.pages));
+            save(page);
+
             if (fileBanner != null && !Objects.requireNonNull(fileBanner.getOriginalFilename()).isEmpty()) {
                 imageServiceImp.saveFile(fileBanner, nameBanner, GalleriesType.pages, ImageType.banner, page.getId());
             }
@@ -76,10 +78,10 @@ public class PageServiceImp implements PageService {
                 imageServiceImp.saveFile(fileImage3, nameImage3, GalleriesType.pages, ImageType.image3, page.getId());
             }
             if (!mapFile.isEmpty()) {
-                imageServiceImp.saveFiles(filesGalleries, mapFile, GalleriesType.pages, page.getId());
+                imageServiceImp.saveFiles(mapFile, GalleriesType.pages, page.getId());
             }
-        } catch (IOException e) {
-            LogUtil.logErrorSavingFiles(e);
+        } catch (RuntimeException | IOException e) {
+            LogUtil.logErrorSavingFiles((IOException) e);
         }
     }
 
@@ -116,7 +118,7 @@ public class PageServiceImp implements PageService {
 
     @Override
     public void updatePageAttributes(Page page, Optional<Page> pageById) {
-        LogUtil.logUpdateNotifications("page","id",page.getId());
+        LogUtil.logUpdateNotifications("page", "id", page.getId());
         pageById.ifPresent(p -> page.setNameBanner(p.getNameBanner()));
         pageById.ifPresent(p -> page.setNameImage1(p.getNameImage1()));
         pageById.ifPresent(p -> page.setNameImage2(p.getNameImage2()));

@@ -107,7 +107,7 @@ public class RestControllers {
         Cinema cinemaEntity = cinemaServiceImp.getById(hallDTO.getCinemaId()).get();
         HallUnifier unifierHall = HallMapper.toEntityAdd(hallDTO);
         unifierHall.getHall().setCinema(cinemaEntity);
-        hallServiceImp.save(unifierHall.getHall(), hallDTO.getFileSchema(), hallDTO.getFileBanner(), hallDTO.getImagesMultipart());
+        hallServiceImp.saveHall(unifierHall.getHall(), hallDTO.getFileSchema(), hallDTO.getFileBanner(), hallDTO.getImagesMultipart());
         return ResponseEntity.ok(hallDTO.getCinemaId());
     }
 
@@ -120,7 +120,7 @@ public class RestControllers {
 
         Optional<Cinema> cinemaById = cinemaServiceImp.getById(hallDTOAdd.getCinemaId());
         cinemaById.ifPresent(cinema -> unifier.getHall().setCinema(cinema));
-        hallServiceImp.save(unifier.getHall(), hallDTOAdd.getFileSchema(), hallDTOAdd.getFileBanner(), hallDTOAdd.getImagesMultipart());
+        hallServiceImp.saveHall(unifier.getHall(), hallDTOAdd.getFileSchema(), hallDTOAdd.getFileBanner(), hallDTOAdd.getImagesMultipart());
         Optional<Hall> hallById = hallServiceImp.getById(hallDTOAdd.getId());
 
         hallById.ifPresent(hall -> ceoBlockServiceImp.saveHall(unifier.getCeoBlockUkr(), hall, LanguageCode.Ukr));
@@ -230,7 +230,7 @@ public class RestControllers {
                         .filter(newContact -> newContact.getId() != null)
                         .anyMatch(newContact -> newContact.getId().equals(contact.getId()));
                 if (!existInNewContacts) {
-                    contactServiceImp.delete(contact.getId());
+                    contactServiceImp.deleteById(contact.getId());
                     imageServiceImp.deleteFiles(GalleriesType.contacts, contact.getId());
                 }
             }

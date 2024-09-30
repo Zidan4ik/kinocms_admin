@@ -12,11 +12,14 @@ import java.util.Map;
 
 public interface ImageService {
     void saveFile(MultipartFile file, String nameLogo, GalleriesType type, ImageType typeImage, Long id) throws IOException;
-    void saveFiles(List<MultipartFile> files, HashMap<String, MultipartFile> mapFiles, GalleriesType type, Long id) throws IOException;
+
+    void saveFiles(HashMap<String, MultipartFile> mapFiles, GalleriesType type, Long id) throws IOException;
 
     String generateFileName(MultipartFile file);
 
-    List<Gallery> createGallery(List<MultipartFile> files, GalleryOwner owner, GalleriesType type, Map<String, MultipartFile> mapFile);
+    List<Gallery> createGallery(HashMap<String,MultipartFile> files, GalleryOwner owner, GalleriesType type);
 
     void deleteFiles(GalleriesType type, Long id);
+
+    Map<String, MultipartFile> generateFilesMap(List<MultipartFile> files);
 }

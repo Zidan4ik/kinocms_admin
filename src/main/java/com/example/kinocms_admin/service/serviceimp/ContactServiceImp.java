@@ -70,7 +70,7 @@ public class ContactServiceImp implements ContactService {
 
     @Transactional
     @Override
-    public void delete(Long id) {
+    public void deleteById(Long id) {
         LogUtil.logDeleteNotification("contact", "id", id);
         contactRepository.deleteById(id);
         LogUtil.logDeleteInfo("Contact", "id", id);
@@ -93,7 +93,7 @@ public class ContactServiceImp implements ContactService {
     }
 
     @Override
-    public void deleteAll(Page page) {
+    public void deleteAllByPage(Page page) {
         LogUtil.logDeleteAllNotification("pages");
         contactRepository.deleteAllByPage(page);
         LogUtil.logDeleteAllInfo("contacts", "page");

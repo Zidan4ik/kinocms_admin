@@ -63,6 +63,7 @@ public class UserServiceImp implements UserService {
         return userByEmail;
     }
 
+    @Override
     public Page<UserDTOView> filtrationAndSortingAndPagination(Pageable pageable, String searchValue) {
         log.info("Filtration&sorting&pagination with searchValue: {} and pageable: {}", searchValue, pageable);
         List<String> userColumns = Arrays.asList("id", "dateOfRegistration", "dateOfBirthday", "phone", "email", "name", "lastName", "nickname", "city");
@@ -76,6 +77,7 @@ public class UserServiceImp implements UserService {
         return userDTOSRes;
     }
 
+    @Override
     public Page<UserDTOView> getAll(Pageable pageable) {
         LogUtil.logGetAllNotification("users", pageable);
         Pageable modifyPageable = PageRequest.of(pageable.getPageNumber(), defaultPageSize);
@@ -84,7 +86,7 @@ public class UserServiceImp implements UserService {
         LogUtil.logPageInfo(page, "Fetching all users");
         return pageUserDTOView;
     }
-
+    @Override
     public List<User> getAllSelected() {
         LogUtil.logGetAllNotification("users", "selected state", true);
         List<User> selectedUsers = userRepository.getAllByIsSelected(true);
@@ -95,12 +97,14 @@ public class UserServiceImp implements UserService {
         return selectedUsers;
     }
 
+    @Override
     public void saveAll(List<User> users) {
         LogUtil.logSaveAllNotifications("users");
         userRepository.saveAll(users);
         LogUtil.logSaveAllInfo("users");
     }
 
+    @Override
     public List<CityCountDTO> findCityWithCounts() {
         log.info("Fetching all cities with count users there");
         List<Object[]> results = userRepository.findAllCitiesWithCountNative();
@@ -111,6 +115,7 @@ public class UserServiceImp implements UserService {
         return citiesCount;
     }
 
+    @Override
     public Integer getCountGenders(boolean isMan) {
         log.info("Fetching count genders with state: {}", isMan);
         int size = userRepository.getAllByIsMan(isMan).size();

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PageService {
-    void save(Page page);
+    Page save(Page page);
 
     void saveImages(Page page, MultipartFile fileBanner, MultipartFile fileImage1, MultipartFile fileImage2, MultipartFile fileImage3, List<MultipartFile> galleries);
 

@@ -11,8 +11,8 @@ public interface ContactService {
     void save(Contact contact);
     void saveImages(Contact contact, MultipartFile fileLogo);
     Optional<Contact> getById(Long id);
-    void delete(Long id);
+    void deleteById(Long id);
     List<Contact> getAll();
     List<Contact> getAllByPage(Page page);
-    void deleteAll(Page page);
+    void deleteAllByPage(Page page);
 }

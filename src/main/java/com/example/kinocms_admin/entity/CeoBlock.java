@@ -101,4 +101,14 @@ public class CeoBlock {
         this.seoText = seoText;
         this.page = page;
     }
+
+    public CeoBlock(Long id, LanguageCode languageCode, PageType pageType, String title, String keywords, String descriptions, String seoText) {
+        this.id = id;
+        this.languageCode = languageCode;
+        this.pageType = pageType;
+        this.title = title;
+        this.keywords = keywords;
+        this.descriptions = descriptions;
+        this.seoText = seoText;
+    }
 }

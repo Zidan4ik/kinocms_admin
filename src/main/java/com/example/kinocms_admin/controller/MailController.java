@@ -73,7 +73,7 @@ public class MailController {
     @GetMapping("/template/{id}/delete")
     @ResponseBody
     public List<TemplateDTO> deleteTemplate(@PathVariable Long id) {
-        templateServiceImp.delete(id);
+        templateServiceImp.deleteById(id);
         ImageUtil.deleteFile(GalleriesType.templates, id);
         List<Template> fiveTemplates = templateServiceImp.getFiveTemplates();
         return TemplateMapper.toListDTO(fiveTemplates);

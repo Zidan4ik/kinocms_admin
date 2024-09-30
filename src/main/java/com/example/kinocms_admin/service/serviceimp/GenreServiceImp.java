@@ -57,6 +57,9 @@ public class GenreServiceImp implements GenreService {
 
     @Override
     public Optional<Genre> getByName(String name) {
-        return genreRepository.findByName(name);
+        LogUtil.logGetNotification("genre", "name", name);
+        Optional<Genre> genreByName = genreRepository.findByName(name);
+        LogUtil.logGetInfo("Genre", "name", name,genreByName.isPresent());
+        return genreByName;
     }
 }

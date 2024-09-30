@@ -3,6 +3,7 @@ package com.example.kinocms_admin.controller;
 import com.example.kinocms_admin.auth.UserDetailsImp;
 import com.example.kinocms_admin.model.CityCountDTO;
 import com.example.kinocms_admin.model.StatisticDTO;
+import com.example.kinocms_admin.service.UserService;
 import com.example.kinocms_admin.service.serviceimp.*;
 import com.example.kinocms_admin.session.ActiveUserService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/admin")
 public class StatisticController {
-    private final UserServiceImp userServiceImpl;
+    private final UserService userService;
     private final CinemaServiceImp cinemaServiceImp;
     private final HallServiceImp hallServiceImp;
     private final NewServiceImp newServiceImp;
@@ -32,11 +33,11 @@ public class StatisticController {
     @GetMapping("/statistic-data")
     @ResponseBody
     public StatisticDTO get(){
-        List<CityCountDTO> cityWithCounts = userServiceImpl.findCityWithCounts();
-        Integer men = userServiceImpl.getCountGenders(true);
-        Integer women = userServiceImpl.getCountGenders(false);
+        List<CityCountDTO> cityWithCounts = userService.findCityWithCounts();
+        Integer men = userService.getCountGenders(true);
+        Integer women = userService.getCountGenders(false);
         Integer cinemas = cinemaServiceImp.getAll().size();
-        Integer halls  = hallServiceImp.getAmountHalls();
+        Integer halls  = hallServiceImp.getAll().size();
         Integer news = newServiceImp.getAll().size();
         Integer shares = shareServiceImp.getAmountShares();
         int countActiveAdmins = activeUserService.getOnlineUsers("ROLE_ADMIN").size();

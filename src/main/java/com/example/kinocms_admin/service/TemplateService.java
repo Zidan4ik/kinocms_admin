@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface TemplateService {
     void save(Template template,MultipartFile file);
-    void delete(Long id);
+    void deleteById(Long id);
     List<Template> getAll();
     List<Template> getFiveTemplates();
     Optional<Template> getById(Long id);

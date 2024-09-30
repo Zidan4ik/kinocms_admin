@@ -11,6 +11,7 @@ import com.example.kinocms_admin.model.BannerPageDTO;
 import com.example.kinocms_admin.service.BannerImageService;
 import com.example.kinocms_admin.service.BannerService;
 import com.example.kinocms_admin.service.serviceimp.ImageServiceImp;
+import com.example.kinocms_admin.util.ImageUtil;
 import com.example.kinocms_admin.util.JsonUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,11 +39,14 @@ public class BannerController {
 
     @GetMapping("/info-banners")
     @ResponseBody
-    public BannerPageDTO getDataBanners() {
+    public BannerPageDTO getDataBanners() throws IOException {
         List<Banner> bannersComponents = bannerService.getAll();
         List<BannerDTO> dtoBannersComponents = BannerMapper.toDTOBannersList(bannersComponents);
-        String pathToFile = imageServiceImp.getFileByPath();
-        return new BannerPageDTO(dtoBannersComponents, pathToFile);
+        Path path1 = ImageUtil.getFileByPath(Path.of("./uploads/background/banner"));
+        String pathToFile1 = path1.toString().substring(1);
+
+
+        return new BannerPageDTO(dtoBannersComponents, pathToFile1);
     }
 
     @PostMapping("/banner-main/save")

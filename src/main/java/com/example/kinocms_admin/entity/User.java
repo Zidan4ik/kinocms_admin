@@ -56,6 +56,55 @@ public class User {
         this.address = address;
     }
 
+    public User(Long id, String name, String lastName, String nickname, String phone, String email, String city, String password, String numberCard, LanguageCode code, boolean isMan, LocalDate dateOfBirthday, LocalDate dateOfRegistration, String address) {
+        this.id = id;
+        this.name = name;
+        this.lastName = lastName;
+        this.nickname = nickname;
+        this.phone = phone;
+        this.email = email;
+        this.city = city;
+        this.password = password;
+        this.numberCard = numberCard;
+        this.code = code;
+        this.isMan = isMan;
+        this.dateOfBirthday = dateOfBirthday;
+        this.dateOfRegistration = dateOfRegistration;
+        this.address = address;
+    }
+
+
+    public User(Long id, String name, String lastName, String nickname, String phone, String email, String city, String password, String numberCard, LanguageCode code, boolean isMan, LocalDate dateOfBirthday) {
+        this.id = id;
+        this.name = name;
+        this.lastName = lastName;
+        this.nickname = nickname;
+        this.phone = phone;
+        this.email = email;
+        this.city = city;
+        this.password = password;
+        this.numberCard = numberCard;
+        this.code = code;
+        this.isMan = isMan;
+        this.dateOfBirthday = dateOfBirthday;
+    }
+
+    public User(Long id, String name, String lastName, String nickname, String phone, String email, String city, String password, String numberCard, LanguageCode code, boolean isMan, LocalDate dateOfBirthday, boolean isSelected) {
+        this.id = id;
+        this.name = name;
+        this.lastName = lastName;
+        this.nickname = nickname;
+        this.phone = phone;
+        this.email = email;
+        this.city = city;
+        this.password = password;
+        this.numberCard = numberCard;
+        this.code = code;
+        this.isMan = isMan;
+        this.dateOfBirthday = dateOfBirthday;
+        this.isSelected = isSelected;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -122,4 +122,25 @@ public class ImageUtil {
             throw new RuntimeException(e);
         }
     }
+
+    public static Path getFileByPath(Path dir) throws IOException {
+        final Path[] foundFile = {null};
+        Files.walkFileTree(dir, new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+                if (foundFile[0] != null) {
+                    return FileVisitResult.TERMINATE;
+                }
+                return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                foundFile[0] = file;
+                return FileVisitResult.TERMINATE;
+            }
+        });
+
+        return foundFile[0];
+    }
 }

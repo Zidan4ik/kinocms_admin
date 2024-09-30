@@ -85,4 +85,13 @@ public class PageTranslation {
         this.description = description;
         this.page = page;
     }
+
+    public PageTranslation(Long id, LanguageCode languageCode, PageType pageType, String title, String description, String conditions) {
+        this.id = id;
+        this.languageCode = languageCode;
+        this.pageType = pageType;
+        this.title = title;
+        this.description = description;
+        this.conditions = conditions;
+    }
 }
