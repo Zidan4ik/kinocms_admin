@@ -1,15 +1,13 @@
 package com.example.kinocms_admin.util;
 
 import com.example.kinocms_admin.entity.*;
+import com.example.kinocms_admin.enums.BannerType;
 import com.example.kinocms_admin.enums.GalleriesType;
 import com.example.kinocms_admin.enums.LanguageCode;
 import com.example.kinocms_admin.enums.PageType;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class TestDataUtil {
     public static List<Mark> loadMarks() {
@@ -149,6 +147,7 @@ public class TestDataUtil {
         gallery3.setId(3L);
         return List.of(gallery1, gallery2, gallery3);
     }
+
     public static List<Contact> loadContact() {
         Contact contact1 = new Contact(1L, "John Doe", "123 Main Street, Springfield",
                 "45.4215,-75.6972", "john_logo.png", new Page()
@@ -164,5 +163,55 @@ public class TestDataUtil {
                 "37.7749,-122.4194", "acme_logo.png", new Page()
         );
         return List.of(contact1, contact2, contact3);
+    }
+
+    public static List<Cinema> loadCinemas() {
+        Cinema cinema1 = new Cinema(1L, "logo_cinema1.png", "banner_cinema1.png",
+                "https://example.com/ceo/cinema1", LocalDate.of(2020, 5, 20),
+                new ArrayList<>(), new ArrayList<>(), new HashSet<>(), new ArrayList<>()
+        );
+
+        Cinema cinema2 = new Cinema(2L, "logo_cinema2.png", "banner_cinema2.png",
+                "https://example.com/ceo/cinema2", LocalDate.of(2018, 10, 15),
+                new ArrayList<>(), new ArrayList<>(), new HashSet<>(), new ArrayList<>()
+        );
+
+        Cinema cinema3 = new Cinema(null, "logo_cinema3.png", "banner_cinema3.png",
+                "https://example.com/ceo/cinema3", LocalDate.of(2022, 1, 5),
+                new ArrayList<>(), new ArrayList<>(), new HashSet<>(), new ArrayList<>()
+        );
+        return List.of(cinema1, cinema2, cinema3);
+    }
+
+    public static List<CeoBlock> loadCeoBlock() {
+        CeoBlock ceoBlock1 = new CeoBlock(1L, LanguageCode.Ukr,
+                PageType.film, "Title 1", "Keywords 1",
+                "Description for page 1", "SEO text for page 1"
+        );
+
+        CeoBlock ceoBlock2 = new CeoBlock(2L, LanguageCode.Eng,
+                PageType.film, "Title 2", "Keywords 2",
+                "Description for page 2", "SEO text for page 2"
+        );
+
+        CeoBlock ceoBlock3 = new CeoBlock(3L, LanguageCode.Ukr,
+                PageType.cinema, "Title 3", "Keywords 3",
+                "Description for page 3", "SEO text for page 3"
+        );
+
+        return List.of(ceoBlock1, ceoBlock2, ceoBlock3);
+    }
+
+    public static List<BannerImage> loadBannerImage() {
+        BannerImage bannerImage1 = new BannerImage(1L, "Image1", "Sample text 1", "http://example.com/image1", new Banner());
+        BannerImage bannerImage2 = new BannerImage(2L, "Image2", "Sample text 2", "http://example.com/image2", new Banner());
+        BannerImage bannerImage3 = new BannerImage(3L, "Image3", "Sample text 3", "http://example.com/image3", new Banner());
+        return List.of(bannerImage1, bannerImage2, bannerImage3);
+    }
+    public static List<Banner> loadBanner(){
+        Banner banner1 = new Banner(1L, 5, true, BannerType.main, null);
+        Banner banner2 = new Banner(2L, 0, false, BannerType.shareAndNew, null);
+        Banner banner3 = new Banner(3L, 10, true, BannerType.main, null);
+        return List.of(banner1,banner2,banner3);
     }
 }
