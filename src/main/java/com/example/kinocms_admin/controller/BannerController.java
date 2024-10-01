@@ -69,7 +69,7 @@ public class BannerController {
                         .filter(newBanner -> newBanner.getId() != null)
                         .anyMatch(newBanner -> newBanner.getId().equals(banner.getId()));
                 if (!existInNewContacts) {
-                    bannerImageService.delete(banner.getId());
+                    bannerImageService.deleteById(banner.getId());
                     imageServiceImp.deleteFiles(GalleriesType.banner, banner.getId());
                 }
             }
@@ -100,7 +100,7 @@ public class BannerController {
                         .filter(newBanner -> newBanner.getId() != null)
                         .anyMatch(newBanner -> newBanner.getId().equals(banner.getId()));
                 if (!existInNewContacts) {
-                    bannerImageService.delete(banner.getId());
+                    bannerImageService.deleteById(banner.getId());
                     imageServiceImp.deleteFiles(GalleriesType.banner, banner.getId());
                 }
             }

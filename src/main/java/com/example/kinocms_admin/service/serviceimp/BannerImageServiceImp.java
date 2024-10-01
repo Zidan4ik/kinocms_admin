@@ -33,7 +33,6 @@ public class BannerImageServiceImp implements BannerImageService {
     public void saveFile(BannerImage bannerImage, MultipartFile file) {
         String uploadDir;
         String fileName = null;
-
         if (bannerImage.getId() != null) {
             Optional<BannerImage> banner = getById(bannerImage.getId());
             banner.ifPresent((object) -> bannerImage.setNameImage(object.getNameImage()));
@@ -67,7 +66,7 @@ public class BannerImageServiceImp implements BannerImageService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteById(Long id) {
         LogUtil.logDeleteNotification("bannerImage", "id", id);
         bannerImageRepository.deleteById(id);
         LogUtil.logDeleteInfo("bannerImage", "id", id);

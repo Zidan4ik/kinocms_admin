@@ -24,7 +24,7 @@ public class BannerServiceImp implements BannerService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteById(Long id) {
         LogUtil.logDeleteNotification("banner", "id", id);
         bannerRepository.deleteById(id);
         LogUtil.logDeleteInfo("Banner", "id", id);

@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface BannerService {
     void save(Banner banner);
-    void delete(Long id);
+    void deleteById(Long id);
     Optional<Banner> getById(Long id);
     List<Banner> getAll();
 }

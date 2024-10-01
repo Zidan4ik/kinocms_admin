@@ -14,7 +14,7 @@ public interface BannerImageService {
 
     void saveFiles(List<BannerImage> bannersImages, List<MultipartFile> files);
 
-    void delete(Long id);
+    void deleteById(Long id);
 
     List<BannerImage> getAll();
     List<BannerImage> getAllByBanner(Banner banner);

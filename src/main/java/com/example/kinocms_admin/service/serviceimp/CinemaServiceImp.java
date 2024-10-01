@@ -38,14 +38,15 @@ public class CinemaServiceImp implements CinemaService {
         HashMap<String, MultipartFile> mapFile = new HashMap<>();
         List<Gallery> galleriesRes = new ArrayList<>();
         if (cinema.getId() != null) {
-            Optional<Cinema> hallById = getById(cinema.getId());
-            if (hallById.isPresent()) {
-                cinema.setNameLogo(hallById.get().getNameLogo());
-                cinema.setNameBanner(hallById.get().getNameBanner());
-            }
-            List<Gallery> galleryByCinema = galleryServiceImp.getAllByCinema(getById(cinema.getId()).get());
-            if (!galleryByCinema.isEmpty()) {
-                cinema.setGalleries(galleryByCinema);
+            Optional<Cinema> cinemaById = getById(cinema.getId());
+            if (cinemaById.isPresent()) {
+                cinema.setNameLogo(cinemaById.get().getNameLogo());
+                cinema.setNameBanner(cinemaById.get().getNameBanner());
+
+                List<Gallery> galleryByCinema = galleryServiceImp.getAllByCinema(cinemaById.get());
+                if (!galleryByCinema.isEmpty()) {
+                    cinema.setGalleries(galleryByCinema);
+                }
             }
             cinema.setCeoBlocks(null);
             cinema.setPageTranslations(null);
