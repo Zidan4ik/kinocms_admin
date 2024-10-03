@@ -59,7 +59,7 @@ public class MailRestController {
 
     @PostMapping("/sendHTML")
     public String sendHTML(@RequestParam(name = "isAll") String isAll,
-                           @ModelAttribute TemplateDTO dto) throws MessagingException {
+                           @ModelAttribute TemplateDTO dto) throws MessagingException, IOException {
         List<User> users = isAll.equals("true") ? userServiceImp.getAll() : userServiceImp.getAllSelected();
         List<String> emails = users.stream().map(User::getEmail).toList();
         String pathToFile = templateServiceImp.getPathToFile(dto);

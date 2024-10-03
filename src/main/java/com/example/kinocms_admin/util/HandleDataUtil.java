@@ -34,9 +34,9 @@ public class HandleDataUtil {
     public static Set<Genre> findSimilarGenre(Set<Genre> genres, GenreServiceImp genreServiceImp) {
         Set<Genre> res = new HashSet<>();
         for (Genre g : genres) {
-            Optional<Genre> name = genreServiceImp.getByName(g.getName());
-            if (name.isPresent()) {
-                res.add(name.get());
+            Optional<Genre> genre = genreServiceImp.getByName(g.getName());
+            if (genre.isPresent()) {
+                res.add(genre.get());
             } else {
                 res.add(g);
             }
