@@ -32,6 +32,7 @@ public class BannerController {
     private final BannerService bannerService;
     private final BannerImageService bannerImageService;
     private final ImageServiceImp imageServiceImp;
+
     @GetMapping("/banners")
     public String pageBanners() {
         return "banner/banners-view";
@@ -44,8 +45,6 @@ public class BannerController {
         List<BannerDTO> dtoBannersComponents = BannerMapper.toDTOBannersList(bannersComponents);
         Path path1 = ImageUtil.getFileByPath(Path.of("./uploads/background/banner"));
         String pathToFile1 = path1.toString().substring(1);
-
-
         return new BannerPageDTO(dtoBannersComponents, pathToFile1);
     }
 
@@ -60,17 +59,18 @@ public class BannerController {
                 break;
             }
         }
-
-        Optional<Banner> bannerById = bannerService.getById(entityBanner.getBanner().getId());
-        if (bannerById.isPresent()) {
-            List<BannerImage> bannerImages = bannerImageService.getAllByBanner(bannerById.get());
-            for (BannerImage banner : bannerImages) {
-                boolean existInNewContacts = entityBanner.getBannerImages().stream()
-                        .filter(newBanner -> newBanner.getId() != null)
-                        .anyMatch(newBanner -> newBanner.getId().equals(banner.getId()));
-                if (!existInNewContacts) {
-                    bannerImageService.deleteById(banner.getId());
-                    imageServiceImp.deleteFiles(GalleriesType.banner, banner.getId());
+        if (entityBanner.getBanner() != null) {
+            Optional<Banner> bannerById = bannerService.getById(entityBanner.getBanner().getId());
+            if (bannerById.isPresent()) {
+                List<BannerImage> bannerImages = bannerImageService.getAllByBanner(bannerById.get());
+                for (BannerImage banner : bannerImages) {
+                    boolean existInNewContacts = entityBanner.getBannerImages().stream()
+                            .filter(newBanner -> newBanner.getId() != null)
+                            .anyMatch(newBanner -> newBanner.getId().equals(banner.getId()));
+                    if (!existInNewContacts) {
+                        bannerImageService.deleteById(banner.getId());
+                        imageServiceImp.deleteFiles(GalleriesType.banner, banner.getId());
+                    }
                 }
             }
         }
@@ -91,7 +91,6 @@ public class BannerController {
                 break;
             }
         }
-
         Optional<Banner> bannerById = bannerService.getById(entityBanner.getBanner().getId());
         if (bannerById.isPresent()) {
             List<BannerImage> bannerImages = bannerImageService.getAllByBanner(bannerById.get());
@@ -115,14 +114,14 @@ public class BannerController {
     @ResponseBody
     public ResponseEntity<Object> saveImageBackground(@RequestParam(name = "file") MultipartFile file) throws IOException {
         String fileName = imageServiceImp.generateFileName(file);
-        imageServiceImp.saveFile(file,fileName,GalleriesType.background, ImageType.banner, 1L);
+        imageServiceImp.saveFile(file, fileName, GalleriesType.background, ImageType.banner, 1L);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @GetMapping("/image-background/delete")
     @ResponseBody
     public ResponseEntity<Object> deleteImageBackground() {
-        imageServiceImp.deleteFiles(GalleriesType.background,1L);
+        imageServiceImp.deleteFiles(GalleriesType.background, 1L);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 

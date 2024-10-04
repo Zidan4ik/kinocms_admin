@@ -28,7 +28,6 @@ class JsonUtilTest {
                 )
         );
         List<ContactDTO> result = JsonUtil.transformationJsonToObject(dto.getContactsTexts(), ContactDTO.class);
-        ;
         assertNotNull(result);
         assertEquals(1, result.size());
     }

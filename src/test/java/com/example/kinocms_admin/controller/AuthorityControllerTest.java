@@ -10,6 +10,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -29,6 +30,6 @@ class AuthorityControllerTest {
         response.andExpectAll(
                 status().isOk(),
                 view().name("auth/login")
-        );
+        ).andDo(print());
     }
 }
