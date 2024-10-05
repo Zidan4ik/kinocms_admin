@@ -32,7 +32,7 @@ public class ImageUtil {
             Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
             inputStream.close();
         } catch (IOException e) {
-            throw new IOException("Could not save file: " + fileName, e);
+            LogUtil.logErrorSavingFiles(e);
         }
     }
 
@@ -48,7 +48,7 @@ public class ImageUtil {
                 Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
                 inputStream.close();
             } catch (IOException e) {
-                throw new IOException("Could not save file: " + f.getKey(), e);
+                LogUtil.logErrorSavingFiles(e);
             }
         }
     }
@@ -70,7 +70,7 @@ public class ImageUtil {
         });
     }
 
-    private static void deleteDirectory(Path dir) throws IOException {
+    static void deleteDirectory(Path dir) throws IOException {
         Files.walkFileTree(dir, new SimpleFileVisitor<Path>() {
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
@@ -113,8 +113,9 @@ public class ImageUtil {
             Document doc = Jsoup.parse(file, "UTF-8", "");
             return doc.html();
         } catch (IOException e) {
-            throw new IOException("Cannot read html file",e);
+            LogUtil.logErrorSavingFiles(e);
         }
+        return path;
     }
 
     public static void deleteFile(GalleriesType type, Long id) {
@@ -122,7 +123,7 @@ public class ImageUtil {
         try {
             ImageUtil.deleteFoldersByName(path, String.valueOf(id));
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
     }
 

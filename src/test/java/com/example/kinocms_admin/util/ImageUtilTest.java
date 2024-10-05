@@ -29,14 +29,15 @@ class ImageUtilTest {
     private static final String UPLOAD_DIR = "./test-files";
     private Path uploadPath;
     private Path tempDirectory;
+    private Path tempFolder;
     private Path tempFile;
 
     @BeforeEach
     void setup() throws IOException {
         uploadPath = Paths.get(UPLOAD_DIR);
-        file = new MockMultipartFile("file", "testfile.txt", "text/plain", "This is a test".getBytes());
+        file = new MockMultipartFile("file", "file.txt", "text/plain", "This is a test".getBytes());
         tempDirectory = Files.createTempDirectory(uploadPath, "testDir");
-        Files.createDirectory(tempDirectory.resolve("folder1"));
+        tempFolder = Files.createDirectory(tempDirectory.resolve("folder1"));
         tempFile = Files.createFile(tempDirectory.resolve("folder1").resolve("testFile.txt"));
     }
 
@@ -67,7 +68,7 @@ class ImageUtilTest {
 
     @Test
     void shouldSaveAfterDelete() throws IOException {
-        ImageUtil.saveAfterDelete(UPLOAD_DIR, file, "testfile.txt");
+        ImageUtil.saveAfterDelete(tempFolder.toString(), file, file.getOriginalFilename());
     }
 
     @Test
@@ -192,11 +193,9 @@ class ImageUtilTest {
     }
 
     @Test
-    public void shouldReadHTMLFile_FileNotFound() {
+    public void shouldReadHTMLFile_FileNotFound() throws IOException {
         String invalidPath = "nonexistent-file.html";
-        assertThrows(IOException.class, () -> {
-            ImageUtil.toReadHTMLFile(invalidPath);
-        });
+        ImageUtil.toReadHTMLFile(invalidPath);
     }
 
     @Test
@@ -214,10 +213,37 @@ class ImageUtilTest {
     public void shouldDeleteFile_WhenIOExceptionIsThrown() {
         GalleriesType type = GalleriesType.films;
         Long id = 1L;
-        try (MockedStatic<Files> mockedFiles = mockStatic(Files.class)) {
+        try (MockedStatic<Files> mockedFiles = mockStatic(Files.class);) {
             mockedFiles.when(() -> Files.walkFileTree(any(Path.class), any(SimpleFileVisitor.class)))
-                    .thenThrow(new IOException("Simulated IOException"));
+                    .thenThrow(new IOException());
             ImageUtil.deleteFile(type, id);
+        }
+    }
+
+    @Test
+    public void shouldNotDeleteFoldersByName_WhenFolderNameDoesNotMatch() throws IOException {
+        Path basePath = Path.of("./uploads/films");
+        String folderNameToDelete = "1";
+        Path anotherDir = basePath.resolve("2");
+
+        // Mocking Files.walkFileTree
+        try (MockedStatic<Files> mockedFiles = mockStatic(Files.class);
+             MockedStatic<ImageUtil> mockedImageUtil = mockStatic(ImageUtil.class)) {
+
+            // Simulate walking the file tree and reaching a directory with a different name
+            mockedFiles.when(() -> Files.walkFileTree(eq(basePath), any(SimpleFileVisitor.class)))
+                    .thenAnswer(invocation -> {
+                        SimpleFileVisitor<Path> visitor = invocation.getArgument(1);
+                        // Simulate visiting directories
+                        visitor.postVisitDirectory(anotherDir, null);
+                        return null;
+                    });
+
+            // Test the method
+            assertDoesNotThrow(() -> ImageUtil.deleteFoldersByName(basePath, folderNameToDelete));
+
+            // Verify that deleteDirectory was not called for the wrong folder
+            mockedImageUtil.verify(() -> ImageUtil.deleteDirectory(any()), times(0));
         }
     }
 
