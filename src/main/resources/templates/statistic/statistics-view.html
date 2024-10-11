@@ -1,12 +1,9 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/core.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/theme-default.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/fonts/tabler-icons.css">
-    <link rel="stylesheet" href="/fontawesome/css/all.min.css">
-    <link rel="stylesheet" href="/styles.css">
-
-    <link rel="stylesheet" href="/vuexy/assets/vendor/libs/apex-charts/apex-charts.css"/>
+    <title>kinocms</title>
+    <th:block th:replace="blocks/links::links"></th:block>
+    <th:block th:replace="blocks/links::linksFontAwesome"></th:block>
+    <link rel="stylesheet" th:href="@{/vuexy/assets/vendor/libs/apex-charts/apex-charts.css}"/>
 </head>
 
 <body>
@@ -185,16 +182,11 @@
 </div>
 <!--/ Layout wrapper -->
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/vuexy/assets/vendor/js/helpers.js"></script>
-<script src="/vuexy/assets/js/config.js"></script>
-<script src="/vuexy/dist/js/bootstrap.js"></script>
-
+<th:block th:replace="blocks/links::scripts"></th:block>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     const ctx = document.getElementById('myChart');
     const ctxGender = document.getElementById('myChartGender').getContext('2d');
-
     function getCities(array) {
         let citiesNames = [];
         for (let i = 0; i < array.length; i++) {
@@ -210,7 +202,6 @@
         }
         return counts;
     }
-
     function printChartCities(array) {
         let names = getCities(array);
         let counts = getCountsCities(array);
@@ -233,7 +224,6 @@
             }
         });
     }
-
     function printChartGenders(amountMen, amountWomen) {
         const data = {
             labels: ['Чоловіки', 'Жінки'],
@@ -246,13 +236,11 @@
                 ]
             }]
         };
-
         const config = {
             type: 'pie',
             data: data,
         };
         new Chart(ctxGender, config);
-
         const canvas = document.getElementById('myChartGender');
         canvas.style.width = '233px';
         canvas.style.height = '233px';
@@ -263,16 +251,14 @@
     let cities = [];
     let amountMen;
     let amountWomen;
-
     function requestGetStatisticData() {
         const request = new XMLHttpRequest();
-        request.open("GET", `/admin/statistic-data`);
+        request.open("GET", `/kinocms/admin/statistic-data`);
         request.setRequestHeader("Content-type", "application/json; charset=utf-8");
         request.send();
         request.addEventListener("load", function () {
                 if (request.status === 200) {
                     let data = JSON.parse(request.response);
-                    console.log(data);
                     cities = data.citiesDTO;
                     amountMen = data.amountMen;
                     amountWomen = data.amountWomen;
@@ -288,7 +274,6 @@
             }
         );
     }
-
     window.addEventListener('DOMContentLoaded', function () {
         requestGetStatisticData();
     });

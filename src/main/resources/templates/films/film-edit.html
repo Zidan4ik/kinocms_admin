@@ -1,13 +1,11 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/core.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/theme-default.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/fonts/tabler-icons.css">
-    <link rel="stylesheet" href="/fontawesome/css/all.min.css">
-    <link rel="stylesheet" href="/vuexy/assets/vendor/libs/tagify/tagify.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/libs/bootstrap-select/bootstrap-select.css"/>
-    <link rel="stylesheet" href="/styles.css">
+    <title>kinocms</title>
+    <th:block th:replace="blocks/links::links"></th:block>
+    <th:block th:replace="blocks/links::linksFontAwesome"></th:block>
+    <th:block th:replace="blocks/links::linksTagify"></th:block>
+    <th:block th:replace="blocks/links::linksBootstrapDatePicker"></th:block>
+    <th:block th:replace="blocks/links::linksBootstrapSelect"></th:block>
 </head>
 
 <body>
@@ -440,41 +438,18 @@
 </div>
 <!--/ Layout wrapper -->
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/vuexy/assets/vendor/js/helpers.js"></script>
-<script src="/vuexy/assets/js/config.js"></script>
-<script src="/vuexy/dist/js/bootstrap.js"></script>
-<script src="/vuexy/assets/vendor/libs/tagify/tagify.js"></script>
-<script src="/vuexy/assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.js"></script>
-<script src="/vuexy/assets/vendor/libs/bootstrap-select/bootstrap-select.js"></script>
-<script src="/script.js"></script>
+<th:block th:replace="blocks/links::scripts"></th:block>
+<script th:src="@{/vuexy/assets/vendor/libs/bootstrap-select/bootstrap-select.js}"></script>
+<script th:src="@{/vuexy/assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.js}"></script>
+<script th:src="@{/script.js}"></script>
 
-<script>
-    $("#bs-datepicker-daterange-ukr").datepicker({
-        format: "dd/mm/yyyy",       // Формат дати
-        // autoclose: true,            // Автоматичне закриття після вибору дати
-        // todayHighlight: true,       // Виділення сьогоднішньої дати
-        // language: "uk",             // Мова інтерфейсу
-        // startDate: "-3d",           // Початкова дата (3 дні тому)
-        // endDate: "+3d",             // Кінцева дата (через 3 дні)
-        // startDate: dateStart,           // Початкова дата (3 дні тому)
-        // endDate: dateEnd,             // Кінцева дата (через 3 дні)
-        // daysOfWeekDisabled: "0,6",  // Вимкнені дні тижня (неділя та субота)
-        // datesDisabled: ['10/07/2024', '15/07/2024'],  // Вимкнені конкретні дати
-        // clearBtn: true,             // Кнопка очищення
-        // toggleActive: true          // Перемикання активної дати
-    });
-    $("#bs-datepicker-daterange-eng").datepicker({format: "dd/mm/yyyy"});
 
-    $("#genresFilm-ukr").selectpicker();
-    $("#genresFilm-eng").selectpicker();
-</script>
 <script>
     window.addEventListener("DOMContentLoaded", () => {
         const path = window.location.pathname;
-        const id = path.split('/')[3];
+        const id = path.split('/')[4];
         const request = new XMLHttpRequest();
-        request.open("GET", `/admin/film/${id}`);
+        request.open("GET", `/kinocms/admin/film/${id}`);
         request.setRequestHeader("Content-type", "application/json; charset=utf-8");
         request.send();
         request.addEventListener("load", function () {
@@ -490,14 +465,13 @@
                     marks = data.marks;
                     genres = data.genres;
                     if (data.image !== '') {
-                        mainImage = "/uploads/films/main-image/" + data.id + "/" + data.image;
+                        mainImage = "/kinocms/uploads/films/main-image/" + data.id + "/" + data.image;
                     }
                     if (data.galleries.length != null) {
                         let temporaryArray = new Array(5);
                         createGallery(temporaryArray);
                         for (let i = 0; i < data.galleries.length; i++) {
                             let object = data.galleries[i];
-                            console.log(object);
                             temporaryArray[i] = {
                                 id: object.id,
                                 idFilm: data.id,
@@ -505,7 +479,7 @@
                                 name: object.linkImage,
                                 file: null,
                                 link: null,
-                                pathToImage: "/uploads/films/galleries/" + data.id + "/" + object.linkImage
+                                pathToImage: "/kinocms/uploads/films/galleries/" + data.id + "/" + object.linkImage
                             }
                         }
                         array = temporaryArray;
@@ -547,10 +521,28 @@
                         marks: data.marks,
                         genres: data.genres,
                         galleries: JSON.parse(JSON.stringify(array)),
-                        mainImage: "/uploads/films/main-image/" + data.id + "/" + data.image
+                        mainImage: "/kinocms/uploads/films/main-image/" + data.id + "/" + data.image
                     }
                     assignDataInputs(languageFlag);
                 }
+            $("#bs-datepicker-daterange-ukr").datepicker({
+                format: "dd/mm/yyyy",       // Формат дати
+                // autoclose: true,            // Автоматичне закриття після вибору дати
+                // todayHighlight: true,       // Виділення сьогоднішньої дати
+                // language: "uk",             // Мова інтерфейсу
+                // startDate: "-3d",           // Початкова дата (3 дні тому)
+                // endDate: "+3d",             // Кінцева дата (через 3 дні)
+                // startDate: dateStart,           // Початкова дата (3 дні тому)
+                // endDate: dateEnd,             // Кінцева дата (через 3 дні)
+                // daysOfWeekDisabled: "0,6",  // Вимкнені дні тижня (неділя та субота)
+                // datesDisabled: ['10/07/2024', '15/07/2024'],  // Вимкнені конкретні дати
+                // clearBtn: true,             // Кнопка очищення
+                // toggleActive: true          // Перемикання активної дати
+            });
+            $("#bs-datepicker-daterange-eng").datepicker({format: "dd/mm/yyyy"});
+
+            $("#genresFilm-ukr").selectpicker();
+            $("#genresFilm-eng").selectpicker();
             }
         )
     });
@@ -668,7 +660,7 @@
                 processData: false,
                 contentType: false,
                 success: function () {
-                    window.location.replace("/admin/films");
+                    window.location.replace("/kinocms/admin/films");
                 },
                 error: function (error) {
                     console.log("Error submitting form:", error);

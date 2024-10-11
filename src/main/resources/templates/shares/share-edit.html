@@ -1,12 +1,10 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/core.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/theme-default.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/fonts/tabler-icons.css">
-    <link rel="stylesheet" href="/fontawesome/css/all.min.css">
-    <link rel="stylesheet" href="/vuexy/assets/vendor/libs/tagify/tagify.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.css"/>
-    <link rel="stylesheet" href="/styles.css">
+    <title>kinocms</title>
+    <th:block th:replace="blocks/links::links"></th:block>
+    <th:block th:replace="blocks/links::linksFontAwesome"></th:block>
+    <th:block th:replace="blocks/links::linksTagify"></th:block>
+    <th:block th:replace="blocks/links::linksBootstrapDatePicker"></th:block>
 </head>
 
 <body>
@@ -420,13 +418,10 @@
 </div>
 <!--/ Layout wrapper -->
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/vuexy/assets/vendor/js/helpers.js"></script>
-<script src="/vuexy/assets/js/config.js"></script>
-<script src="/vuexy/dist/js/bootstrap.js"></script>
-<script src="/vuexy/assets/vendor/libs/tagify/tagify.js"></script>
-<script src="/vuexy/assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.js"></script>
-<script src="/script-share.js"></script>
+<th:block th:replace="blocks/links::scripts"></th:block>
+<script th:src="@{/vuexy/assets/vendor/libs/tagify/tagify.js}"></script>
+<script th:src="@{/vuexy/assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.js}"></script>
+<script th:src="@{/script-share.js}"></script>
 
 <script>
     $("#dateOfPublication-ukr").datepicker({format: "dd/mm/yyyy"});
@@ -519,7 +514,7 @@
                 processData: false,
                 contentType: false,
                 success: function () {
-                    window.location.replace("/admin/shares");
+                    window.location.replace("/kinocms/admin/shares");
                 },
                 error: function (error) {
                     console.log("Error submitting form:", error);
@@ -533,7 +528,7 @@
         if (elementNewId && elementNewId.value) {
             let id = elementNewId.value;
             const request = new XMLHttpRequest();
-            request.open("GET", `/admin/share/${id}`);
+            request.open("GET", `/kinocms/admin/share/${id}`);
             request.setRequestHeader("Content-type", "application/json; charset=utf-8");
             request.send();
             request.addEventListener("load", function () {
@@ -544,10 +539,10 @@
                     marks = data.marks;
                     status = data.status;
                     if (data.nameImage !== '') {
-                        nameImage = "/uploads/shares/image/" + data.id + "/" + data.nameImage;
+                        nameImage = "/kinocms/uploads/shares/image/" + data.id + "/" + data.nameImage;
                     }
                     if (data.nameBanner !== '') {
-                        nameBanner = "/uploads/shares/banner/" + data.id + "/" + data.nameBanner;
+                        nameBanner = "/kinocms/uploads/shares/banner/" + data.id + "/" + data.nameBanner;
                     }
 
                     document.getElementById(`title-ukr`).value = data.titleUkr;
@@ -560,7 +555,6 @@
                     document.getElementById(`keywordsCeo-eng`).value = data.keywordsCeoEng;
                     document.getElementById(`descriptionCeo-ukr`).value = data.descriptionCeoUkr;
                     document.getElementById(`descriptionCeo-eng`).value = data.descriptionCeoEng;
-
                     assignDataInputs(languageFlag);
                 }
             })

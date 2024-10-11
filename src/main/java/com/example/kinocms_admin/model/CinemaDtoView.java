@@ -12,6 +12,6 @@ public class CinemaDtoView {
     private String title;
     private String imageLogo;
     public String getPathToLogo(){
-            return "/uploads/cinemas/logo/"+id+"/"+imageLogo;
+            return "/kinocms/uploads/cinemas/logo/"+id+"/"+imageLogo;
     }
 }

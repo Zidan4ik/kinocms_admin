@@ -1,10 +1,8 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/core.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/theme-default.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/fonts/tabler-icons.css">
-    <link rel="stylesheet" href="/fontawesome/css/all.min.css">
-    <link rel="stylesheet" href="/styles.css">
+   <title>kinocms</title>
+    <th:block th:replace="blocks/links::links"></th:block>
+    <th:block th:replace="blocks/links::linksFontAwesome"></th:block>
 </head>
 
 <body>
@@ -159,11 +157,7 @@
 </div>
 <!--/ Layout wrapper -->
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/vuexy/assets/vendor/js/helpers.js"></script>
-<script src="/vuexy/assets/js/config.js"></script>
-<script src="/vuexy/dist/js/bootstrap.js"></script>
-
+<th:block th:replace="blocks/links::scripts"></th:block>
 <script>
     const elementCheckBoxAllId = document.getElementById("selectAllId");
     const elementCheckBoxSomeId = document.getElementById("selectSomeId");
@@ -262,7 +256,7 @@
     function handlerDeleteTemplate(id) {
 
         const request = new XMLHttpRequest();
-        request.open("GET", `/admin/template/` + id + `/delete`);
+        request.open("GET", `/kinocms/admin/template/` + id + `/delete`);
         request.setRequestHeader("Content-type", "application/json; charset=utf-8");
         request.send();
         request.addEventListener("load", function () {
@@ -295,7 +289,7 @@
             if (progress < 1) {
                 requestAnimationFrame(updateProgress);
             }else{
-                window.location.replace("/admin/mailing");
+                window.location.replace("/kinocms/admin/mailing");
             }
         }
         requestAnimationFrame(updateProgress);
@@ -321,7 +315,7 @@
         }
         $.ajax({
             type: "post",
-            url: "/admin/mail/sendHTML",
+            url: "/kinocms/admin/mail/sendHTML",
             data: formData,
             processData: false,
             contentType: false,
@@ -335,7 +329,7 @@
     }
     function getTemplates() {
         const request = new XMLHttpRequest();
-        request.open("GET", `/admin/templates`);
+        request.open("GET", `/kinocms/admin/templates`);
         request.setRequestHeader("Content-type", "application/json; charset=utf-8");
         request.send();
         request.addEventListener("load", function () {

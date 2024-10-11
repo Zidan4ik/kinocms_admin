@@ -1,13 +1,10 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/core.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/theme-default.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/fonts/tabler-icons.css">
-    <link rel="stylesheet" href="/fontawesome/css/all.min.css">
-    <link rel="stylesheet" href="/vuexy/assets/vendor/libs/tagify/tagify.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/libs/bootstrap-select/bootstrap-select.css"/>
-    <link rel="stylesheet" href="/styles.css">
+    <title>kinocms</title>
+    <th:block th:replace="blocks/links::links"></th:block>
+    <th:block th:replace="blocks/links::linksTagify"></th:block>
+    <th:block th:replace="blocks/links::linksBootstrapDatePicker"></th:block>
+    <th:block th:replace="blocks/links::linksBootstrapSelect"></th:block>
 </head>
 
 <body>
@@ -443,15 +440,10 @@
 </div>
 <!--/ Layout wrapper -->
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/vuexy/assets/vendor/js/helpers.js"></script>
-<script src="/vuexy/assets/js/config.js"></script>
-<script src="/vuexy/dist/js/bootstrap.js"></script>
-<script src="/vuexy/assets/vendor/libs/tagify/tagify.js"></script>
-<script src="/vuexy/assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.js"></script>
-<script src="/vuexy/assets/vendor/libs/bootstrap-select/bootstrap-select.js"></script>
-<script src="/script.js"></script>
-
+<th:block th:replace="blocks/links::scripts"></th:block>
+<script th:src="@{/vuexy/assets/vendor/libs/bootstrap-select/bootstrap-select.js}"></script>
+<script th:src="@{/vuexy/assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.js}"></script>
+<script th:src="@{/script.js}"></script>
 <script>
     $("#bs-datepicker-daterange-ukr").datepicker({format: "dd/mm/yyyy"});
     $("#genresFilm-ukr").selectpicker();
@@ -550,7 +542,7 @@
                 processData: false,
                 contentType: false,
                 success: function () {
-                    window.location.replace("/admin/films");
+                    window.location.replace("/kinocms/admin/films");
                 },
                 error: function (error) {
                     console.log("Error submitting form:", error);

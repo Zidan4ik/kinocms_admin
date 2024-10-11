@@ -1,16 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" class="light-style layout-wide customizer-hide" dir="ltr" data-theme="theme-default"
-      data-assets-path="/vuexy/assets/" data-template="vertical-menu-template" data-style="light">
+      th:data-assets-path="@{/vuexy/assets/}" data-template="vertical-menu-template" data-style="light">
 <head>
     <meta charset="utf-8">
     <title>kinocms</title>
-    <link rel="stylesheet" href="/vuexy/assets/css/demo.css">
-    <link rel="stylesheet" href="/vuexy/assets/vendor/css/pages/page-auth.css">
-    <link rel="stylesheet" type="text/css" href="/vuexy/assets/vendor/css/rtl/core.css"
-          class="template-customizer-core-css">
-    <link rel="stylesheet" type="text/css" href="/vuexy/assets/vendor/css/rtl/theme-default.css"
-          class="template-customizer-theme-css">
-
+    <th:block th:replace="blocks/links::linksAuth"></th:block>
     <style>
         .alertMy {
             position: absolute;
@@ -70,7 +64,7 @@
                         </a>
                     </div>
                     <!-- /Logo -->
-                    <form th:action="@{/login}" method="POST"
+                    <form th:action="@{/admin/login}" method="POST"
                           id="formAuthentication" class="mb-4 fv-plugins-bootstrap5 fv-plugins-framework"
                           novalidate="novalidate">
                         <div class="mb-6 fv-plugins-icon-container fv-plugins-bootstrap5-row-valid">

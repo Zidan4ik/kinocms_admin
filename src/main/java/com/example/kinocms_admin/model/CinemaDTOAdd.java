@@ -39,9 +39,9 @@ public class CinemaDTOAdd {
     private List<String> galleryDTO;
 
     public String getPathToBanner() {
-        return "/uploads/cinemas/banner/" + id + "/" + nameBanner;
+        return "/kinocms/uploads/cinemas/banner/" + id + "/" + nameBanner;
     }
     public String getPathToLogo() {
-        return "/uploads/cinemas/logo/" + id + "/" + nameLogo;
+        return "/kinocms/uploads/cinemas/logo/" + id + "/" + nameLogo;
     }
 }

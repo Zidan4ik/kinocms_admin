@@ -127,10 +127,17 @@ public class LogUtil {
     }
 
     public static void logErrorSavingFiles(IOException e) {
-        log.error("Error saving files in directories",e);
+        log.error("Error saving files in directories", e);
     }
 
     private static void logSavingNewItem(String item) {
         log.info("Saving new {}", item);
+    }
+
+    public static void logClearMarksNotification(String item) {
+        log.info("Clearing marks in {}", item);
+    }
+    public static void logClearMarksInfo(String item) {
+        log.info("Marks were cleared in {}", item);
     }
 }

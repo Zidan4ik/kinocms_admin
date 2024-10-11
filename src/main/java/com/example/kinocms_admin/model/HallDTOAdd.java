@@ -35,9 +35,9 @@ public class HallDTOAdd {
     private MultipartFile fileBannerCinema;
 
     public String getPathToSchema() {
-        return "/uploads/halls/schema/" + id + "/" + nameSchema;
+        return "/kinocms/uploads/halls/schema/" + id + "/" + nameSchema;
     }
     public String getPathToBanner() {
-        return "/uploads/halls/banner/" + id + "/" + nameBanner;
+        return "/kinocms/uploads/halls/banner/" + id + "/" + nameBanner;
     }
 }

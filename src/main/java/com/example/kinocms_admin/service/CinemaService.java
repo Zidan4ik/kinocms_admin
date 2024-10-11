@@ -12,4 +12,5 @@ public interface CinemaService {
     void deleteById(Long id);
     List<Cinema> getAll();
     Optional<Cinema> getById(Long id);
+    void clearMarks(Long id);
 }

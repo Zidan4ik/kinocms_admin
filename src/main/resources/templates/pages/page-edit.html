@@ -1,11 +1,9 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/core.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/theme-default.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/fonts/tabler-icons.css">
-    <link rel="stylesheet" href="/fontawesome/css/all.min.css">
-    <link rel="stylesheet" href="/vuexy/assets/vendor/libs/tagify/tagify.css"/>
-    <link rel="stylesheet" href="/styles.css">
+    <title>kinocms</title>
+    <th:block th:replace="blocks/links::links"></th:block>
+    <th:block th:replace="blocks/links::linksFontAwesome"></th:block>
+    <th:block th:replace="blocks/links::linksTagify"></th:block>
 </head>
 
 <body>
@@ -526,11 +524,8 @@
 </div>
 <!--/ Layout wrapper -->
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/vuexy/assets/vendor/js/helpers.js"></script>
-<script src="/vuexy/assets/js/config.js"></script>
-<script src="/vuexy/dist/js/bootstrap.js"></script>
-<script src="/script-page.js"></script>
+<th:block th:replace="blocks/links::scripts"></th:block>
+<script th:src="@{/script-page.js}"></script>
 
 <script>
     const form = document.querySelector(".pageForm");
@@ -603,7 +598,6 @@
 
         form.onsubmit = function () {
             event.preventDefault();
-            console.log(languageFlag);
             if (languageFlag === 'ukr') {
                 getDataFromInputs('eng');
                 assignDataInputs('eng');
@@ -623,12 +617,12 @@
             let formObject = getFormObject(languageFlag);
             $.ajax({
                 type: "post",
-                url: "/admin/page/"+id+"/edit",
+                url: "/kinocms/admin/page/"+id+"/edit",
                 data: formObject,
                 processData: false,
                 contentType: false,
                 success: function () {
-                    window.location.replace("/admin/pages");
+                    window.location.replace("/kinocms/admin/pages");
                 },
                 error: function (error) {
                     console.log("Error submitting form:", error);
@@ -641,7 +635,7 @@
         if (elementId && elementId.value) {
             let id = elementId.value;
             const request = new XMLHttpRequest();
-            request.open("GET", `/admin/page/${id}`);
+            request.open("GET", `/kinocms/admin/page/${id}`);
             request.setRequestHeader("Content-type", "application/json; charset=utf-8");
             request.send();
             request.addEventListener("load", function () {
@@ -650,24 +644,22 @@
                         urlCeo = data.urlCeo;
                         status = data.status;
                         if (data.nameImage1 !== null) {
-                            nameImage1 = "/uploads/pages/image1/" + data.id + "/" + data.nameImage1;
+                            nameImage1 = "/kinocms/uploads/pages/image1/" + data.id + "/" + data.nameImage1;
                         }
                         if (data.nameImage2 !== null) {
-                            nameImage2 = "/uploads/pages/image2/" + data.id + "/" + data.nameImage2;
+                            nameImage2 = "/kinocms/uploads/pages/image2/" + data.id + "/" + data.nameImage2;
                         }
                         if (data.nameImage3 !== null) {
-                            nameImage3 = "/uploads/pages/image3/" + data.id + "/" + data.nameImage3;
+                            nameImage3 = "/kinocms/uploads/pages/image3/" + data.id + "/" + data.nameImage3;
                         }
                         if (data.nameBanner !== null) {
-                            nameBanner = "/uploads/pages/banner/" + data.id + "/" + data.nameBanner;
-                            console.log(1+" : "+data.nameBanner);
+                            nameBanner = "/kinocms/uploads/pages/banner/" + data.id + "/" + data.nameBanner;
                         }
                         if (data.galleries.length != null) {
                             let temporaryArray = new Array(5);
                             createGallery(temporaryArray);
                             for (let i = 0; i < data.galleries.length; i++) {
                                 let object = data.galleries[i];
-                                console.log("object: " + object);
                                 temporaryArray[i] = {
                                     id: object.id,
                                     idFilm: data.id,
@@ -675,7 +667,7 @@
                                     name: object.linkImage,
                                     file: null,
                                     link: null,
-                                    pathToImage: "/uploads/pages/galleries/" + data.id + "/" + object.linkImage
+                                    pathToImage: "/kinocms/uploads/pages/galleries/" + data.id + "/" + object.linkImage
                                 }
                             }
                             array = temporaryArray;
@@ -700,7 +692,6 @@
                         elementImg3.src = nameImage3;
                         const elementBanner = document.getElementById(`image-banner-download-${languageFlag}`);
                         elementBanner.src = nameBanner;
-
                         assignDataInputs(languageFlag);
                     }
                 }

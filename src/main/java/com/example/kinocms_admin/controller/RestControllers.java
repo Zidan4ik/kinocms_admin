@@ -96,6 +96,12 @@ public class RestControllers {
         cinemaServiceImp.saveCinema(unifier.getCinema(), cinemaDTO.getFileLogo(), cinemaDTO.getFileBanner(), cinemaDTO.getImagesMultipart());
         return ResponseEntity.ok(unifier.getCinema().getId());
     }
+    @PostMapping(value = "/cinema/{id}/temporary/edit")
+    public ResponseEntity<Object> editCinemaTemporary(@ModelAttribute(name = "cinema") CinemaDTOAdd cinemaDTO) {
+        CinemaUnifier unifier = CinemaMapper.toEntityAdd(cinemaDTO);
+        cinemaServiceImp.saveCinema(unifier.getCinema(), cinemaDTO.getFileLogo(), cinemaDTO.getFileBanner(), cinemaDTO.getImagesMultipart());
+        return ResponseEntity.ok(unifier.getCinema().getId());
+    }
 
     @PostMapping("/hall/add")
     public ResponseEntity<Object> addHall(@ModelAttribute(name = "hall") HallDTOAdd hallDTO) {

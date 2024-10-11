@@ -1,10 +1,8 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/core.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/theme-default.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/fonts/tabler-icons.css">
-    <link rel="stylesheet" href="/fontawesome/css/all.min.css">
-    <link rel="stylesheet" href="/styles.css">
+    <title>kinocms</title>
+    <th:block th:replace="blocks/links::links"></th:block>
+    <th:block th:replace="blocks/links::linksFontAwesome"></th:block>
 </head>
 
 <body>
@@ -110,11 +108,8 @@
 </div>
 <!--/ Layout wrapper -->
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/vuexy/assets/vendor/js/helpers.js"></script>
-<script src="/vuexy/assets/js/config.js"></script>
-<script src="/vuexy/dist/js/bootstrap.js"></script>
-<script src="/script-contact.js"></script>
+<th:block th:replace="blocks/links::scripts"></th:block>
+<script th:src="@{/script-contact.js}"></script>
 
 <script>
     const form = document.querySelector(".pageForm");
@@ -127,7 +122,6 @@
                 if (input.value === '') {
                     input.classList.remove('successful');
                     input.classList.add('error');
-                    console.log('input not filled');
                     isValid = false;
                 } else {
                     input.classList.remove('error');
@@ -177,12 +171,12 @@
             let formObject = getFormObject();
             $.ajax({
                 type: "post",
-                url: "/admin/page-contact/" + id + "/edit",
+                url: "/kinocms/admin/page-contact/" + id + "/edit",
                 data: formObject,
                 processData: false,
                 contentType: false,
                 success: function () {
-                    window.location.replace("/admin/pages");
+                    window.location.replace("/kinocms/admin/pages");
                 },
                 error: function (error) {
                     console.log("Error submitting form:", error);
@@ -195,13 +189,12 @@
         if (elementId && elementId.value) {
             let id = elementId.value;
             const request = new XMLHttpRequest();
-            request.open("GET", `/admin/contact/${id}`);
+            request.open("GET", `/kinocms/admin/contact/${id}`);
             request.setRequestHeader("Content-type", "application/json; charset=utf-8");
             request.send();
             request.addEventListener("load", function () {
                     if (request.status === 200) {
                         let data = JSON.parse(request.response);
-                        // console.log("Before data: ", data)
                         if (Array.isArray(data.contactDTO)) {
                             let arrayContacts = [];
                             for (let i = 0; i < data.contactDTO.length; i++) {
@@ -212,7 +205,7 @@
                                     addressUkr: object.addressUkr,
                                     coordinatesUkr: object.coordinatesUkr,
                                     nameLogo: object.imageName,
-                                    pathLogo: "/uploads/contacts/logo/" + object.idContact + "/" + object.imageName
+                                    pathLogo: "/kinocms/uploads/contacts/logo/" + object.idContact + "/" + object.imageName
                                 }
                             }
                             array = arrayContacts;

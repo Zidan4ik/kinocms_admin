@@ -43,6 +43,6 @@ public class FilmDTOAdd {
     private List<Gallery> galleries;
     private List<String> galleryDTO;
     public String getPathToImage(){
-        return "/uploads/films/main-image/"+id+"/"+image;
+        return "/kinocms/uploads/films/main-image/"+id+"/"+image;
     }
 }

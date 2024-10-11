@@ -36,7 +36,7 @@ public class SecurityConfig {
                                 .anyRequest().authenticated())
                 .formLogin(
                         login -> login
-                                .loginPage("/login").permitAll()
+                                .loginPage("/admin/login").permitAll()
                                 .defaultSuccessUrl("/admin/statistics", true))
                 .sessionManagement(
                         session -> session
@@ -47,7 +47,7 @@ public class SecurityConfig {
                 .logout(
                         logout -> logout
                                 .logoutUrl("/logout")
-                                .logoutSuccessUrl("/login?logout")
+                                .logoutSuccessUrl("/admin/login?logout")
                                 .permitAll()
                 )
                 .build();

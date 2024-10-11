@@ -343,8 +343,8 @@ function checkChanging() {
 function redirectToHallAdd() {
     const cinemaId = document.querySelector(`.createHallBtn`).getAttribute("data-cinema-id");
     if (cinemaId !== null) {
-        window.location.href = `/admin/hall/add?cinemaId=${cinemaId}`;
+        window.location.href = `/kinocms/admin/hall/add?cinemaId=${cinemaId}`;
     } else {
-        window.location.href = `/admin/hall/add`;
+        window.location.href = `/kinocms/admin/hall/add`;
     }
 }

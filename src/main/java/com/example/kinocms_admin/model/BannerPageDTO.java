@@ -22,6 +22,6 @@ public class BannerPageDTO {
 
     public BannerPageDTO(List<BannerDTO> bannersDTOS, String pathToBackgroundImage) {
         this.bannersDTOS = bannersDTOS;
-        this.pathToBackgroundImage = pathToBackgroundImage;
+        this.pathToBackgroundImage = "/kinocms"+pathToBackgroundImage;
     }
 }

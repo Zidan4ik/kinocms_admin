@@ -17,6 +17,6 @@ public class FilmInfoDTO {
     private String marks;
     private String genres;
     public String linkToImage(){
-        return "/uploads/films/main-image/"+id+"/"+pathImage;
+        return "/kinocms/uploads/films/main-image/"+id+"/"+pathImage;
     }
 }

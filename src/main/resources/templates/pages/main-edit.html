@@ -1,10 +1,8 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/core.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/theme-default.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/fonts/tabler-icons.css">
-    <link rel="stylesheet" href="/fontawesome/css/all.min.css">
-    <link rel="stylesheet" href="/styles.css">
+    <title>kinocms</title>
+    <th:block th:replace="blocks/links::links"></th:block>
+    <th:block th:replace="blocks/links::linksFontAwesome"></th:block>
 </head>
 
 <body>
@@ -262,11 +260,8 @@
 </div>
 <!--/ Layout wrapper -->
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/vuexy/assets/vendor/js/helpers.js"></script>
-<script src="/vuexy/assets/js/config.js"></script>
-<script src="/vuexy/dist/js/bootstrap.js"></script>
-<script src="/script-main.js"></script>
+<th:block th:replace="blocks/links::scripts"></th:block>
+<script th:src="@{/script-main.js}"></script>
 
 <script>
     const form = document.querySelector(".submitForm");
@@ -290,7 +285,6 @@
 
         form.onsubmit = function () {
             event.preventDefault();
-            console.log(languageFlag);
             if (languageFlag === 'ukr') {
                 getDataFromInputs('eng');
                 assignDataInputs('eng');
@@ -311,7 +305,7 @@
             let formObject = getFormObject(languageFlag);
             $.ajax({
                 type: "post",
-                url: "/admin/page-main/"+id+"/edit",
+                url: "/kinocms/admin/page-main/"+id+"/edit",
                 data: formObject,
                 processData: false,
                 contentType: false,
@@ -329,7 +323,7 @@
         if (elementPageId && elementPageId.value) {
             let id = elementPageId.value;
             const request = new XMLHttpRequest();
-            request.open("GET", `/admin/page-main/${id}`);
+            request.open("GET", `/kinocms/admin/page-main/${id}`);
             request.setRequestHeader("Content-type", "application/json; charset=utf-8");
             request.send();
             request.addEventListener("load", function () {

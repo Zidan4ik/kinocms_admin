@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequiredArgsConstructor
 public class AuthorityController {
-    @GetMapping("/login")
+    @GetMapping("/admin/login")
     public ModelAndView showLogin() {
         return new ModelAndView("auth/login");
     }

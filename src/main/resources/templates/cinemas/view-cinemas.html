@@ -1,9 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/core.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/theme-default.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/fonts/tabler-icons.css">
-    <link rel="stylesheet" href="/styles.css">
+    <title>kinocms</title>
+    <th:block th:replace="blocks/links::links"></th:block>
 </head>
 
 <body>
@@ -93,7 +91,6 @@
 
 </div>
 <!--/ Layout wrapper -->
-
-<script src="/vuexy/dist/js/bootstrap.js"></script>
+<script th:src="@{/vuexy/dist/js/bootstrap.js}"></script>
 </body>
 </html>

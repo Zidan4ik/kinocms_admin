@@ -1,11 +1,9 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/core.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/theme-default.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/fonts/tabler-icons.css">
-    <link rel="stylesheet" href="/fontawesome/css/all.min.css">
-    <link rel="stylesheet" href="/styles.css">
-    <link rel="stylesheet" href="/vuexy/assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.css"/>
+    <title>kinocms</title>
+    <th:block th:replace="blocks/links::links"></th:block>
+    <th:block th:replace="blocks/links::linksFontAwesome"></th:block>
+    <th:block th:replace="blocks/links::linksBootstrapDatePicker"></th:block>
 </head>
 
 <body>
@@ -205,12 +203,8 @@
 </div>
 <!--/ Layout wrapper -->
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/vuexy/assets/vendor/js/helpers.js"></script>
-<script src="/vuexy/assets/js/config.js"></script>
-<script src="/vuexy/dist/js/bootstrap.js"></script>
-<script src="/vuexy/assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.js"></script>
-<script src="/vuexy/dist/js/bootstrap.js"></script>
+<th:block th:replace="blocks/links::scripts"></th:block>
+<script th:src="@{/vuexy/assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.js}"></script>
 <script>
     let dateOfRegistration;
     $("#dateOfBirthday_").datepicker({
@@ -219,8 +213,6 @@
     $("#btnSubmit").click(function () {
         if (validateForm()) {
             requestSave();
-        } else {
-            console.log("lox")
         }
     });
 
@@ -293,7 +285,7 @@
 
     function requestGetUserData(id) {
         const request = new XMLHttpRequest();
-        request.open("GET", `/admin/user/` + id);
+        request.open("GET", `/kinocms/admin/user/` + id);
         request.setRequestHeader("Content-type", "application/json; charset=utf-8");
         request.send();
         request.addEventListener("load", function () {
@@ -312,7 +304,6 @@
                         card: data.card,
                         isMan: data.isMan
                     };
-                    console.log(data);
                     dateOfRegistration=data.dateOfRegistration;
                     assignData(user);
                 }
@@ -348,13 +339,13 @@
         let formData = getUserDate();
         $.ajax({
             type: "post",
-            url: "/admin/user/edit",
+            url: "/kinocms/admin/user/edit",
             data: formData,
             processData: false,
             contentType: false,
             success: function () {
                 console.log("Form hall submitted successfully");
-                window.location.replace("/admin/users")
+                window.location.replace("/kinocms/admin/users")
             },
             error: function (error) {
                 console.log("Error submitting form:", error);

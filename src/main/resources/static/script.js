@@ -107,13 +107,7 @@ function assignDataInputs(languageCode) {
             document.getElementById(`image-main-download-${languageCode}`).src = 'https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg';
         }
     }
-
-
     $(`#genresFilm-${languageCode}`).selectpicker('val', genres);
-// $(`#dateStart-eng`).select
-// $(`#bs-datepicker-daterange-${languageCode}`).datepicker('startDate',dateStart);
-// $(`#bs-datepicker-daterange-${languageCode}`).datepicker('endDate',dateEnd);
-// $(`#bs-datepicker-daterange-${languageCode}`).data('daterangepicker').startDate;
 }
 
 function getFormObject(language) {
@@ -176,10 +170,8 @@ function fileHandle(event) {
 
         } else if (type === "imageDownload-" + languageFlag) {
             const inputElement = document.getElementById("btn-download-image-" + languageFlag);
-            console.log(inputElement);
             inputElement.onchange = function () {
                 const imageElement = document.getElementById("image-main-download-" + languageFlag);
-                console.log(imageElement);
                 imageElement.src = URL.createObjectURL(inputElement.files[0]);
                 fileImageMain = inputElement.files[0];
 
@@ -187,7 +179,6 @@ function fileHandle(event) {
             }
         }
         render();
-        console.log(type + ' : ' + index);
     }
 }
 

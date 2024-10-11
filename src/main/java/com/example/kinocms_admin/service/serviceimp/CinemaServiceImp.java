@@ -93,6 +93,7 @@ public class CinemaServiceImp implements CinemaService {
     @Override
     public void deleteById(Long id) {
         LogUtil.logDeleteNotification("cinema", "id", id);
+        clearMarks(id);
         cinemaRepository.deleteById(id);
         LogUtil.logDeleteInfo("Cinema", "id", id);
     }
@@ -111,5 +112,17 @@ public class CinemaServiceImp implements CinemaService {
         Optional<Cinema> cinemaById = cinemaRepository.findById(id);
         LogUtil.logGetInfo("Cinema", "id", id, cinemaById.isPresent());
         return cinemaById;
+    }
+
+    @Override
+    public void clearMarks(Long id) {
+        LogUtil.logClearMarksNotification("cinema");
+        Optional<Cinema> cinemaById = getById(id);
+        if(cinemaById.isPresent()){
+            Cinema cinema = cinemaById.get();
+            cinema.getMarksList().clear();
+            save(cinema);
+            LogUtil.logClearMarksInfo("cinema");
+        }
     }
 }

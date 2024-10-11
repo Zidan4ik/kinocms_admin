@@ -32,10 +32,10 @@ public class ShareDTOAdd {
     private Boolean status;
 
     public String getPathToImage() {
-        return "/uploads/shares/image/" + id + "/" + nameImage;
+        return "/kinocms/uploads/shares/image/" + id + "/" + nameImage;
     }
 
     public String getPathToBanner() {
-        return "/uploads/shares/banner/" + id + "/" + nameImage;
+        return "/kinocms/uploads/shares/banner/" + id + "/" + nameImage;
     }
 }

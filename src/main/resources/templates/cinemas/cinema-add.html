@@ -1,11 +1,9 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/core.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/theme-default.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/fonts/tabler-icons.css">
-    <link rel="stylesheet" href="/fontawesome/css/all.min.css">
-    <link rel="stylesheet" href="/vuexy/assets/vendor/libs/tagify/tagify.css"/>
-    <link rel="stylesheet" href="/styles.css">
+    <title>kinocms</title>
+    <th:block th:replace="blocks/links::links"></th:block>
+    <th:block th:replace="blocks/links::linksFontAwesome"></th:block>
+    <th:block th:replace="blocks/links::linksTagify"></th:block>
 </head>
 
 <body>
@@ -472,20 +470,16 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="buttons" class="btn btn-primary" id="SaveChanges">Save changes</button>
+                <button type="button" class="btn btn-primary" id="SaveChanges">Save changes</button>
             </div>
         </div>
     </div>
 </div>
 <!--/ Modal -->
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/vuexy/assets/vendor/js/helpers.js"></script>
-<script src="/vuexy/assets/js/config.js"></script>
-<script src="/vuexy/dist/js/bootstrap.js"></script>
-<script src="/vuexy/assets/vendor/libs/tagify/tagify.js"></script>
-<script src="/script-cinema.js"></script>
-
+<th:block th:replace="blocks/links::scripts"></th:block>
+<script th:src="@{/vuexy/assets/vendor/libs/tagify/tagify.js}"></script>
+<script th:src="@{/script-cinema.js}"></script>
 <script>
     const form = document.querySelector(".filmForm");
     const inputForm = document.querySelectorAll(".js-input");
@@ -578,7 +572,7 @@
                 processData: false,
                 contentType: false,
                 success: function () {
-                    window.location.replace("/admin/cinemas");
+                    window.location.replace("/kinocms/admin/cinemas");
                 },
                 error: function (error) {
                     console.log("Error submitting form:", error);
@@ -595,7 +589,7 @@
                 processData: false,
                 contentType: false,
                 success: function (cinemaId) {
-                    window.location.replace("/admin/hall/add?cinemaId=" + cinemaId);
+                    window.location.replace("/kinocms/admin/hall/add?cinemaId=" + cinemaId);
                 },
                 error: function (error) {
                     console.log("Error submitting form:", error);
@@ -608,7 +602,7 @@
             if(elementCinemaId && elementCinemaId.value){
                 let id = elementCinemaId.value;
                 const request = new XMLHttpRequest();
-                request.open("GET", `/admin/cinema/${id}`);
+                request.open("GET", `/kinocms/admin/cinema/${id}`);
                 request.setRequestHeader("Content-type", "application/json; charset=utf-8");
                 request.send();
                 request.addEventListener("load", function () {

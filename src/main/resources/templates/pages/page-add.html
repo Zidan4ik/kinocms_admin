@@ -1,12 +1,9 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/core.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/theme-default.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/fonts/tabler-icons.css">
-    <link rel="stylesheet" href="/fontawesome/css/all.min.css">
-    <link rel="stylesheet" href="/styles.css">
+    <title>kinocms</title>
+    <th:block th:replace="blocks/links::links"></th:block>
+    <th:block th:replace="blocks/links::linksFontAwesome"></th:block>
 </head>
-
 <body>
 <!-- Layout wrapper -->
 <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
@@ -525,11 +522,8 @@
 </div>
 <!--/ Layout wrapper -->
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/vuexy/assets/vendor/js/helpers.js"></script>
-<script src="/vuexy/assets/js/config.js"></script>
-<script src="/vuexy/dist/js/bootstrap.js"></script>
-<script src="/script-page.js"></script>
+<th:block th:replace="blocks/links::scripts"></th:block>
+<script th:src="@{/script-page.js}"></script>
 
 <script>
     const form = document.querySelector(".pageForm");
@@ -602,7 +596,6 @@
 
         form.onsubmit = function () {
             event.preventDefault();
-            console.log(languageFlag);
             if (languageFlag === 'ukr') {
                 getDataFromInputs('eng');
                 assignDataInputs('eng');
@@ -621,12 +614,12 @@
             let formObject = getFormObject(languageFlag);
             $.ajax({
                 type: "post",
-                url: "/admin/page/add",
+                url: "/kinocms/admin/page/add",
                 data: formObject,
                 processData: false,
                 contentType: false,
                 success: function () {
-                    window.location.replace("/admin/pages");
+                    window.location.replace("/kinocms/admin/pages");
                 },
                 error: function (error) {
                     console.log("Error submitting form:", error);

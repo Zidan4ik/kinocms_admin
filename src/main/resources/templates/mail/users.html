@@ -1,11 +1,8 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/core.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/theme-default.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/fonts/tabler-icons.css">
-    <link rel="stylesheet" href="/fontawesome/css/all.min.css">
-    <link rel="stylesheet" href="/styles.css">
-
+    <title>kinocms</title>
+    <th:block th:replace="blocks/links::links"></th:block>
+    <th:block th:replace="blocks/links::linksFontAwesome"></th:block>
     <style>
         .sort-table {
             display: flex;
@@ -138,11 +135,7 @@
 </div>
 <!--/ Layout wrapper -->
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/vuexy/assets/vendor/js/helpers.js"></script>
-<script src="/vuexy/assets/js/config.js"></script>
-<script src="/vuexy/dist/js/bootstrap.js"></script>
-
+<th:block th:replace="blocks/links::scripts"></th:block>
 <script>
     document.querySelectorAll(".sort-table").forEach(function (element) {
         element.addEventListener('click', function () {
@@ -159,10 +152,8 @@
             }
             makeDirectionAttributes(element.dataset.id);
             currentSort.value = element.dataset.id;
-            console.log('element: ', element);
             requestByFilterAndSorting();
         });
-        console.log(element);
     });
 </script>
 <script>
@@ -315,7 +306,7 @@
         requestByFilterAndSorting();
     });
     document.getElementById("btnSubmit").addEventListener('click', function () {
-        window.location.replace("/admin/mailing?isExistUsers=true");
+        window.location.replace("/kinocms/admin/mailing?isExistUsers=true");
     });
 </script>
 <script>
@@ -335,7 +326,7 @@
         formData.append("isSelected", isSelected);
         $.ajax({
             type: "post",
-            url: "/admin/mailing/user-selected/save",
+            url: "/kinocms/admin/mailing/user-selected/save",
             data: formData,
             processData: false,
             contentType: false,
@@ -354,13 +345,12 @@
         if (currentSort.value !== '' && currentSort.direction !== '') {
             line = '&sort=' + currentSort.value + ',' + currentSort.direction;
         }
-        request.open("GET", `/admin/mailing/users-table?page=` + pageNu + `&searchValue=` + searchValue + line);
+        request.open("GET", `/kinocms/admin/mailing/users-table?page=` + pageNu + `&searchValue=` + searchValue + line);
         request.setRequestHeader("Content-type", "application/json; charset=utf-8");
         request.send();
         request.addEventListener("load", function () {
                 if (request.status === 200) {
                     let data = JSON.parse(request.response);
-                    console.log(data);
                     currentUsers = data.pageResponse.content;
                     currentSearchValue = data.searchValue;
                     currentMetaData.size = data.pageResponse.metadata.size;
@@ -390,13 +380,12 @@
             line = '&sort=' + currentSort.value + ',' + currentSort.direction;
         }
         const request = new XMLHttpRequest();
-        request.open("GET", `/admin/mailing/users-table?searchValue=` + value + line);
+        request.open("GET", `/kinocms/admin/mailing/users-table?searchValue=` + value + line);
         request.setRequestHeader("Content-type", "application/json; charset=utf-8");
         request.send();
         request.addEventListener("load", function () {
                 if (request.status === 200) {
                     let data = JSON.parse(request.response);
-                    console.log(data);
                     currentUsers = data.pageResponse.content;
                     currentSearchValue = data.searchValue;
                     currentMetaData.size = data.pageResponse.metadata.size;

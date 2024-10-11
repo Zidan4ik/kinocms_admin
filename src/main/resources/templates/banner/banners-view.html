@@ -1,11 +1,8 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/core.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/css/rtl/theme-default.css"/>
-    <link rel="stylesheet" href="/vuexy/assets/vendor/fonts/tabler-icons.css">
-    <link rel="stylesheet" href="/styles.css">
-    <link rel="stylesheet" href="/vuexy/assets/vendor/libs/select2/select2.css"/>
-
+    <title>kinocms</title>
+    <th:block th:replace="blocks/links::links"></th:block>
+    <link rel="stylesheet" th:href="@{/vuexy/assets/vendor/libs/select2/select2.css}"/>
     <style>
         .disabledMy {
             pointer-events: none;
@@ -60,7 +57,6 @@
                             <div>
                                 <div class="gap-4 row" id="galleryMainId"
                                      style="margin-left: 10px;">
-
                                     <div class="col-2">
                                         <button class="btn btn-secondary" id="btnCreateBlock_"
                                                 style="margin-left: 25px">
@@ -83,7 +79,6 @@
                                 <button class="btn btn-secondary col-2" id="btnSaveBanners_">Зберегти</button>
                             </div>
                         </div>
-
                         <h3 class="d-flex justify-content-center">На головні зверху</h3>
                         <div style="border: solid 1px black; border-radius: 1%;">
                             <div class="d-flex justify-content-between">
@@ -121,7 +116,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <h3 class="d-flex justify-content-center">На головному Новини Акції</h3>
                         <div style="border: solid 1px black; border-radius: 1%;">
                             <div class="d-flex justify-content-between">
@@ -176,11 +170,8 @@
 </div>
 <!--/ Layout wrapper -->
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/vuexy/assets/vendor/js/helpers.js"></script>
-<script src="/vuexy/assets/js/config.js"></script>
-<script src="/vuexy/assets/vendor/libs/select2/select2.js"></script>
-
+<th:block th:replace="blocks/links::scripts"></th:block>
+<script th:src="@{/vuexy/assets/vendor/libs/select2/select2.js}"></script>
 
 <script>
     let bannersMain = [];
@@ -204,7 +195,6 @@
         if (targetElement && targetElement.classList.contains("input-add")) {
             const index = targetElement.dataset.index;
             const type = targetElement.dataset.type;
-            console.log(type + ' : ' + index);
             if (type === "download-main") {
                 const inputElement = document.getElementById("inputDownloadMain_" + index);
                 inputElement.value = '';
@@ -365,13 +355,13 @@
         let formData = getFormDataMain();
         $.ajax({
             type: "post",
-            url: "/admin/banner-main/save",
+            url: "/kinocms/admin/banner-main/save",
             data: formData,
             processData: false,
             contentType: false,
             success: function () {
                 console.log("Banners for page main were submitted successfully");
-                window.location.replace("/admin/banners")
+                window.location.replace("/kinocms/admin/banners")
             },
             error: function (error) {
                 console.log("Error submitting form:", error);
@@ -383,13 +373,13 @@
         let formData = getFormDataShareNew();
         $.ajax({
             type: "post",
-            url: "/admin/banner-share-new/save",
+            url: "/kinocms/admin/banner-share-new/save",
             data: formData,
             processData: false,
             contentType: false,
             success: function () {
                 console.log("Banners for page shares and news were submitted successfully");
-                window.location.replace("/admin/banners");
+                window.location.replace("/kinocms/admin/banners");
             },
             error: function (error) {
                 console.log("Error submitting form:", error);
@@ -458,13 +448,12 @@
 
     function requestDataBanners() {
         const request = new XMLHttpRequest();
-        request.open("GET", `/admin/info-banners`);
+        request.open("GET", `/kinocms/admin/info-banners`);
         request.setRequestHeader("Content-type", "application/json; charset=utf-8");
         request.send();
         request.addEventListener("load", () => {
             if (request.status === 200) {
                 let data = JSON.parse(request.response);
-                console.log(data);
                 let banners = data.bannersDTOS;
                 let resBannersMain = [];
                 let resBannersShareAndNew = [];
@@ -566,8 +555,8 @@
         const request = new XMLHttpRequest();
         request.open("GET", `/admin/image-background/delete`);
         request.send();
-        request.addEventListener("load",()=>{
-            if(request.status === 200){
+        request.addEventListener("load", () => {
+            if (request.status === 200) {
                 console.log("Image for background was deleted successfully")
             }
         });
