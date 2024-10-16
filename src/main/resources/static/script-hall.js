@@ -66,7 +66,7 @@ function assignDataInputs(languageCode) {
     }
 }
 
-function getFormObject(language) {
+function getFormObject() {
     let formObject = new FormData();
     formObject.append("descriptionUkr", $("#description-ukr").val());
     formObject.append("titleCeoUkr", $("#titleCeo-ukr").val());

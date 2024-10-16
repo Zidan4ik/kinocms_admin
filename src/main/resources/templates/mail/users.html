@@ -137,6 +137,7 @@
 
 <th:block th:replace="blocks/links::scripts"></th:block>
 <script>
+    const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
     document.querySelectorAll(".sort-table").forEach(function (element) {
         element.addEventListener('click', function () {
             let type = element.dataset.type;
@@ -306,7 +307,7 @@
         requestByFilterAndSorting();
     });
     document.getElementById("btnSubmit").addEventListener('click', function () {
-        window.location.replace("/kinocms/admin/mailing?isExistUsers=true");
+        window.location.replace(contextPath + "/admin/mailing?isExistUsers=true");
     });
 </script>
 <script>
@@ -326,7 +327,7 @@
         formData.append("isSelected", isSelected);
         $.ajax({
             type: "post",
-            url: "/kinocms/admin/mailing/user-selected/save",
+            url: contextPath + "/admin/mailing/user-selected/save",
             data: formData,
             processData: false,
             contentType: false,
@@ -345,7 +346,7 @@
         if (currentSort.value !== '' && currentSort.direction !== '') {
             line = '&sort=' + currentSort.value + ',' + currentSort.direction;
         }
-        request.open("GET", `/kinocms/admin/mailing/users-table?page=` + pageNu + `&searchValue=` + searchValue + line);
+        request.open("GET", `${contextPath}/admin/mailing/users-table?page=` + pageNu + `&searchValue=` + searchValue + line);
         request.setRequestHeader("Content-type", "application/json; charset=utf-8");
         request.send();
         request.addEventListener("load", function () {
@@ -380,7 +381,7 @@
             line = '&sort=' + currentSort.value + ',' + currentSort.direction;
         }
         const request = new XMLHttpRequest();
-        request.open("GET", `/kinocms/admin/mailing/users-table?searchValue=` + value + line);
+        request.open("GET", `${contextPath}/admin/mailing/users-table?searchValue=` + value + line);
         request.setRequestHeader("Content-type", "application/json; charset=utf-8");
         request.send();
         request.addEventListener("load", function () {

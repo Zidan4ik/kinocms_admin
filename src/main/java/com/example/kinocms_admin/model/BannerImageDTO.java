@@ -13,6 +13,6 @@ public class BannerImageDTO {
     private String text;
     private String url;
     public String getPathToBanner(){
-        return "/kinocms/uploads/banner/"+id+"/"+nameImage;
+        return "/KinoCMSAdmin-R.Pravnyk/uploads/banner/"+id+"/"+nameImage;
     }
 }

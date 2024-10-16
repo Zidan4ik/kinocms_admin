@@ -1,5 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
+    <title>kinocms</title>
     <th:block th:replace="blocks/links::links"></th:block>
 </head>
 
@@ -379,6 +380,7 @@
 <th:block th:replace="blocks/links::scripts"></th:block>
 <script th:src="@{/script-hall.js}"></script>
 <script>
+    const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
     const form = document.querySelector(".filmForm");
     const inputForm = document.querySelectorAll(".js-input");
     const isValidSchema = document.querySelectorAll(".isValid-schema");
@@ -451,7 +453,7 @@
                 contentType: false,
                 success: function (cinemaId) {
                     console.log("Form hall submitted successfully");
-                    window.location.replace("/kinocms/admin/cinema/"+cinemaId+"/edit")
+                    window.location.replace(contextPath + "/admin/cinema/" + cinemaId + "/edit")
                 },
                 error: function (error) {
                     console.log("Error submitting form:", error);

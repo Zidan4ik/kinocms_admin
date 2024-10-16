@@ -3,13 +3,6 @@
     <title>kinocms</title>
     <th:block th:replace="blocks/links::links"></th:block>
     <link rel="stylesheet" th:href="@{/vuexy/assets/vendor/libs/select2/select2.css}"/>
-    <style>
-        .disabledMy {
-            pointer-events: none;
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-    </style>
 </head>
 
 <body>
@@ -170,10 +163,32 @@
 </div>
 <!--/ Layout wrapper -->
 
+<!-- Modal -->
+<div class="modal fade" id="displayModalId" tabindex="-1"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center"
+                 style="border-bottom: solid 1px #e1e1e1;">
+                <h5 class="modal-title" id="exampleModalLabel" style="color: red;">
+                    Попередження</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body d-flex justify-content-center">
+                <p id="paragraphModal_">Щоб зробити фон простим натисніть на кнопку видалити.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/ Modal -->
+
 <th:block th:replace="blocks/links::scripts"></th:block>
 <script th:src="@{/vuexy/assets/vendor/libs/select2/select2.js}"></script>
 
 <script>
+    const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
     let bannersMain = [];
     let bannersShareNew = [];
     let filesMain = [];
@@ -355,13 +370,13 @@
         let formData = getFormDataMain();
         $.ajax({
             type: "post",
-            url: "/kinocms/admin/banner-main/save",
+            url: contextPath + "/admin/banner-main/save",
             data: formData,
             processData: false,
             contentType: false,
             success: function () {
                 console.log("Banners for page main were submitted successfully");
-                window.location.replace("/kinocms/admin/banners")
+                window.location.replace(contextPath + "/admin/banners")
             },
             error: function (error) {
                 console.log("Error submitting form:", error);
@@ -373,13 +388,13 @@
         let formData = getFormDataShareNew();
         $.ajax({
             type: "post",
-            url: "/kinocms/admin/banner-share-new/save",
+            url: contextPath + "/admin/banner-share-new/save",
             data: formData,
             processData: false,
             contentType: false,
             success: function () {
                 console.log("Banners for page shares and news were submitted successfully");
-                window.location.replace("/kinocms/admin/banners");
+                window.location.replace(contextPath + "/admin/banners");
             },
             error: function (error) {
                 console.log("Error submitting form:", error);
@@ -448,12 +463,13 @@
 
     function requestDataBanners() {
         const request = new XMLHttpRequest();
-        request.open("GET", `/kinocms/admin/info-banners`);
+        request.open("GET", `${contextPath}/admin/info-banners`);
         request.setRequestHeader("Content-type", "application/json; charset=utf-8");
         request.send();
         request.addEventListener("load", () => {
             if (request.status === 200) {
                 let data = JSON.parse(request.response);
+                console.log(data);
                 let banners = data.bannersDTOS;
                 let resBannersMain = [];
                 let resBannersShareAndNew = [];
@@ -472,10 +488,11 @@
                         })
                     }
                 });
-                document.getElementById("background_").src = data.pathToBackgroundImage;
-                if (data.pathToBackgroundImage.includes("/background/banner/2/")) {
+
+                if (data.pathToBackgroundImage === null) {
                     document.getElementById("radio2Id_").checked = true;
-                } else if (data.pathToBackgroundImage.includes("/background/banner/1/")) {
+                } else {
+                    document.getElementById("background_").src = `${contextPath}/uploads/background/banner/1/` + data.pathToBackgroundImage;
                     document.getElementById("radio1Id_").checked = true;
                 }
                 render(resBannersMain, resBannersShareAndNew);
@@ -514,11 +531,8 @@
 
     document.querySelectorAll('input[name="backgroundRadio"]').forEach(function (radio) {
         radio.addEventListener('change', function () {
-            if (this.checked) {
-                handleRadioChange(this.value)
-                if (this.value === 'defaultBackground') {
-                    requestDeleteImageBackground();
-                }
+            if (this.checked && this.value === 'defaultBackground') {
+                new bootstrap.Modal(document.getElementById("displayModalId")).show();
             }
         });
     });
@@ -537,13 +551,13 @@
     function requestSaveImageBackground(formData) {
         $.ajax({
             type: "post",
-            url: "/admin/image-background/save",
+            url: contextPath + "/admin/image-background/save",
             data: formData,
             processData: false,
             contentType: false,
             success: function () {
                 console.log("Image was sent successfully");
-                // window.location.replace("/admin/banners")
+                document.getElementById("radio1Id_").checked = true;
             },
             error: function (error) {
                 console.log("Error submitting form:", error);
@@ -553,31 +567,15 @@
 
     function requestDeleteImageBackground() {
         const request = new XMLHttpRequest();
-        request.open("GET", `/admin/image-background/delete`);
+        request.open("GET", contextPath + `/admin/image-background/delete`);
         request.send();
         request.addEventListener("load", () => {
             if (request.status === 200) {
                 console.log("Image for background was deleted successfully")
+                document.getElementById("radio2Id_").checked = true;
             }
         });
     }
-
-    function handleRadioChange(selectedValue) {
-        const imageElement = document.getElementById('background_');
-        let btnAdd = document.querySelector('label[for="btnAddBackground_"]');
-        let btnDelete = document.getElementById("btnRemoveBackground");
-        if (selectedValue === 'imageBackground') {
-            imageElement.style.opacity = '1';
-            btnAdd.classList.remove("disabledMy");
-            btnDelete.classList.remove("disabledMy");
-        } else if (selectedValue === 'defaultBackground') {
-            btnAdd.classList.add('disabledMy');
-            btnDelete.classList.add('disabledMy');
-            imageElement.style.opacity = '0.5';
-            imageElement.src = "/uploads/background/banner/2/default-image.jpg";
-        }
-    }
-
 </script>
 </body>
 </html>

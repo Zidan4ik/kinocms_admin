@@ -70,15 +70,15 @@ public class HallServiceImp implements HallService {
 
         try {
             if (schemaMF != null && !schemaMF.getOriginalFilename().isEmpty()) {
-                uploadDir = "./uploads/halls/schema/" + hall.getId();
+                uploadDir = "/home/slj/projects/KinoCMS-R.Pravnyk/uploads/halls/schema/" + hall.getId();
                 ImageUtil.saveAfterDelete(uploadDir, schemaMF, fileNameSchema);
             }
             if (bannerMF != null && !bannerMF.getOriginalFilename().isEmpty()) {
-                uploadDir = "./uploads/halls/banner/" + hall.getId();
+                uploadDir = "/home/slj/projects/KinoCMS-R.Pravnyk/uploads/halls/banner/" + hall.getId();
                 ImageUtil.saveAfterDelete(uploadDir, bannerMF, fileNameBanner);
             }
             if (!mapFile.isEmpty()) {
-                uploadDir = "./uploads/halls/galleries/" + hall.getId();
+                uploadDir = "/home/slj/projects/KinoCMS-R.Pravnyk/uploads/halls/galleries/" + hall.getId();
                 ImageUtil.savesAfterDelete(uploadDir, mapFile);
             }
         } catch (IOException e) {

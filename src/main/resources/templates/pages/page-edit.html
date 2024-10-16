@@ -526,8 +526,8 @@
 
 <th:block th:replace="blocks/links::scripts"></th:block>
 <script th:src="@{/script-page.js}"></script>
-
 <script>
+    const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
     const form = document.querySelector(".pageForm");
     const inputForm = document.querySelectorAll(".js-input");
     const isValidImage1 = document.querySelectorAll(".isValid-image1");
@@ -617,12 +617,12 @@
             let formObject = getFormObject(languageFlag);
             $.ajax({
                 type: "post",
-                url: "/kinocms/admin/page/"+id+"/edit",
+                url: contextPath + "/admin/page/" + id + "/edit",
                 data: formObject,
                 processData: false,
                 contentType: false,
                 success: function () {
-                    window.location.replace("/kinocms/admin/pages");
+                    window.location.replace(contextPath + "/admin/pages");
                 },
                 error: function (error) {
                     console.log("Error submitting form:", error);
@@ -635,7 +635,7 @@
         if (elementId && elementId.value) {
             let id = elementId.value;
             const request = new XMLHttpRequest();
-            request.open("GET", `/kinocms/admin/page/${id}`);
+            request.open("GET", `${contextPath}/admin/page/${id}`);
             request.setRequestHeader("Content-type", "application/json; charset=utf-8");
             request.send();
             request.addEventListener("load", function () {
@@ -644,16 +644,16 @@
                         urlCeo = data.urlCeo;
                         status = data.status;
                         if (data.nameImage1 !== null) {
-                            nameImage1 = "/kinocms/uploads/pages/image1/" + data.id + "/" + data.nameImage1;
+                            nameImage1 = contextPath + "/uploads/pages/image1/" + data.id + "/" + data.nameImage1;
                         }
                         if (data.nameImage2 !== null) {
-                            nameImage2 = "/kinocms/uploads/pages/image2/" + data.id + "/" + data.nameImage2;
+                            nameImage2 = contextPath + "/uploads/pages/image2/" + data.id + "/" + data.nameImage2;
                         }
                         if (data.nameImage3 !== null) {
-                            nameImage3 = "/kinocms/uploads/pages/image3/" + data.id + "/" + data.nameImage3;
+                            nameImage3 = contextPath + "/uploads/pages/image3/" + data.id + "/" + data.nameImage3;
                         }
                         if (data.nameBanner !== null) {
-                            nameBanner = "/kinocms/uploads/pages/banner/" + data.id + "/" + data.nameBanner;
+                            nameBanner = contextPath + "/uploads/pages/banner/" + data.id + "/" + data.nameBanner;
                         }
                         if (data.galleries.length != null) {
                             let temporaryArray = new Array(5);
@@ -667,7 +667,7 @@
                                     name: object.linkImage,
                                     file: null,
                                     link: null,
-                                    pathToImage: "/kinocms/uploads/pages/galleries/" + data.id + "/" + object.linkImage
+                                    pathToImage: contextPath + "/uploads/pages/galleries/" + data.id + "/" + object.linkImage
                                 }
                             }
                             array = temporaryArray;

@@ -358,7 +358,7 @@
 <script>
     $("#dateOfPublication-ukr").datepicker({format: "dd/mm/yyyy"});
     $("#dateOfPublication-eng").datepicker({format: "dd/mm/yyyy"});
-
+    const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
     const form = document.querySelector(".submitForm");
     const inputForm = document.querySelectorAll(".js-input");
     const isValidImage = document.querySelectorAll(".isValid-image");
@@ -434,7 +434,7 @@
                 processData: false,
                 contentType: false,
                 success: function () {
-                    window.location.replace("/kinocms/admin/news");
+                    window.location.replace(contextPath + "/admin/news");
                 },
                 error: function (error) {
                     console.log("Error submitting form:", error);
@@ -448,7 +448,7 @@
         if (elementNewId && elementNewId.value) {
             let id = elementNewId.value;
             const request = new XMLHttpRequest();
-            request.open("GET", `/kinocms/admin/new/${id}`);
+            request.open("GET", `${contextPath}/admin/new/${id}`);
             request.setRequestHeader("Content-type", "application/json; charset=utf-8");
             request.send();
             request.addEventListener("load", function () {
@@ -459,7 +459,7 @@
                     marks = data.marks;
                     status = data.status;
                     if (data.nameImage !== '') {
-                        nameImage = "/kinocms/uploads/news/image/" + data.id + "/" + data.nameImage;
+                        nameImage = contextPath + "/uploads/news/image/" + data.id + "/" + data.nameImage;
                     }
                     document.getElementById(`title-ukr`).value = data.titleUkr;
                     document.getElementById(`title-eng`).value = data.titleEng;

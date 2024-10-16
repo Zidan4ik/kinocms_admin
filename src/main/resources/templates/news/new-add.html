@@ -357,7 +357,7 @@
 <script>
     $("#dateOfPublication-ukr").datepicker({format: "dd/mm/yyyy"});
     $("#dateOfPublication-eng").datepicker({format: "dd/mm/yyyy"});
-
+    const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
     const form = document.querySelector(".submitForm");
     const inputForm = document.querySelectorAll(".js-input");
     const isValidImage = document.querySelectorAll(".isValid-image");
@@ -422,6 +422,7 @@
                 console.log('Form validation failed');
             }
         };
+
         function ajaxPost() {
             let formObject = getFormObject(languageFlag);
             $.ajax({
@@ -431,7 +432,7 @@
                 processData: false,
                 contentType: false,
                 success: function () {
-                    window.location.replace("/kinocms/admin/news");
+                    window.location.replace(contextPath + "/admin/news");
                 },
                 error: function (error) {
                     console.log("Error submitting form:", error);

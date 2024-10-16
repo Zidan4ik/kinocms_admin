@@ -88,7 +88,7 @@ public class GalleryServiceImp implements GalleryService {
                 typePage = g.getType().toString();
             }
         }
-        String upload = "./uploads/" + typePage + "/galleries/" + id;
+        String upload = "/home/slj/projects/KinoCMS-R.Pravnyk/uploads/" + typePage + "/galleries/" + id;
         ImageUtil.deleteFiles(upload, noExistImages);
     }
 }

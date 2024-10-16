@@ -45,7 +45,7 @@ public class BannerImageServiceImp implements BannerImageService {
         try {
             if (file != null && !Objects.requireNonNull(file.getOriginalFilename()).isEmpty()
                     && !Objects.equals(file.getOriginalFilename(), "exist")) {
-                uploadDir = "./uploads/banner/" + bannerImage.getId();
+                uploadDir = "/home/slj/projects/KinoCMS-R.Pravnyk/uploads/banner/" + bannerImage.getId();
                 ImageUtil.saveAfterDelete(uploadDir, file, fileName);
             }
         } catch (IOException e) {

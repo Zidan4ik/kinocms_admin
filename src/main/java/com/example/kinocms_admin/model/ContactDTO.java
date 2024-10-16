@@ -14,6 +14,6 @@ public class ContactDTO {
     private String coordinatesUkr;
     private String imageName;
     public String getPathToLogo(){
-        return "/kinocms/uploads/contacts/logo/"+idContact+"/"+imageName;
+        return "/KinoCMSAdmin-R.Pravnyk/uploads/contacts/logo/"+idContact+"/"+imageName;
     }
 }

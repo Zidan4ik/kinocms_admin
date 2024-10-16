@@ -43,9 +43,12 @@ public class BannerController {
     public BannerPageDTO getDataBanners() throws IOException {
         List<Banner> bannersComponents = bannerService.getAll();
         List<BannerDTO> dtoBannersComponents = BannerMapper.toDTOBannersList(bannersComponents);
-        Path path1 = ImageUtil.getFileByPath(Path.of("./uploads/background/banner"));
-        String pathToFile1 = path1.toString().substring(1);
-        return new BannerPageDTO(dtoBannersComponents, pathToFile1);
+        Path pathToBackgroundImage = ImageUtil.getFileByPath(Path.of(
+                "/home/slj/projects/KinoCMS-R.Pravnyk/uploads/background/banner"));
+        if(pathToBackgroundImage != null){
+            return new BannerPageDTO(dtoBannersComponents, pathToBackgroundImage.getFileName().toString());
+        }
+        return new BannerPageDTO(dtoBannersComponents, null);
     }
 
     @PostMapping("/banner-main/save")

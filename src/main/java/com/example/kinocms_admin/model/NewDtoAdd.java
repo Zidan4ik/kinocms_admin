@@ -29,6 +29,6 @@ public class NewDtoAdd {
     private String descriptionCeoEng;
     private Boolean status;
     public String getPathToImage(){
-        return "/kinocms/uploads/news/image/"+id+"/"+nameImage;
+        return "/KinoCMSAdmin-R.Pravnyk/uploads/news/image/"+id+"/"+nameImage;
     }
 }

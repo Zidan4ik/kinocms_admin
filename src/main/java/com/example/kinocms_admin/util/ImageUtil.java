@@ -119,7 +119,7 @@ public class ImageUtil {
     }
 
     public static void deleteFile(GalleriesType type, Long id) {
-        Path path = Paths.get("./uploads/" + type.toString());
+        Path path = Paths.get("/home/slj/projects/KinoCMS-R.Pravnyk//uploads/" + type.toString());
         try {
             ImageUtil.deleteFoldersByName(path, String.valueOf(id));
         } catch (IOException e) {

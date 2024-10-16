@@ -185,6 +185,7 @@
 <th:block th:replace="blocks/links::scripts"></th:block>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+    const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
     const ctx = document.getElementById('myChart');
     const ctxGender = document.getElementById('myChartGender').getContext('2d');
     function getCities(array) {
@@ -253,7 +254,7 @@
     let amountWomen;
     function requestGetStatisticData() {
         const request = new XMLHttpRequest();
-        request.open("GET", `/kinocms/admin/statistic-data`);
+        request.open("GET", `${contextPath}/admin/statistic-data`);
         request.setRequestHeader("Content-type", "application/json; charset=utf-8");
         request.send();
         request.addEventListener("load", function () {

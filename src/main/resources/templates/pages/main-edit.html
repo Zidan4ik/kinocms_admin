@@ -262,8 +262,8 @@
 
 <th:block th:replace="blocks/links::scripts"></th:block>
 <script th:src="@{/script-main.js}"></script>
-
 <script>
+    const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
     const form = document.querySelector(".submitForm");
     const inputForm = document.querySelectorAll(".js-input");
     $(document).ready(function () {
@@ -305,7 +305,7 @@
             let formObject = getFormObject(languageFlag);
             $.ajax({
                 type: "post",
-                url: "/kinocms/admin/page-main/"+id+"/edit",
+                url: contextPath + "/admin/page-main/" + id + "/edit",
                 data: formObject,
                 processData: false,
                 contentType: false,
@@ -323,7 +323,7 @@
         if (elementPageId && elementPageId.value) {
             let id = elementPageId.value;
             const request = new XMLHttpRequest();
-            request.open("GET", `/kinocms/admin/page-main/${id}`);
+            request.open("GET", `${contextPath}/admin/page-main/${id}`);
             request.setRequestHeader("Content-type", "application/json; charset=utf-8");
             request.send();
             request.addEventListener("load", function () {

@@ -181,4 +181,14 @@ class LogUtilTest {
     void shouldLogUpdateInfo() {
         LogUtil.logUpdateInfo(item, "id", id);
     }
+
+    @Test
+    void shouldClearMarksNotification() {
+        LogUtil.logClearMarksNotification(item);
+    }
+
+    @Test
+    void shouldClearMarksInfo() {
+        LogUtil.logClearMarksInfo(item);
+    }
 }

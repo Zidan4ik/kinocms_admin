@@ -76,7 +76,6 @@ public class NewController {
     @GetMapping("/new/{id}/delete")
     public ModelAndView deleteNew(@PathVariable Long id){
         ModelAndView model = new ModelAndView("redirect:/admin/news");
-
         newServiceImp.deleteById(id);
         return model;
     }

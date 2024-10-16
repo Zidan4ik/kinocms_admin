@@ -26,7 +26,7 @@ class AuthorityControllerTest {
 
     @Test
     void showLogin() throws Exception {
-        ResultActions response = mockMvc.perform(get("/login"));
+        ResultActions response = mockMvc.perform(get("/admin/login"));
         response.andExpectAll(
                 status().isOk(),
                 view().name("auth/login")

@@ -3,55 +3,55 @@
         style="position: fixed;margin-top:63px;background-color: rgba(255, 255, 255, 0.9);
         box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);">
         <li  th:class="'menu-item '+${isActiveStatistics!=null?'active':''}">
-            <a href="/kinocms/admin/statistics" class="menu-link">
+            <a th:href="@{/admin/statistics}" class="menu-link">
                 <i class="menu-icon ti ti-chart-pie"></i>
                 <div>Статистика</div>
             </a>
         </li>
         <li  th:class="'menu-item '+${isActiveBanners!=null?'active':''}">
-            <a href="/kinocms/admin/banners" class="menu-link">
+            <a th:href="@{/admin/banners}" class="menu-link">
                 <i class="menu-icon ti ti-slideshow"></i>
                 <div>Банера/Слайдери</div>
             </a>
         </li>
         <li th:class="'menu-item '+${isActiveMovies!=null?'active':''}">
-            <a href="/kinocms/admin/films" class="menu-link">
+            <a th:href="@{/admin/films}" class="menu-link">
                 <i class="menu-icon ti ti-movie"></i>
                 <div>Фільми</div>
             </a>
         </li>
         <li  th:class="'menu-item '+${isActiveTheaters!=null?'active':''}">
-            <a href="/kinocms/admin/cinemas" class="menu-link">
+            <a th:href="@{/admin/cinemas}" class="menu-link">
                 <i class="menu-icon ti ti-masks-theater"></i>
                 <div>Кінотеатри</div>
             </a>
         </li>
         <li  th:class="'menu-item '+${isActiveNews!=null?'active':''}">
-            <a href="/kinocms/admin/news" class="menu-link">
+            <a th:href="@{/admin/news}" class="menu-link">
                 <i class="menu-icon ti ti-news"></i>
                 <div>Новини</div>
             </a>
         </li>
         <li  th:class="'menu-item '+${isActiveActions!=null?'active':''}">
-            <a href="/kinocms/admin/shares" class="menu-link">
+            <a th:href="@{/admin/shares}" class="menu-link">
                 <i class="menu-icon ti ti-pig"></i>
                 <div>Акції</div>
             </a>
         </li>
         <li  th:class="'menu-item '+${isActivePages!=null?'active':''}">
-            <a href="/kinocms/admin/pages" class="menu-link">
+            <a th:href="@{/admin/pages}" class="menu-link">
                 <i class="menu-icon ti ti-sitemap"></i>
                 <div>Сторінки</div>
             </a>
         </li>
         <li  th:class="'menu-item '+${isActiveUsers!=null?'active':''}">
-            <a href="/kinocms/admin/users" class="menu-link">
+            <a th:href="@{/admin/users}" class="menu-link">
                 <i class="menu-icon ti ti-users"></i>
                 <div>Користувачі</div>
             </a>
         </li>
         <li  th:class="'menu-item '+${isActiveMails!=null?'active':''}">
-            <a href="/kinocms/admin/mailing" class="menu-link">
+            <a th:href="@{/admin/mailing}" class="menu-link">
                 <i class="menu-icon ti ti-mail-fast"></i>
                 <div>Розсилка</div>
             </a>

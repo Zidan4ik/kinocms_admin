@@ -290,10 +290,10 @@
                                                        type="file"
                                                        style="display: none">
 
-                                                <btn class="input-add"
-                                                     data-index="0" data-type="imageDelete-eng">
+                                                <button class="input-add"
+                                                        data-index="0" data-type="imageDelete-eng">
                                                     Видалити
-                                                </btn>
+                                                </button>
                                             </div>
                                             <div class="isValid-image">
                                             </div>
@@ -324,10 +324,10 @@
                                                        type="file"
                                                        style="display: none">
 
-                                                <btn class="input-add"
-                                                     data-index="0" data-type="bannerDelete-eng">
+                                                <button class="input-add"
+                                                        data-index="0" data-type="bannerDelete-eng">
                                                     Видалити
-                                                </btn>
+                                                </button>
                                             </div>
                                             <div class="isValid-banner">
                                             </div>
@@ -422,11 +422,10 @@
 <script th:src="@{/vuexy/assets/vendor/libs/tagify/tagify.js}"></script>
 <script th:src="@{/vuexy/assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.js}"></script>
 <script th:src="@{/script-share.js}"></script>
-
 <script>
+    const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
     $("#dateOfPublication-ukr").datepicker({format: "dd/mm/yyyy"});
     $("#dateOfPublication-eng").datepicker({format: "dd/mm/yyyy"});
-
     const form = document.querySelector(".submitForm");
     const inputForm = document.querySelectorAll(".js-input");
     const isValidImage = document.querySelectorAll(".isValid-image");
@@ -515,7 +514,7 @@
                 processData: false,
                 contentType: false,
                 success: function () {
-                    window.location.replace("/kinocms/admin/shares");
+                    window.location.replace(contextPath + "/admin/shares");
                 },
                 error: function (error) {
                     console.log("Error submitting form:", error);

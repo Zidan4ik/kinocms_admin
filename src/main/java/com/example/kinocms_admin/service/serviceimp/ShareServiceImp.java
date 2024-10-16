@@ -57,11 +57,11 @@ public class ShareServiceImp implements ShareService {
         save(share);
         try {
             if (fileImage != null && !fileImage.getOriginalFilename().isEmpty()) {
-                uploadDir = "./uploads/shares/image/" + share.getId();
+                uploadDir = "/home/slj/projects/KinoCMS-R.Pravnyk/uploads/shares/image/" + share.getId();
                 ImageUtil.saveAfterDelete(uploadDir, fileImage, fileNameSchema);
             }
             if (fileBanner != null && !fileBanner.getOriginalFilename().isEmpty()) {
-                uploadDir = "./uploads/shares/banner/" + share.getId();
+                uploadDir = "/home/slj/projects/KinoCMS-R.Pravnyk/uploads/shares/banner/" + share.getId();
                 ImageUtil.saveAfterDelete(uploadDir, fileBanner, fileNameBanner);
             }
         } catch (IOException e) {
@@ -72,6 +72,11 @@ public class ShareServiceImp implements ShareService {
     @Override
     public void deleteById(Long id) {
         LogUtil.logDeleteNotification("share", "id", id);
+        Optional<Share> shareId = getById(id);
+        if(shareId.isPresent()){
+            shareId.get().getMarksList().clear();
+            save(shareId.get());
+        }
         shareRepository.deleteById(id);
         LogUtil.logDeleteInfo("Share", "id", id);
     }

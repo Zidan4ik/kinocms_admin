@@ -82,7 +82,7 @@ public class TemplateServiceImp implements TemplateService {
             Optional<Template> templateById = getById(dto.getId());
             if (templateById.isPresent()) {
                 Template template = templateById.get();
-                return "./uploads/templates/file/" + template.getId() + "/" + template.getNameFile();
+                return "/home/slj/projects/KinoCMS-R.Pravnyk/uploads/templates/file/" + template.getId() + "/" + template.getNameFile();
             }
         } else {
             Template entity = new Template();
@@ -90,7 +90,7 @@ public class TemplateServiceImp implements TemplateService {
             Optional<Template> templateById = getById(entity.getId());
             if (templateById.isPresent()) {
                 Template template = templateById.get();
-                return "./uploads/templates/file/" + template.getId() + "/" + template.getNameFile();
+                return "/home/slj/projects/KinoCMS-R.Pravnyk/uploads/templates/file/" + template.getId() + "/" + template.getNameFile();
             }
         }
         return null;

@@ -25,22 +25,23 @@ public class StatisticController {
     private final NewServiceImp newServiceImp;
     private final ShareServiceImp shareServiceImp;
     private final ActiveUserService activeUserService;
+
     @GetMapping("/statistics")
-    public String viewStatistics(){
+    public String viewStatistics() {
         return "statistic/statistics-view";
     }
 
     @GetMapping("/statistic-data")
     @ResponseBody
-    public StatisticDTO get(){
+    public StatisticDTO get() {
         List<CityCountDTO> cityWithCounts = userService.findCityWithCounts();
         Integer men = userService.getCountGenders(true);
         Integer women = userService.getCountGenders(false);
         Integer cinemas = cinemaServiceImp.getAll().size();
-        Integer halls  = hallServiceImp.getAll().size();
+        Integer halls = hallServiceImp.getAll().size();
         Integer news = newServiceImp.getAll().size();
         Integer shares = shareServiceImp.getAmountShares();
         int countActiveAdmins = activeUserService.getOnlineUsers("ROLE_ADMIN").size();
-        return new StatisticDTO(cityWithCounts,men,women,cinemas,halls,news,shares,countActiveAdmins);
+        return new StatisticDTO(cityWithCounts, men, women, cinemas, halls, news, shares, countActiveAdmins);
     }
 }

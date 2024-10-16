@@ -453,7 +453,7 @@
 </script>
 
 <script>
-
+    const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
     const form = document.querySelector(".filmForm");
     const inputForm = document.querySelectorAll(".js-input");
     const isValidImage = document.querySelectorAll(".isValid-image");
@@ -542,7 +542,7 @@
                 processData: false,
                 contentType: false,
                 success: function () {
-                    window.location.replace("/kinocms/admin/films");
+                    window.location.replace(contextPath + "/admin/films");
                 },
                 error: function (error) {
                     console.log("Error submitting form:", error);

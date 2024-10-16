@@ -47,7 +47,7 @@ public class NewServiceImp implements NewService {
         save(newEntity);
         try {
             if (fileImage != null && !fileImage.getOriginalFilename().isEmpty()) {
-                uploadDir = "./uploads/news/image/" + newEntity.getId();
+                uploadDir = "/home/slj/projects/KinoCMS-R.Pravnyk/uploads/news/image/" + newEntity.getId();
                 ImageUtil.saveAfterDelete(uploadDir, fileImage, fileNameSchema);
             }
         } catch (IOException e) {
@@ -58,6 +58,11 @@ public class NewServiceImp implements NewService {
     @Override
     public void deleteById(Long id) {
         LogUtil.logDeleteNotification("new", "id", id);
+        Optional<New> newId = getById(id);
+        if(newId.isPresent()){
+            newId.get().getMarksList().clear();;
+            save(newId.get());
+        }
         newRepository.deleteById(id);
         LogUtil.logDeleteInfo("New", "id", id);
     }

@@ -445,11 +445,12 @@
 
 
 <script>
+    const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
     window.addEventListener("DOMContentLoaded", () => {
         const path = window.location.pathname;
         const id = path.split('/')[4];
         const request = new XMLHttpRequest();
-        request.open("GET", `/kinocms/admin/film/${id}`);
+        request.open("GET", `/KinoCMSAdmin-R.Pravnyk/admin/film/${id}`);
         request.setRequestHeader("Content-type", "application/json; charset=utf-8");
         request.send();
         request.addEventListener("load", function () {
@@ -465,7 +466,7 @@
                     marks = data.marks;
                     genres = data.genres;
                     if (data.image !== '') {
-                        mainImage = "/kinocms/uploads/films/main-image/" + data.id + "/" + data.image;
+                        mainImage = contextPath + "/uploads/films/main-image/" + data.id + "/" + data.image;
                     }
                     if (data.galleries.length != null) {
                         let temporaryArray = new Array(5);
@@ -479,7 +480,7 @@
                                 name: object.linkImage,
                                 file: null,
                                 link: null,
-                                pathToImage: "/kinocms/uploads/films/galleries/" + data.id + "/" + object.linkImage
+                                pathToImage: contextPath + "/uploads/films/galleries/" + data.id + "/" + object.linkImage
                             }
                         }
                         array = temporaryArray;
@@ -521,28 +522,28 @@
                         marks: data.marks,
                         genres: data.genres,
                         galleries: JSON.parse(JSON.stringify(array)),
-                        mainImage: "/kinocms/uploads/films/main-image/" + data.id + "/" + data.image
+                        mainImage: contextPath + "/uploads/films/main-image/" + data.id + "/" + data.image
                     }
                     assignDataInputs(languageFlag);
                 }
-            $("#bs-datepicker-daterange-ukr").datepicker({
-                format: "dd/mm/yyyy",       // Формат дати
-                // autoclose: true,            // Автоматичне закриття після вибору дати
-                // todayHighlight: true,       // Виділення сьогоднішньої дати
-                // language: "uk",             // Мова інтерфейсу
-                // startDate: "-3d",           // Початкова дата (3 дні тому)
-                // endDate: "+3d",             // Кінцева дата (через 3 дні)
-                // startDate: dateStart,           // Початкова дата (3 дні тому)
-                // endDate: dateEnd,             // Кінцева дата (через 3 дні)
-                // daysOfWeekDisabled: "0,6",  // Вимкнені дні тижня (неділя та субота)
-                // datesDisabled: ['10/07/2024', '15/07/2024'],  // Вимкнені конкретні дати
-                // clearBtn: true,             // Кнопка очищення
-                // toggleActive: true          // Перемикання активної дати
-            });
-            $("#bs-datepicker-daterange-eng").datepicker({format: "dd/mm/yyyy"});
+                $("#bs-datepicker-daterange-ukr").datepicker({
+                    format: "dd/mm/yyyy",       // Формат дати
+                    // autoclose: true,            // Автоматичне закриття після вибору дати
+                    // todayHighlight: true,       // Виділення сьогоднішньої дати
+                    // language: "uk",             // Мова інтерфейсу
+                    // startDate: "-3d",           // Початкова дата (3 дні тому)
+                    // endDate: "+3d",             // Кінцева дата (через 3 дні)
+                    // startDate: dateStart,           // Початкова дата (3 дні тому)
+                    // endDate: dateEnd,             // Кінцева дата (через 3 дні)
+                    // daysOfWeekDisabled: "0,6",  // Вимкнені дні тижня (неділя та субота)
+                    // datesDisabled: ['10/07/2024', '15/07/2024'],  // Вимкнені конкретні дати
+                    // clearBtn: true,             // Кнопка очищення
+                    // toggleActive: true          // Перемикання активної дати
+                });
+                $("#bs-datepicker-daterange-eng").datepicker({format: "dd/mm/yyyy"});
 
-            $("#genresFilm-ukr").selectpicker();
-            $("#genresFilm-eng").selectpicker();
+                $("#genresFilm-ukr").selectpicker();
+                $("#genresFilm-eng").selectpicker();
             }
         )
     });
@@ -614,7 +615,7 @@
                 input.textContent = "";
             }
         })
-        
+
         genresValidParagraphs.forEach(function (input) {
             if (genresCurrent.length === 0) {
                 input.textContent = "More than one genre was not selected";
@@ -660,7 +661,7 @@
                 processData: false,
                 contentType: false,
                 success: function () {
-                    window.location.replace("/kinocms/admin/films");
+                    window.location.replace(contextPath + "/admin/films");
                 },
                 error: function (error) {
                     console.log("Error submitting form:", error);

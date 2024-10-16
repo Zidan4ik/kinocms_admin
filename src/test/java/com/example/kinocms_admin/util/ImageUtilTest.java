@@ -35,6 +35,9 @@ class ImageUtilTest {
     @BeforeEach
     void setup() throws IOException {
         uploadPath = Paths.get(UPLOAD_DIR);
+        if (Files.notExists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
         file = new MockMultipartFile("file", "file.txt", "text/plain", "This is a test".getBytes());
         tempDirectory = Files.createTempDirectory(uploadPath, "testDir");
         tempFolder = Files.createDirectory(tempDirectory.resolve("folder1"));

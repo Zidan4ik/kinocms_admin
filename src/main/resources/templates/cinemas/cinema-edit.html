@@ -52,7 +52,7 @@
                                 </div>
                             </ul>
                         </div>
-                        <form method="post" class="filmForm" enctype="multipart/form-data">
+                        <form method="post" class="cinemaForm" enctype="multipart/form-data">
                             <div class="tab-content" id="pills-tabContent">
                                 <div class="tab-pane fade show active" id="pills-ukraine" role="tabpanel"
                                      aria-labelledby="pills-ukraine-tab" tabindex="0">
@@ -85,7 +85,7 @@
                                                 <div class="col image-container">
                                                     <img id="image-logo-download-ukr"
                                                          src="https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg"
-                                                         style="height: 150px;width: 300px;">
+                                                         style="height: 150px;width: 300px;" alt="error">
                                                 </div>
                                             </div>
                                         </div>
@@ -98,10 +98,10 @@
                                                        type="file"
                                                        style="display: none">
 
-                                                <btn class="input-add"
+                                                <button class="input-add"
                                                      data-index="0" data-type="logoDelete-ukr">
                                                     Видалити
-                                                </btn>
+                                                </button>
                                             </div>
                                             <div class="isValid-logo">
                                             </div>
@@ -118,7 +118,7 @@
                                                 <div class="col image-container">
                                                     <img id="image-banner-download-ukr"
                                                          src="https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg"
-                                                         style="height: 150px;width: 300px;">
+                                                         style="height: 150px;width: 300px;" alt="error">
                                                 </div>
                                             </div>
                                         </div>
@@ -131,10 +131,10 @@
                                                        type="file"
                                                        style="display: none">
 
-                                                <btn class="input-add"
+                                                <button class="input-add"
                                                      data-index="0" data-type="bannerDelete-ukr">
                                                     Видалити
-                                                </btn>
+                                                </button>
                                             </div>
                                             <div class="isValid-banner">
                                             </div>
@@ -284,7 +284,7 @@
                                                 <div class="col image-container">
                                                     <img id="image-logo-download-eng"
                                                          src="https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg"
-                                                         style="height: 150px;width: 300px;">
+                                                         style="height: 150px;width: 300px;" alt="error">
                                                 </div>
                                             </div>
                                         </div>
@@ -292,15 +292,15 @@
                                             <div class="d-flex gap-5">
                                                 <label class="input-add" for="btn-download-logo-eng"
                                                        data-index="0" data-type="logoDownload-eng">
-                                                    Добавити</label>
+                                                    Add</label>
                                                 <input id="btn-download-logo-eng"
                                                        type="file"
                                                        style="display: none">
 
-                                                <btn class="input-add"
+                                                <button class="input-add"
                                                      data-index="0" data-type="logoDelete-eng">
                                                     Видалити
-                                                </btn>
+                                                </button>
                                             </div>
                                             <div class="isValid-logo">
                                             </div>
@@ -315,23 +315,23 @@
                                                 <div class="col image-container">
                                                     <img id="image-banner-download-eng"
                                                          src="https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg"
-                                                         style="height: 150px;width: 300px;">
+                                                         style="height: 150px;width: 300px;" alt="error">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col d-flex flex-column align-items-center justify-content-center">
                                             <div class="d-flex gap-5">
-                                                <label class="input-add" for="btn-download-banner-ukr"
-                                                       data-index="0" data-type="bannerDownload-ukr">
+                                                <label class="input-add" for="btn-download-banner-eng"
+                                                       data-index="0" data-type="bannerDownload-eng">
                                                     Add</label>
                                                 <input id="btn-download-banner-eng"
                                                        type="file"
                                                        style="display: none">
 
-                                                <btn class="input-add"
+                                                <button class="input-add"
                                                      data-index="0" data-type="bannerDelete-eng">
                                                     Remove
-                                                </btn>
+                                                </button>
                                             </div>
                                             <div class="isValid-banner">
                                             </div>
@@ -462,19 +462,19 @@
 </div>
 <!--/ Layout wrapper -->
 
-<!-- Modal -->
+<!-- Modal-->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Попередження</h5>
             </div>
             <div class="modal-body">
-                <p>The data has been changed. Do you want to save them to the DataBase?</p>
+                <p id="modalP_">Дані були змінені. Чи хочете зберегти їх?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="buttons" class="btn btn-primary" id="SaveChanges">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрити</button>
+                <button type="button" class="btn btn-primary" id="SaveChanges">Зберегти зміни</button>
             </div>
         </div>
     </div>
@@ -484,7 +484,8 @@
 <th:block th:replace="blocks/links::scripts"></th:block>
 <script th:src="@{/script-cinema.js}"></script>
 <script>
-    const form = document.querySelector(".filmForm");
+    const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
+    const form = document.querySelector(".cinemaForm");
     const inputForm = document.querySelectorAll(".js-input");
     const isValidLogo = document.querySelectorAll(".isValid-logo");
     const isValidBanner = document.querySelectorAll(".isValid-banner");
@@ -494,7 +495,7 @@
         function validateForm() {
             let isValid = true;
             inputForm.forEach(function (input) {
-                if (input.value === '' ) {
+                if (input.value === '') {
                     input.classList.remove('successful');
                     input.classList.add('error');
                     console.log('input not filled');
@@ -518,7 +519,7 @@
             });
             isValidBanner.forEach(function (input) {
                 input.innerHTML = "";
-                if (fileBanner === null & imageBanner === null) {
+                if (fileBanner === null && imageBanner === null) {
                     let paragraph = document.createElement("p");
                     paragraph.textContent = "The file was not downloaded";
                     paragraph.style.color = "red";
@@ -574,7 +575,7 @@
                 processData: false,
                 contentType: false,
                 success: function () {
-                    window.location.replace("/kinocms/admin/cinemas");
+                    window.location.replace(contextPath + "/admin/cinemas");
                 },
                 error: function (error) {
                     console.log("Error submitting form:", error);
@@ -591,7 +592,7 @@
                 processData: false,
                 contentType: false,
                 success: function (cinemaId) {
-                    window.location.replace("/kinocms/admin/hall/add?cinemaId=" + cinemaId);
+                    window.location.replace(contextPath + "/admin/hall/add?cinemaId=" + cinemaId);
                 },
                 error: function (error) {
                     console.log("Error submitting form:", error);
@@ -604,7 +605,7 @@
         if (elementCinemaId && elementCinemaId.value) {
             let id = elementCinemaId.value;
             const request = new XMLHttpRequest();
-            request.open("GET", `/kinocms/admin/cinema/${id}`);
+            request.open("GET", `${contextPath}/admin/cinema/${id}`);
             request.setRequestHeader("Content-type", "application/json; charset=utf-8");
             request.send();
             request.addEventListener("load", function () {
@@ -613,10 +614,10 @@
                         urlCeo = data.urlCeo;
                         marks = data.marks;
                         if (data.nameLogo !== null) {
-                            imageLogo = "/kinocms/uploads/cinemas/logo/" + data.id + "/" + data.nameLogo;
+                            imageLogo = contextPath + "/uploads/cinemas/logo/" + data.id + "/" + data.nameLogo;
                         }
                         if (data.nameBanner !== null) {
-                            imageBanner = "/kinocms/uploads/cinemas/banner/" + data.id + "/" + data.nameBanner;
+                            imageBanner = contextPath + "/uploads/cinemas/banner/" + data.id + "/" + data.nameBanner;
                         }
                         if (data.galleries.length != null) {
                             let temporaryArray = new Array(5);
@@ -630,7 +631,7 @@
                                     name: object.linkImage,
                                     file: null,
                                     link: null,
-                                    pathToImage: "/kinocms/uploads/cinemas/galleries/" + data.id + "/" + object.linkImage
+                                    pathToImage: contextPath + "/uploads/cinemas/galleries/" + data.id + "/" + object.linkImage
                                 }
                             }
                             array = temporaryArray;

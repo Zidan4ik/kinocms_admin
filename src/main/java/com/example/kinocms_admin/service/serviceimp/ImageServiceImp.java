@@ -22,7 +22,7 @@ public class ImageServiceImp implements ImageService {
     public void saveFile(MultipartFile file, String nameLogo, GalleriesType type, ImageType imageType, Long id) throws IOException {
         if (file != null && !Objects.requireNonNull(file.getOriginalFilename()).isEmpty()) {
             log.info("Saving {} with id: {} in directory", file.getOriginalFilename(), id);
-            String uploadDir = "./uploads/" + type.toString() + "/" + imageType.toString() + "/" + id;
+            String uploadDir = "/home/slj/projects/KinoCMS-R.Pravnyk/uploads/" + type.toString() + "/" + imageType.toString() + "/" + id;
             ImageUtil.saveAfterDelete(uploadDir, file, nameLogo);
             log.info("File: {} was successfully saved in directory ({})", file.getOriginalFilename(), uploadDir);
         } else {
@@ -33,7 +33,7 @@ public class ImageServiceImp implements ImageService {
     @Override
     public void saveFiles(HashMap<String, MultipartFile> mapFiles, GalleriesType type, Long id) throws IOException {
         log.info("Saving files in directory");
-        String uploadDir = "./uploads/" + type.toString() + "/galleries/" + id;
+        String uploadDir = "/home/slj/projects/KinoCMS-R.Pravnyk/uploads/" + type.toString() + "/galleries/" + id;
         ImageUtil.savesAfterDelete(uploadDir, mapFiles);
         log.info("Files were successfully saved in directory");
     }

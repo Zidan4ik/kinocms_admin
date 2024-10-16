@@ -68,11 +68,11 @@ public class FilmServiceImp implements FilmService {
 
         try {
             if (file != null && !file.getOriginalFilename().isEmpty()) {
-                uploadDir = "./uploads/films/main-image/" + film.getId();
+                uploadDir = "/home/slj/projects/KinoCMS-R.Pravnyk/uploads/films/main-image/" + film.getId();
                 ImageUtil.saveAfterDelete(uploadDir, file, fileName);
             }
             if (!mapFile.isEmpty()) {
-                uploadDir = "./uploads/films/galleries/" + film.getId();
+                uploadDir = "/home/slj/projects/KinoCMS-R.Pravnyk/uploads/films/galleries/" + film.getId();
                 ImageUtil.savesAfterDelete(uploadDir, mapFile);
             }
         } catch (IOException e) {

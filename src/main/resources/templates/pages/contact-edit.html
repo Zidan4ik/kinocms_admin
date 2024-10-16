@@ -112,8 +112,8 @@
 <script th:src="@{/script-contact.js}"></script>
 
 <script>
+    const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
     const form = document.querySelector(".pageForm");
-
     $(document).ready(function () {
         function validateForm() {
             const inputForm = document.querySelectorAll(".js-input");
@@ -171,12 +171,12 @@
             let formObject = getFormObject();
             $.ajax({
                 type: "post",
-                url: "/kinocms/admin/page-contact/" + id + "/edit",
+                url: contextPath + "/admin/page-contact/" + id + "/edit",
                 data: formObject,
                 processData: false,
                 contentType: false,
                 success: function () {
-                    window.location.replace("/kinocms/admin/pages");
+                    window.location.replace(contextPath + "/admin/pages");
                 },
                 error: function (error) {
                     console.log("Error submitting form:", error);
@@ -189,7 +189,7 @@
         if (elementId && elementId.value) {
             let id = elementId.value;
             const request = new XMLHttpRequest();
-            request.open("GET", `/kinocms/admin/contact/${id}`);
+            request.open("GET", `${contextPath}/admin/contact/${id}`);
             request.setRequestHeader("Content-type", "application/json; charset=utf-8");
             request.send();
             request.addEventListener("load", function () {
@@ -205,7 +205,7 @@
                                     addressUkr: object.addressUkr,
                                     coordinatesUkr: object.coordinatesUkr,
                                     nameLogo: object.imageName,
-                                    pathLogo: "/kinocms/uploads/contacts/logo/" + object.idContact + "/" + object.imageName
+                                    pathLogo: contextPath + "/uploads/contacts/logo/" + object.idContact + "/" + object.imageName
                                 }
                             }
                             array = arrayContacts;

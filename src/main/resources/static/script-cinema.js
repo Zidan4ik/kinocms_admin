@@ -181,7 +181,7 @@ function render() {
             galleriesElementEng.insertAdjacentHTML('beforeend', getBlock(array[i], i));
         }
     }
-};
+}
 
 function getBlock(object, index) {
     const blockId = `image-download-${index}-${languageFlag}`;
@@ -249,45 +249,40 @@ let TagifyCustomInlineSuggestion_ENG = new Tagify(TagifyCustomInlineSuggestionEl
     }
 });
 
-    document.querySelector(`.createHallBtn`).addEventListener("click", function () {
-        const myModal = new bootstrap.Modal(document.getElementById("exampleModal"));
+document.querySelectorAll('.createHallBtn').forEach(button => {
+    button.addEventListener("click", function () {
+        const myModalNew = new bootstrap.Modal(document.getElementById("exampleModal"));
         const cinemaId = document.getElementById("cinemaId").value;
+        const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
 
-        if (cinemaId){
+        if (cinemaId) {
             if (checkChanging()) {
-                myModal.show();
+                myModalNew.show();
             } else {
-                redirectToHallAdd();
+                redirectToHallAdd(contextPath);
             }
         } else {
             if (checkNull()) {
-                myModal.show();
+                myModalNew.show();
             } else {
-                redirectToHallAdd();
+                redirectToHallAdd(contextPath);
             }
         }
     });
+});
+
 
 function checkNull() {
     let flag = false;
     inputForm.forEach(function (input) {
-        if (input.value !== '') {
-            console.log(1);
-            flag = true;
+        if (input.value === '') {
+            return flag = true;
         }
     });
-    if (fileLogo) {
-        console.log(2);
-        flag = true;
-    } else if (fileBanner) {
-        console.log(3);
-        flag = true;
-    }
-    for (let i = 0; i < array.length; i++) {
-        if (array[i].file != null) {
-            console.log(4);
-            flag = true;
-        }
+    if (!fileLogo) {
+        return flag = true;
+    } else if (!fileBanner) {
+        return flag = true;
     }
     return flag;
 }
@@ -314,7 +309,7 @@ function checkChanging() {
 
     fieldsToCheck.forEach(function (field) {
         const elementById = document.getElementById(field.id).value;
-        if (field.value !==null && elementById !== field.value) {
+        if (field.value !== null && elementById !== field.value) {
             flag = true;
         }
     });
@@ -340,11 +335,11 @@ function checkChanging() {
     return flag;
 }
 
-function redirectToHallAdd() {
+function redirectToHallAdd(contextPath) {
     const cinemaId = document.querySelector(`.createHallBtn`).getAttribute("data-cinema-id");
     if (cinemaId !== null) {
-        window.location.href = `/kinocms/admin/hall/add?cinemaId=${cinemaId}`;
+        window.location.href = `${contextPath}/admin/hall/add?cinemaId=${cinemaId}`;
     } else {
-        window.location.href = `/kinocms/admin/hall/add`;
+        window.location.href = `${contextPath}/admin/hall/add`;
     }
 }

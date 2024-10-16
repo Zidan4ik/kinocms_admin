@@ -127,6 +127,7 @@
 
 <th:block th:replace="blocks/links::scripts"></th:block>
 <script>
+    const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
     document.querySelectorAll(".sort-table").forEach(function (element) {
         element.addEventListener('click', function () {
             if (element.dataset.id !== 'fio') {
@@ -316,7 +317,7 @@
         if (currentSort.value !== '' && currentSort.direction !== '') {
             line = '&sort=' + currentSort.value + ',' + currentSort.direction;
         }
-        request.open("GET", `/kinocms/admin/mailing/users-table?page=` + pageNu + `&searchValue=` + searchValue + line);
+        request.open("GET", `${contextPath}/admin/mailing/users-table?page=` + pageNu + `&searchValue=` + searchValue + line);
         request.setRequestHeader("Content-type", "application/json; charset=utf-8");
         request.send();
         request.addEventListener("load", function () {
@@ -351,7 +352,7 @@
             line = '&sort=' + currentSort.value + ',' + currentSort.direction;
         }
         const request = new XMLHttpRequest();
-        request.open("GET", `/kinocms/admin/mailing/users-table?searchValue=` + value + line);
+        request.open("GET", `${contextPath}/admin/mailing/users-table?searchValue=` + value + line);
         request.setRequestHeader("Content-type", "application/json; charset=utf-8");
         request.send();
         request.addEventListener("load", function () {
@@ -368,6 +369,7 @@
             }
         );
     }
+
     function requestUserDelete(id) {
         let value = document.getElementById("inputSearch").value;
         let line = '';
@@ -375,7 +377,7 @@
             line = '&sort=' + currentSort.value + ',' + currentSort.direction;
         }
         const request = new XMLHttpRequest();
-        request.open("GET", "/kinocms/admin/user/" + id + "/delete?searchValue="+ value + line);
+        request.open("GET", contextPath + "/admin/user/" + id + "/delete?searchValue=" + value + line);
         request.setRequestHeader("Content-type", "application/json; charset=utf-8");
         request.send();
         request.addEventListener("load", function () {
@@ -391,9 +393,11 @@
             }
         });
     }
-    function requestUserEdit(id){
-        window.location.replace("/kinocms/admin/user/"+id+"/edit");
+
+    function requestUserEdit(id) {
+        window.location.replace(contextPath + "/admin/user/" + id + "/edit");
     }
+
     window.addEventListener("DOMContentLoaded", () => {
         requestByPageAndFilter(0, '');
         renderTable(currentUsers);

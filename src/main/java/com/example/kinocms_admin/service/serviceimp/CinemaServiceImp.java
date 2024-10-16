@@ -74,15 +74,15 @@ public class CinemaServiceImp implements CinemaService {
         save(cinema);
         try {
             if (fileLogo != null && !fileLogo.getOriginalFilename().isEmpty()) {
-                uploadDir = "./uploads/cinemas/logo/" + cinema.getId();
+                uploadDir = "/home/slj/projects/KinoCMS-R.Pravnyk/uploads/cinemas/logo/" + cinema.getId();
                 ImageUtil.saveAfterDelete(uploadDir, fileLogo, fileNameSchema);
             }
             if (fileBanner != null && !fileBanner.getOriginalFilename().isEmpty()) {
-                uploadDir = "./uploads/cinemas/banner/" + cinema.getId();
+                uploadDir = "/home/slj/projects/KinoCMS-R.Pravnyk/uploads/cinemas/banner/" + cinema.getId();
                 ImageUtil.saveAfterDelete(uploadDir, fileBanner, fileNameBanner);
             }
             if (!mapFile.isEmpty()) {
-                uploadDir = "./uploads/cinemas/galleries/" + cinema.getId();
+                uploadDir = "/home/slj/projects/KinoCMS-R.Pravnyk/uploads/cinemas/galleries/" + cinema.getId();
                 ImageUtil.savesAfterDelete(uploadDir, mapFile);
             }
         } catch (IOException e) {

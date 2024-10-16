@@ -1,6 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
-   <title>kinocms</title>
+    <title>kinocms</title>
     <th:block th:replace="blocks/links::links"></th:block>
     <th:block th:replace="blocks/links::linksFontAwesome"></th:block>
 </head>
@@ -98,12 +98,13 @@
                                                 <label class="form-label" style="font-size: medium;">Кількість листів: 8
                                                     321</label>
                                             </div>
-                                                <div class="col-auto" style="align-items: center;display: flex;">
-                                                    <label class="form-label" style="font-size: medium;margin-right: 25px;">Розсилка виконана
-                                                        на:</label>
-                                                    <label class="form-label" id="progress-label"
-                                                           style="color: cornflowerblue;font-size: medium;">0%</label>
-                                                </div>
+                                            <div class="col-auto" style="align-items: center;display: flex;">
+                                                <label class="form-label" style="font-size: medium;margin-right: 25px;">Розсилка
+                                                    виконана
+                                                    на:</label>
+                                                <label class="form-label" id="progress-label"
+                                                       style="color: cornflowerblue;font-size: medium;">0%</label>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-6" style="border: solid 1px darkblue; border-radius: 4%;">
@@ -159,6 +160,7 @@
 
 <th:block th:replace="blocks/links::scripts"></th:block>
 <script>
+    const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
     const elementCheckBoxAllId = document.getElementById("selectAllId");
     const elementCheckBoxSomeId = document.getElementById("selectSomeId");
     const mailingBtn = document.getElementById("mailingBtn");
@@ -212,6 +214,7 @@
             }
         }
     }
+
     function render(array) {
         let elementData = document.getElementById("tableDataId");
         elementData.innerHTML = '';
@@ -219,6 +222,7 @@
             elementData.innerHTML += getDataTable(array[i]);
         }
     }
+
     function getDataTable(object) {
         return `<tr class="d-flex justify-content-between" id="myCheckboxContainer">
         <td>
@@ -235,6 +239,7 @@
         </td>
     </tr>`;
     }
+
     function handlerChatBoxTemplate(fileName, id) {
         let currentCheckbox = document.getElementById('checkbox-' + id);
         if (!currentCheckbox.checked) {
@@ -253,10 +258,11 @@
             });
         }
     }
+
     function handlerDeleteTemplate(id) {
 
         const request = new XMLHttpRequest();
-        request.open("GET", `/kinocms/admin/template/` + id + `/delete`);
+        request.open("GET", `${contextPath}/admin/template/` + id + `/delete`);
         request.setRequestHeader("Content-type", "application/json; charset=utf-8");
         request.send();
         request.addEventListener("load", function () {
@@ -267,6 +273,7 @@
             }
         );
     }
+
     function getElement(array, id) {
         array.forEach((input) => {
             if (input.id === id) {
@@ -276,8 +283,10 @@
             }
         })
     }
+
     function animateProgress(start, end, duration) {
         let startTime = null;
+
         function updateProgress(timestamp) {
             if (!startTime) startTime = timestamp;
             const elapsed = timestamp - startTime;
@@ -288,10 +297,11 @@
 
             if (progress < 1) {
                 requestAnimationFrame(updateProgress);
-            }else{
-                window.location.replace("/kinocms/admin/mailing");
+            } else {
+                window.location.replace(contextPath + "/admin/mailing");
             }
         }
+
         requestAnimationFrame(updateProgress);
     }
 </script>
@@ -304,6 +314,7 @@
             ajaxPost();
         }
     });
+
     function ajaxPost() {
         const formData = new FormData();
         const selectedAll = document.getElementById("selectAllId").checked;
@@ -315,7 +326,7 @@
         }
         $.ajax({
             type: "post",
-            url: "/kinocms/admin/mail/sendHTML",
+            url: contextPath + "/admin/mail/sendHTML",
             data: formData,
             processData: false,
             contentType: false,
@@ -327,9 +338,10 @@
             }
         });
     }
+
     function getTemplates() {
         const request = new XMLHttpRequest();
-        request.open("GET", `/kinocms/admin/templates`);
+        request.open("GET", `${contextPath}/admin/templates`);
         request.setRequestHeader("Content-type", "application/json; charset=utf-8");
         request.send();
         request.addEventListener("load", function () {
@@ -340,6 +352,7 @@
             }
         );
     }
+
     window.addEventListener("DOMContentLoaded", () => {
         const inputExistUsers = document.getElementById("inputIsExistUsers");
         const checkboxSome = document.getElementById("selectSomeId");

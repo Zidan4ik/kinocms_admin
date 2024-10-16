@@ -132,4 +132,10 @@ class CinemaServiceImpTest {
         assertEquals(loadedCinemas.size(),cinemas.size(),"Sizes should be match");
         verify(cinemaRepository,times(1)).findAll();
     }
+    @Test
+    void shouldClearMarks(){
+        when(cinemaRepository.findById(ID)).thenReturn(Optional.of(loadedCinemas.get(0)));
+        cinemaServiceImp.clearMarks(ID);
+        verify(cinemaRepository,times(1)).findById(ID);
+    }
 }
