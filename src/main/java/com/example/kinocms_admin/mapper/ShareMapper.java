@@ -17,11 +17,10 @@ public class ShareMapper {
 
     public static ShareDTOAdd toDTOAdd(ShareUnifier unifier) {
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         ShareDTOAdd dto = new ShareDTOAdd();
         dto.setId(unifier.getShare().getId());
-        LocalDate dateInput = LocalDate.parse(String.valueOf(unifier.getShare().getDateOfCreation()),inputFormatter);
+        LocalDate dateInput = LocalDate.parse(String.valueOf(unifier.getShare().getDateOfCreation()), inputFormatter);
         dto.setDateOfPublication(dateInput.format(outputFormatter));
         dto.setStatus(unifier.getShare().isStatus());
         dto.setUrlCeo(unifier.getShare().getUrlCeo());
@@ -104,28 +103,33 @@ public class ShareMapper {
                 dto.getDescriptionCeoEng(),
                 entity
         );
-        List<CeoBlock> ceoBlocks = new ArrayList<>(){{
+        List<CeoBlock> ceoBlocks = new ArrayList<>() {{
             add(ceoBlockUkr);
             add(ceoBlockEng);
         }};
-        List<PageTranslation> pageTranslations = new ArrayList<>(){{
+        List<PageTranslation> pageTranslations = new ArrayList<>() {{
             add(pageTranslationUkr);
             add(pageTranslationEng);
         }};
         entity.setCeoBlocks(ceoBlocks);
         entity.setPageTranslations(pageTranslations);
-        return new ShareUnifier(entity,ceoBlockUkr,ceoBlockEng,pageTranslationUkr,pageTranslationEng);
+        return new ShareUnifier(entity, ceoBlockUkr, ceoBlockEng, pageTranslationUkr, pageTranslationEng);
     }
+
     public static ShareDTOView toDTOView(ShareUnifier unifier) {
         ShareDTOView dto = new ShareDTOView();
         dto.setId(unifier.getShare().getId());
         dto.setName(unifier.getPageTranslationUkr().getTitle());
         if (unifier.getShare().getDateOfCreation() != null) {
-            dto.setDateOfCreation(unifier.getShare().getDateOfCreation().toString());
+            DateTimeFormatter input = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            DateTimeFormatter output = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+            LocalDate dateParsed = LocalDate.parse(unifier.getShare().getDateOfCreation().toString(), input);
+            dto.setDateOfCreation(dateParsed.format(output));
         }
         dto.setStatus(unifier.getShare().isStatus());
         return dto;
     }
+
     public static List<ShareDTOView> toListDtoView(List<ShareUnifier> entities) {
         if (entities == null || entities.isEmpty()) {
             return Collections.emptyList();

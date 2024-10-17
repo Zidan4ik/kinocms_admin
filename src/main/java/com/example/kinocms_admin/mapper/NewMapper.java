@@ -20,7 +20,10 @@ public class NewMapper {
         dto.setId(unifier.getNewEntity().getId());
         dto.setName(unifier.getPageTranslationUkr().getTitle());
         if (unifier.getNewEntity().getDateOfCreation() != null) {
-            dto.setDateOfCreation(unifier.getNewEntity().getDateOfCreation().toString());
+            DateTimeFormatter input = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            DateTimeFormatter output = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+            LocalDate dateParsed = LocalDate.parse(unifier.getNewEntity().getDateOfCreation().toString(), input);
+            dto.setDateOfCreation(dateParsed.format(output));
         }
         dto.setStatus(unifier.getNewEntity().isStatus());
         return dto;
@@ -28,7 +31,7 @@ public class NewMapper {
 
     public static NewDtoAdd toDtoAdd(NewUnifier unifier) {
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
         NewDtoAdd dto = new NewDtoAdd();
         dto.setId(unifier.getNewEntity().getId());

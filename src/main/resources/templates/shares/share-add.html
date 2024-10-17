@@ -82,7 +82,7 @@
                                             <label class="form-label" for="dateOfPublication-ukr">Дата
                                                 публікування:</label>
                                             <input class="form-control js-input" id="dateOfPublication-ukr"
-                                                   style="width: 100%" placeholder="">
+                                                   style="width: 100%" placeholder="01.01.2024">
                                         </div>
                                         <!--/ Date -->
                                     </div>
@@ -253,7 +253,7 @@
                                             <label class="form-label" for="dateOfPublication-eng">The date of
                                                 publication:</label>
                                             <input class="form-control js-input" id="dateOfPublication-eng"
-                                                   style="width: 100%" placeholder="">
+                                                   style="width: 100%" placeholder="01.01.2024">
                                         </div>
                                         <!--/ Date -->
                                     </div>
@@ -424,8 +424,8 @@
 <script th:src="@{/script-share.js}"></script>
 <script>
     const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
-    $("#dateOfPublication-ukr").datepicker({format: "dd/mm/yyyy"});
-    $("#dateOfPublication-eng").datepicker({format: "dd/mm/yyyy"});
+    $("#dateOfPublication-ukr").datepicker({format: "dd.mm.yyyy"});
+    $("#dateOfPublication-eng").datepicker({format: "dd.mm.yyyy"});
     const form = document.querySelector(".submitForm");
     const inputForm = document.querySelectorAll(".js-input");
     const isValidImage = document.querySelectorAll(".isValid-image");
