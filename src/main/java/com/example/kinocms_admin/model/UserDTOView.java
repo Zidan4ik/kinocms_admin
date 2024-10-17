@@ -23,4 +23,5 @@ public class UserDTOView {
     private String card;
     private Boolean isSelected;
     private Boolean isMan;
+    private String password;
 }

@@ -6,14 +6,12 @@ import com.example.kinocms_admin.model.PageResponse;
 import com.example.kinocms_admin.model.UserDTOTable;
 import com.example.kinocms_admin.model.UserDTOView;
 import com.example.kinocms_admin.service.serviceimp.UserServiceImp;
-import com.example.kinocms_admin.util.JsonUtil;
-import jdk.jshell.Snippet;
 import lombok.RequiredArgsConstructor;
-import org.jsoup.Jsoup;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,7 +23,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RequestMapping("/admin")
 public class UserController {
-    public final UserServiceImp userServiceImp;
+    private final UserServiceImp userServiceImp;
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @GetMapping("/users")
     public String users() {
@@ -56,10 +55,23 @@ public class UserController {
         PageResponse<UserDTOView> pageResponse = PageResponse.of(page);
         return new UserDTOTable(pageResponse, searchValue);
     }
+
     @PostMapping("/user/edit")
     @ResponseBody
-    public ResponseEntity<Object> editSaveUser(@ModelAttribute (name = "user") UserDTOView dto){
-        userServiceImp.save(UserMapper.toEntity(dto));
+    public ResponseEntity<Object> editSaveUser(@ModelAttribute(name = "user") UserDTOView dto) {
+        Optional<User> userById = userServiceImp.getById(dto.getId());
+        if (userById.isPresent()) {
+            boolean matches = encoder.matches(dto.getPassword(), userById.get().getPassword());
+            if (!matches) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Пароль не правильний");
+            } else {
+                User user = UserMapper.toEntity(dto);
+                user.setRoles(userById.get().getRoles());
+                user.setDateOfRegistration(userById.get().getDateOfRegistration());
+                user.setPassword(userById.get().getPassword());
+                userServiceImp.save(user);
+            }
+        }
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }

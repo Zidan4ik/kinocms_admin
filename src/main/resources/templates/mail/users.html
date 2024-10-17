@@ -290,13 +290,13 @@
                                                    onclick="handleCheckboxClick(this)"/>
                                         </td>
                                         <td>${user.id}</td>
-                                         <td class="divided-text">${user.dateOfRegistration}</td>
-                                         <td class="divided-text">${user.dateOfBirthday}</td>
-                                         <td class="divided-text" style="width: 100px">${user.email}</td>
-                                         <td class="divided-text">${user.phone}</td>
-                                         <td class="divided-text">${user.fio}</td>
-                                         <td class="divided-text">${user.nickname}</td>
-                                         <td class="divided-text">${user.city}</td>
+                                         <td class="divided-text">${user.dateOfRegistration === null ? '-' : user.dateOfRegistration}</td>
+                                         <td class="divided-text">${user.dateOfBirthday === null ? '-' : user.dateOfBirthday}</td>
+                                         <td class="divided-text" style="width: 100px">${user.email === null ? '-' : user.email}</td>
+                                         <td class="divided-text">${user.phone === null ? '-' : user.phone}</td>
+                                         <td class="divided-text">${user.fio === null ? '-' : user.fio}</td>
+                                         <td class="divided-text">${user.nickname === null ? '-' : user.nickname}</td>
+                                         <td class="divided-text">${user.city === null ? '-' : user.city}</td>
                                  </tr>`;
     }
 

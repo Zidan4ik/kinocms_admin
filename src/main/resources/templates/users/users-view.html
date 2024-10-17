@@ -107,8 +107,6 @@
                                     </tbody>
                                 </table>
                             </div>
-
-
                             <nav class="d-flex justify-content-center mt-3"
                                  aria-label="Page navigation" id="container-pagination">
                             </nav>
@@ -276,13 +274,13 @@
     function getRowData(user) {
         return `<tr>
                                         <td>${user.id}</td>
-                                         <td class="divided-text">${user.dateOfRegistration}</td>
-                                         <td class="divided-text">${user.dateOfBirthday}</td>
-                                         <td class="divided-text" style="width: 100px">${user.email}</td>
-                                         <td class="divided-text">${user.phone}</td>
-                                         <td class="divided-text">${user.fio}</td>
-                                         <td class="divided-text">${user.nickname}</td>
-                                         <td class="divided-text">${user.city}</td>
+                                         <td class="divided-text">${user.dateOfRegistration === null ? '-' : user.dateOfRegistration}</td>
+                                         <td class="divided-text">${user.dateOfBirthday === null ? '-' : user.dateOfBirthday}</td>
+                                         <td class="divided-text" style="width: 100px">${user.email === null ? '-' : user.email}</td>
+                                         <td class="divided-text">${user.phone === null ? '-' : user.phone}</td>
+                                         <td class="divided-text">${user.fio === null ? '-' : user.fio}</td>
+                                         <td class="divided-text">${user.nickname === null ? '-' : user.nickname}</td>
+                                         <td class="divided-text">${user.city === null ? '-' : user.city}</td>
                                           <td>
                                            <div class="d-flex justify-content-center">
                                                         <div class="btn-group">
@@ -323,6 +321,7 @@
         request.addEventListener("load", function () {
                 if (request.status === 200) {
                     let data = JSON.parse(request.response);
+                    console.log(data);
                     currentUsers = data.pageResponse.content;
                     currentSearchValue = data.searchValue;
                     currentMetaData.size = data.pageResponse.metadata.size;
@@ -358,6 +357,7 @@
         request.addEventListener("load", function () {
                 if (request.status === 200) {
                     let data = JSON.parse(request.response);
+                    console.log(data);
                     currentUsers = data.pageResponse.content;
                     currentSearchValue = data.searchValue;
                     currentMetaData.size = data.pageResponse.metadata.size;
