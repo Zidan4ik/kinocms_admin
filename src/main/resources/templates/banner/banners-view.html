@@ -469,7 +469,6 @@
         request.addEventListener("load", () => {
             if (request.status === 200) {
                 let data = JSON.parse(request.response);
-                console.log(data);
                 let banners = data.bannersDTOS;
                 let resBannersMain = [];
                 let resBannersShareAndNew = [];
