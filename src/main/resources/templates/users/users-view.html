@@ -178,7 +178,9 @@
         elementPagination.innerHTML = '';
         if (users.length !== 0) {
             users.forEach(function (element) {
-                elementTable.innerHTML += getRowData(element);
+                if(element.isMainAdmin === false){
+                    elementTable.innerHTML += getRowData(element);
+                }
             });
             elementPagination.innerHTML = getPagination(currentMetaData.page, currentMetaData.totalPages, currentSearchValue);
             let firstElement = document.querySelector(".first");
@@ -321,7 +323,6 @@
         request.addEventListener("load", function () {
                 if (request.status === 200) {
                     let data = JSON.parse(request.response);
-                    console.log(data);
                     currentUsers = data.pageResponse.content;
                     currentSearchValue = data.searchValue;
                     currentMetaData.size = data.pageResponse.metadata.size;
@@ -357,7 +358,6 @@
         request.addEventListener("load", function () {
                 if (request.status === 200) {
                     let data = JSON.parse(request.response);
-                    console.log(data);
                     currentUsers = data.pageResponse.content;
                     currentSearchValue = data.searchValue;
                     currentMetaData.size = data.pageResponse.metadata.size;

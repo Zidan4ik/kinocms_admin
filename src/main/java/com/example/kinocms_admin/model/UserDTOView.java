@@ -24,4 +24,5 @@ public class UserDTOView {
     private Boolean isSelected;
     private Boolean isMan;
     private String password;
+    private Boolean isMainAdmin;
 }

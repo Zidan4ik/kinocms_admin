@@ -22,6 +22,7 @@ public class UserMapper {
         dto.setLastname(user.getLastName());
         dto.setAddress(user.getAddress());
         dto.setCard(user.getNumberCard());
+        dto.setIsMainAdmin(user.isMainAdmin());
         DateTimeFormatter input = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         DateTimeFormatter output = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         if (user.getDateOfBirthday() != null) {

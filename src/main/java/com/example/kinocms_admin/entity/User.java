@@ -34,6 +34,7 @@ public class User {
     private LocalDate dateOfRegistration;
     private boolean isSelected;
     private String roles;
+    private boolean isMainAdmin;
 
     @Lob
     @Column(columnDefinition = "text")
