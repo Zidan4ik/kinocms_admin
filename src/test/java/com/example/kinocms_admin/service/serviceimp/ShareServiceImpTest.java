@@ -124,4 +124,10 @@ class ShareServiceImpTest {
         assertEquals(loadedShares.size(), size, "Sizes should be match");
         verify(shareRepository, times(1)).findAll();
     }
+    @Test
+    void shouldDelete_ById_WhenPresent(){
+        when(shareRepository.findById(ID)).thenReturn(Optional.of(loadedShares.get(0)));
+        shareService.deleteById(ID);
+        verify(shareRepository,times(1)).deleteById(ID);
+    }
 }

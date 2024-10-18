@@ -88,4 +88,10 @@ class NewServiceImpTest {
         assertTrue(newById.isPresent(),"New was not found");
         assertEquals(ID,newById.get().getId(),"Ids should be match");
     }
+    @Test
+    void shouldDelete_ById_WhenPresent(){
+        when(newRepository.findById(ID)).thenReturn(Optional.of(loadedNews.get(0)));
+        newServiceImp.deleteById(ID);
+        verify(newRepository,times(1)).deleteById(ID);
+    }
 }

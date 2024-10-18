@@ -106,7 +106,7 @@ class TemplateServiceImpTest {
                         "text/html", "content".getBytes()));
         when(templateService.getById(templateDTO.getId())).thenReturn(Optional.of(template));
         String result = templateService.getPathToFile(templateDTO);
-        assertEquals("./uploads/templates/file/1/nameFile1", result);
+        assertEquals("/home/slj/projects/KinoCMS-R.Pravnyk/uploads/templates/file/1/nameFile1", result);
         verify(templateRepository, times(1)).findById(1L);
     }
 
@@ -119,7 +119,7 @@ class TemplateServiceImpTest {
                         "text/html", "content".getBytes()));
         when(templateService.getById(null)).thenReturn(Optional.of(template));
         String path = templateService.getPathToFile(templateDTO);
-        assertEquals("./uploads/templates/file/1/nameFile1", path);
+        assertEquals("/home/slj/projects/KinoCMS-R.Pravnyk/uploads/templates/file/1/nameFile1", path);
         verify(templateRepository, times(1)).save(any(Template.class));
         verify(templateRepository, times(1)).findById(null);
     }
