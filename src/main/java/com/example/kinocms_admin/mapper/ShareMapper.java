@@ -63,7 +63,7 @@ public class ShareMapper {
         Share entity = new Share();
         entity.setId(dto.getId());
         entity.setNameImage(dto.getNameImage());
-        entity.setDateOfCreation(LocalDate.parse(dto.getDateOfPublication(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        entity.setDateOfCreation(LocalDate.parse(dto.getDateOfPublication(), DateTimeFormatter.ofPattern("dd.MM.yyyy")));
         entity.setStatus(dto.getStatus());
         entity.setUrlCeo(dto.getUrlCeo());
 
